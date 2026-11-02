@@ -12,7 +12,7 @@ import {
     ShieldAlert,
     TrendingUp,
     FileText,
-    PoundSterling,
+    IndianRupee,
     BarChart3,
     Ban,
     AlertTriangle
@@ -63,11 +63,11 @@ const financialData = {
 
 // Mock Operational Data
 const appointmentsByService = [
-    { name: "Early Pregnancy", value: 340 },
-    { name: "4D/5D Baby Scan", value: 280 },
-    { name: "Well Woman Scan", value: 190 },
-    { name: "NIPT Blood Test", value: 210 },
-    { name: "General Bloods", value: 150 }
+    { name: "IDD THERAPY", value: 340 },
+    { name: "WARMING & MASSAGE", value: 280 },
+    { name: "PROLOTHERAPY", value: 190 },
+    { name: "LASER TREATMENT", value: 210 },
+    { name: "SPINAL DECOMPRESSION", value: 150 }
 ];
 
 const appointmentTrends = [
@@ -246,10 +246,10 @@ export default function AnalyticsDashboard() {
                         <div className="rounded-xl border border-black/[.15] bg-white dark:bg-zinc-900 p-6 dark:border-white/[.22]">
                             <div className="flex items-center justify-between">
                                 <span className="text-xs font-bold uppercase text-foreground/70">Total Revenue (YTD)</span>
-                                <PoundSterling className="h-5 w-5 text-foreground/50" />
+                                <IndianRupee className="h-5 w-5 text-foreground/50" />
                             </div>
                             <div className="mt-2 flex items-baseline gap-2">
-                                <span className="text-3xl font-bold text-foreground">£{Math.round(479000 * yearMultiplier).toLocaleString()}</span>
+                                <span className="text-3xl font-bold text-foreground">₹{Math.round(479000 * yearMultiplier).toLocaleString()}</span>
                                 <span className="text-sm font-semibold text-green-600">+14.2%</span>
                             </div>
                         </div>
@@ -281,7 +281,7 @@ export default function AnalyticsDashboard() {
                             onClick={() => setActiveTab("financial")}
                             className={`mr-6 flex items-center gap-2 pb-3 text-sm font-bold border-b-2 transition-colors ${activeTab === "financial" ? "border-brand text-brand dark:text-white" : "border-transparent text-foreground/75 hover:text-foreground"}`}
                         >
-                            <PoundSterling className="h-4 w-4" /> Financial Reports
+                            <IndianRupee className="h-4 w-4" /> Financial Reports
                         </button>
                         <button
                             onClick={() => setActiveTab("operational")}
@@ -325,8 +325,8 @@ export default function AnalyticsDashboard() {
                                             </defs>
                                             <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#E5E7EB" className="dark:stroke-zinc-800" />
                                             <XAxis dataKey="name" tick={{ fill: 'currentColor' }} className="text-foreground/80 text-[12px] font-medium" tickLine={false} axisLine={false} tickMargin={8} />
-                                            <YAxis tick={{ fill: 'currentColor' }} className="text-foreground/80 text-[12px] font-medium" tickFormatter={(v) => `£${v}`} tickLine={false} axisLine={false} tickMargin={8} />
-                                            <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid rgba(0,0,0,0.1)' }} formatter={(value) => [`£${value}`, "Revenue"]} />
+                                            <YAxis tick={{ fill: 'currentColor' }} className="text-foreground/80 text-[12px] font-medium" tickFormatter={(v) => `₹${v}`} tickLine={false} axisLine={false} tickMargin={8} />
+                                            <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid rgba(0,0,0,0.1)' }} formatter={(value) => [`₹${value}`, "Revenue"]} />
                                             <Area type="monotone" dataKey="revenue" stroke="#3C43EC" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRevenue)" />
                                         </AreaChart>
                                     </ResponsiveContainer>

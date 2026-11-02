@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 // SRS Status Types
-type AppointmentStatus = "Pending" | "Confirmed" | "Checked-In" | "Completed" | "Cancelled" | "No Show";
+type AppointmentStatus = "Pending" | "Confirmed" | "Cancelled";
 
 type RoleType = string;
 
@@ -46,13 +46,13 @@ interface Appointment {
 }
 
 const servicesData = [
-    { id: "s1", category: "Consultations", name: "Cardiology Review", price: 80, duration: "30 mins", description: "Comprehensive cardiovascular evaluation.", prep: "None.", clinicians: ["Dr. SASIKUMAR", "Dr. MALINI SASIKUMAR"] },
-    { id: "s2", category: "Consultations", name: "General Medicine Review", price: 70, duration: "30 mins", description: "General health examination and diagnostic review.", prep: "None.", clinicians: ["Dr. SASIKUMAR", "Dr. SRUTHI SASIKUMAR", "Dr. SREENATH"] },
-    { id: "s3", category: "Consultations", name: "Specialist Follow-up", price: 90, duration: "30 mins", description: "Specialized clinical follow-up.", prep: "Previous reports required.", clinicians: ["Dr. MALINI SASIKUMAR", "Dr. SRUTHI SASIKUMAR"] },
-    { id: "s4", category: "Consultations", name: "Executive Health Check", price: 150, duration: "45 mins", description: "Full medical screening.", prep: "Fasting required.", clinicians: ["Dr. SASIKUMAR", "Dr. SREENATH"] },
-    { id: "s5", category: "Physiotherapy", name: "Spinal Rehab & Decompression", price: 65, duration: "45 mins", description: "Targeted lumbar and cervical decompression.", prep: "Comfortable wear.", clinicians: ["PHYSIOTHERAPIST"] },
-    { id: "s6", category: "Physiotherapy", name: "Post-Op Physical Therapy", price: 75, duration: "45 mins", description: "Post-surgical orthopedic rehabilitation.", prep: "Discharge summary.", clinicians: ["PHYSIOTHERAPIST"] },
-    { id: "s7", category: "Physiotherapy", name: "Sports Injury Ultrasound & TENS", price: 60, duration: "30 mins", description: "Electro-therapy and mobility exercises.", prep: "None.", clinicians: ["PHYSIOTHERAPIST"] },
+    { id: "s1", category: "Consultations", name: "Spine & Orthopedic Consultation", price: 500, duration: "30 mins", description: "Comprehensive spinal evaluation and clinical review.", prep: "Previous MRI/X-Rays if available.", clinicians: ["Dr. SASIKUMAR", "Dr. MALINI SASIKUMAR"] },
+    { id: "s2", category: "Consultations", name: "General Medicine Review", price: 500, duration: "30 mins", description: "General health examination and diagnostic review.", prep: "None.", clinicians: ["Dr. SASIKUMAR", "Dr. SRUTHI SASIKUMAR", "Dr. SREENATH"] },
+    { id: "s3", category: "Physiotherapy & Rehab", name: "WARMING & MASSAGE", price: 650, duration: "45 mins", description: "Therapeutic warming and targeted deep tissue back massage.", prep: "None.", clinicians: ["PHYSIOTHERAPIST"] },
+    { id: "s4", category: "Advanced Spine Care", name: "IDD THERAPY", price: 1500, duration: "45 mins", description: "Intervertebral Differential Dynamics non-surgical decompression.", prep: "Comfortable wear.", clinicians: ["Dr. SASIKUMAR", "PHYSIOTHERAPIST"] },
+    { id: "s5", category: "Advanced Spine Care", name: "LASER TREATMENT", price: 1200, duration: "30 mins", description: "Class IV high-intensity targeted laser spine therapy.", prep: "None.", clinicians: ["Dr. SASIKUMAR", "PHYSIOTHERAPIST"] },
+    { id: "s6", category: "Regenerative Spine Care", name: "PROLOTHERAPY", price: 2500, duration: "45 mins", description: "Regenerative joint and lumbar ligament injection.", prep: "Previous reports required.", clinicians: ["Dr. SASIKUMAR", "Dr. MALINI SASIKUMAR"] },
+    { id: "s7", category: "Advanced Spine Care", name: "SPINAL DECOMPRESSION", price: 1800, duration: "45 mins", description: "Computerized axial spinal decompression therapy.", prep: "Comfortable clothing.", clinicians: ["PHYSIOTHERAPIST", "Dr. SREENATH"] },
 ];
 
 export default function AppointmentsManager() {
@@ -72,28 +72,28 @@ export default function AppointmentsManager() {
     const generateAppointments = (): Appointment[] => {
         const list: Appointment[] = [];
         const patients = [
-            { id: "PAT-001", name: "Eleanor Vance" },
-            { id: "PAT-002", name: "James Holden" },
-            { id: "PAT-003", name: "Sophia Sterling" },
-            { id: "PAT-004", name: "Amos Burton" },
-            { id: "PAT-005", name: "Naomi Nagata" },
-            { id: "PAT-006", name: "Alex Kamal" },
-            { id: "PAT-007", name: "Julie Mao" },
-            { id: "PAT-008", name: "Clarissa Mao" },
-            { id: "PAT-009", name: "Bobby Draper" },
-            { id: "PAT-010", name: "Chrisjen Avasarala" },
-            { id: "PAT-011", name: "Sadavir Errinwright" },
-            { id: "PAT-012", name: "Fred Johnson" },
+            { id: "PAT-001", name: "Anjali Nair" },
+            { id: "PAT-002", name: "Rahul Menon" },
+            { id: "PAT-003", name: "Priya Varma" },
+            { id: "PAT-004", name: "Vishnu Namboothiri" },
+            { id: "PAT-005", name: "Deepa Pillai" },
+            { id: "PAT-006", name: "Arjun Kurup" },
+            { id: "PAT-007", name: "Meera Nambiar" },
+            { id: "PAT-008", name: "Malavika Panicker" },
+            { id: "PAT-009", name: "Reshma Thomas" },
+            { id: "PAT-010", name: "Lakshmi Warrier" },
+            { id: "PAT-011", name: "Suresh Kumar" },
+            { id: "PAT-012", name: "Sreekumar Varma" },
         ];
         const services = [
-            "4D/5D Baby Scan", "Well Woman Scan", "NIPT Blood Test", "Early Pregnancy Scan", 
-            "Growth Scan", "General Blood Tests", "Gender Scan", "Dating Scan", "Reassurance Scan"
+            "WARMING & MASSAGE", "IDD THERAPY", "LASER TREATMENT", "PROLOTHERAPY", 
+            "SPINAL DECOMPRESSION", "TRIGGER POINT INJECTION", "MYOFASCIAL RELEASE", "CORE STABILIZATION & REHAB", "ULTRASOUND & HEAT THERAPY"
         ];
         const clinicians = [
             "Dr. SASIKUMAR", "Dr. MALINI SASIKUMAR", "Dr. SRUTHI SASIKUMAR", "Dr. SREENATH", "PHYSIOTHERAPIST"
         ];
         const statuses: AppointmentStatus[] = [
-            "Confirmed", "Pending", "Checked-In", "Completed", "Cancelled", "No Show"
+            "Confirmed", "Pending", "Cancelled"
         ];
         
         let idCounter = 201;
@@ -276,12 +276,9 @@ export default function AppointmentsManager() {
 
     const getStatusBadge = (status: AppointmentStatus) => {
         switch (status) {
-            case "Confirmed": return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
+            case "Confirmed": return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
             case "Pending": return "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400";
-            case "Checked-In": return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400";
-            case "Completed": return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
             case "Cancelled": return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
-            case "No Show": return "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-400";
             default: return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
         }
     };
@@ -675,10 +672,7 @@ export default function AppointmentsManager() {
                                 <option value="All">All Statuses</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Confirmed">Confirmed</option>
-                                <option value="Checked-In">Checked-In</option>
-                                <option value="Completed">Completed</option>
                                 <option value="Cancelled">Cancelled</option>
-                                <option value="No Show">No Show</option>
                             </select>
                         </div>
 
@@ -694,8 +688,10 @@ export default function AppointmentsManager() {
                                 className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
                             >
                                 <option value="All">All Categories</option>
-                                <option value="Pregnancy Scans">Pregnancy Scans</option>
-                                <option value="Blood Tests">Blood Tests</option>
+                                <option value="Advanced Spine Care">Advanced Spine Care</option>
+                                <option value="Physiotherapy & Rehab">Physiotherapy & Rehab</option>
+                                <option value="Regenerative Spine Care">Regenerative Spine Care</option>
+                                <option value="Consultations">Consultations</option>
                             </select>
                         </div>
 

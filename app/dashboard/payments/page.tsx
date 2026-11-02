@@ -8,7 +8,7 @@ import {
     Search,
     Filter,
     CreditCard,
-    PoundSterling,
+    IndianRupee,
     ArrowUpRight,
     ArrowDownRight,
     Clock,
@@ -35,18 +35,16 @@ interface Transaction {
 }
 
 const servicesData = [
-    { id: "s1", category: "Pregnancy Scans", name: "Early Pregnancy Scan", price: 80, duration: "30 mins", description: "Confirm viability and date the pregnancy (6-14 weeks).", prep: "Full bladder required.", clinicians: ["Dr. Sarah Jenkins", "Dr. Marcus Thorne", "Dr. Emily Chen"] },
-    { id: "s2", category: "Pregnancy Scans", name: "Dating Scan", price: 90, duration: "30 mins", description: "Accurate dating of pregnancy.", prep: "Full bladder required.", clinicians: ["Dr. Sarah Jenkins", "Dr. Emily Chen"] },
-    { id: "s3", category: "Pregnancy Scans", name: "Reassurance Scan", price: 70, duration: "20 mins", description: "Check heartbeat and wellbeing.", prep: "None.", clinicians: ["Dr. Marcus Thorne", "Sonographer Anna"] },
-    { id: "s4", category: "Pregnancy Scans", name: "Gender Scan", price: 65, duration: "20 mins", description: "Determine gender from 16 weeks.", prep: "No special prep.", clinicians: ["Dr. Sarah Jenkins", "Sonographer Anna"] },
-    { id: "s5", category: "Pregnancy Scans", name: "Growth Scan", price: 100, duration: "30 mins", description: "Check fetal growth and fluid levels.", prep: "None.", clinicians: ["Dr. Marcus Thorne", "Dr. James Wilson"] },
-    { id: "s6", category: "Pregnancy Scans", name: "4D/5D Baby Scan", price: 130, duration: "45 mins", description: "Detailed 4D/5D imaging of your baby.", prep: "Drink cold sweet drink 30 mins before.", clinicians: ["Dr. Sarah Jenkins", "Dr. Marcus Thorne", "Sonographer Anna"] },
-    { id: "s7", category: "Pregnancy Scans", name: "Well Woman Scan", price: 120, duration: "30 mins", description: "Check uterus and ovaries.", prep: "Full bladder.", clinicians: ["Dr. Sarah Jenkins", "Dr. Emily Chen"] },
-    { id: "s8", category: "Pregnancy Scans", name: "Fertility Scan", price: 110, duration: "30 mins", description: "Follicle tracking and baseline check.", prep: "None.", clinicians: ["Dr. Marcus Thorne", "Dr. James Wilson"] },
-    { id: "s9", category: "Blood Tests", name: "NIPT Blood Test", price: 350, duration: "15 mins", description: "Non-invasive prenatal testing for chromosomal anomalies.", prep: "None.", clinicians: ["Nurse Sarah", "Phlebotomist John"] },
-    { id: "s10", category: "Blood Tests", name: "General Blood Tests", price: 80, duration: "15 mins", description: "Full blood count, biochemistry.", prep: "Fasting may be required.", clinicians: ["Nurse Sarah", "Phlebotomist John", "Phlebotomist Lisa"] },
-    { id: "s11", category: "Blood Tests", name: "Genotype Blood Test", price: 120, duration: "15 mins", description: "Determine blood genotype.", prep: "None.", clinicians: ["Nurse Sarah", "Phlebotomist John"] },
-    { id: "s12", category: "Blood Tests", name: "Thalassaemia Screening", price: 150, duration: "15 mins", description: "Screening for Thalassaemia trait.", prep: "None.", clinicians: ["Nurse Sarah", "Phlebotomist Lisa"] },
+    { id: "s1", category: "Spine & Decompression Therapy", name: "IDD THERAPY", price: 1500, duration: "45 mins", description: "Intervertebral Differential Dynamics non-surgical decompression.", prep: "Comfortable wear.", clinicians: ["Dr. SASIKUMAR", "PHYSIOTHERAPIST"] },
+    { id: "s2", category: "Physical Therapy & Rehabilitation", name: "WARMING & MASSAGE", price: 650, duration: "45 mins", description: "Therapeutic infrared warming and deep tissue lumbar massage.", prep: "None.", clinicians: ["PHYSIOTHERAPIST"] },
+    { id: "s3", category: "Spine & Decompression Therapy", name: "LASER TREATMENT", price: 1200, duration: "30 mins", description: "Class IV high-intensity targeted laser spine therapy.", prep: "None.", clinicians: ["Dr. SASIKUMAR", "PHYSIOTHERAPIST"] },
+    { id: "s4", category: "Regenerative Spine Care", name: "PROLOTHERAPY", price: 2500, duration: "45 mins", description: "Regenerative joint and lumbar ligament injection.", prep: "Previous MRI required.", clinicians: ["Dr. SASIKUMAR", "Dr. MALINI SASIKUMAR"] },
+    { id: "s5", category: "Spine & Decompression Therapy", name: "SPINAL DECOMPRESSION", price: 1800, duration: "45 mins", description: "Computerized axial spinal decompression therapy.", prep: "Comfortable clothing.", clinicians: ["PHYSIOTHERAPIST", "Dr. SREENATH"] },
+    { id: "s6", category: "Regenerative Spine Care", name: "TRIGGER POINT INJECTION", price: 1000, duration: "30 mins", description: "Myofascial trigger point pain management injection.", prep: "None.", clinicians: ["Dr. SASIKUMAR", "Dr. SRUTHI SASIKUMAR"] },
+    { id: "s7", category: "Physical Therapy & Rehabilitation", name: "MYOFASCIAL RELEASE", price: 700, duration: "40 mins", description: "Hands-on soft tissue mobilization for chronic back tension.", prep: "None.", clinicians: ["PHYSIOTHERAPIST"] },
+    { id: "s8", category: "Physical Therapy & Rehabilitation", name: "CORE STABILIZATION & REHAB", price: 600, duration: "45 mins", description: "Targeted lumbar stabilization and posture training.", prep: "Sports attire.", clinicians: ["PHYSIOTHERAPIST"] },
+    { id: "s9", category: "Physical Therapy & Rehabilitation", name: "DRY NEEDLING & ACUPUNCTURE", price: 800, duration: "30 mins", description: "Intramuscular dry needling for spinal spasm relief.", prep: "None.", clinicians: ["PHYSIOTHERAPIST"] },
+    { id: "s10", category: "Physical Therapy & Rehabilitation", name: "ULTRASOUND & HEAT THERAPY", price: 550, duration: "30 mins", description: "Deep therapeutic ultrasound with moist heat pack application.", prep: "None.", clinicians: ["PHYSIOTHERAPIST"] },
 ];
 
 export default function FinancialLedger() {
@@ -66,10 +64,10 @@ export default function FinancialLedger() {
 
     // Mock Database based on SRS requirements
     const [transactions, setTransactions] = useState<Transaction[]>([
-        { id: "TXN-9021", patientName: "Eleanor Vance", appointmentRef: "APT-201", service: "4D/5D Baby Scan", date: "2026-07-08", amountDue: 150, amountPaid: 150, outstandingBalance: 0, status: "Paid", refundHistory: 0 },
-        { id: "TXN-9022", patientName: "James Holden", appointmentRef: "APT-202", service: "Well Woman Scan", date: "2026-07-08", amountDue: 120, amountPaid: 50, outstandingBalance: 70, status: "Partial", refundHistory: 0 },
-        { id: "TXN-9023", patientName: "Naomi Nagata", appointmentRef: "APT-203", service: "Growth Scan", date: "2026-07-09", amountDue: 95, amountPaid: 0, outstandingBalance: 95, status: "Unpaid", refundHistory: 0 },
-        { id: "TXN-9018", patientName: "Amos Burton", appointmentRef: "APT-199", service: "NIPT Blood Test", date: "2026-07-05", amountDue: 350, amountPaid: 350, outstandingBalance: 0, status: "Refunded", refundHistory: 350 },
+        { id: "TXN-9021", patientName: "Anjali Nair", appointmentRef: "APT-201", service: "WARMING & MASSAGE", date: "2026-07-08", amountDue: 650, amountPaid: 650, outstandingBalance: 0, status: "Paid", refundHistory: 0 },
+        { id: "TXN-9022", patientName: "Rahul Menon", appointmentRef: "APT-202", service: "PROLOTHERAPY", date: "2026-07-08", amountDue: 2500, amountPaid: 1500, outstandingBalance: 1000, status: "Partial", refundHistory: 0 },
+        { id: "TXN-9023", patientName: "Deepa Pillai", appointmentRef: "APT-203", service: "SPINAL DECOMPRESSION", date: "2026-07-09", amountDue: 1800, amountPaid: 0, outstandingBalance: 1800, status: "Unpaid", refundHistory: 0 },
+        { id: "TXN-9018", patientName: "Vishnu Namboothiri", appointmentRef: "APT-199", service: "LASER TREATMENT", date: "2026-07-05", amountDue: 1200, amountPaid: 1200, outstandingBalance: 0, status: "Refunded", refundHistory: 1200 },
     ]);
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -78,9 +76,9 @@ export default function FinancialLedger() {
     const [showNewTxnForm, setShowNewTxnForm] = useState(false);
     const [newTxnPatient, setNewTxnPatient] = useState("");
     const [newTxnApptRef, setNewTxnApptRef] = useState("");
-    const [newTxnCategory, setNewTxnCategory] = useState("Pregnancy Scans");
-    const [newTxnService, setNewTxnService] = useState("Early Pregnancy Scan");
-    const [newTxnAmountDue, setNewTxnAmountDue] = useState("80");
+    const [newTxnCategory, setNewTxnCategory] = useState("Spine & Decompression Therapy");
+    const [newTxnService, setNewTxnService] = useState("IDD THERAPY");
+    const [newTxnAmountDue, setNewTxnAmountDue] = useState("1500");
     const [newTxnAmountPaid, setNewTxnAmountPaid] = useState("0");
     const [newTxnStatus, setNewTxnStatus] = useState<PaymentStatus>("Paid");
 
@@ -153,9 +151,9 @@ export default function FinancialLedger() {
         // Reset fields
         setNewTxnPatient("");
         setNewTxnApptRef("");
-        setNewTxnCategory("Pregnancy Scans");
-        setNewTxnService("Early Pregnancy Scan");
-        setNewTxnAmountDue("80");
+        setNewTxnCategory("Spine & Decompression Therapy");
+        setNewTxnService("IDD THERAPY");
+        setNewTxnAmountDue("1500");
         setNewTxnAmountPaid("0");
         setNewTxnStatus("Paid");
     };
@@ -241,9 +239,9 @@ export default function FinancialLedger() {
                             )}
                              <Button variant="filled" icon={CreditCard} onClick={() => {
                                 setSelectedTxn(null);
-                                setNewTxnCategory("Pregnancy Scans");
-                                setNewTxnService("Early Pregnancy Scan");
-                                setNewTxnAmountDue("80");
+                                setNewTxnCategory("Spine & Decompression Therapy");
+                                setNewTxnService("IDD THERAPY");
+                                setNewTxnAmountDue("1500");
                                 setNewTxnAmountPaid("0");
                                 setNewTxnStatus("Paid");
                                 setShowNewTxnForm(true);
@@ -257,11 +255,11 @@ export default function FinancialLedger() {
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="flex flex-col justify-between rounded-xl border border-black/[.15] bg-white dark:bg-zinc-900 p-5 dark:border-white/[.22] dark:bg-zinc-900">
                             <span className="text-xs font-bold uppercase tracking-wider text-foreground/50">Net Collected</span>
-                            <span className="mt-2 text-2xl font-bold text-foreground">£{totalRevenue.toFixed(2)}</span>
+                            <span className="mt-2 text-2xl font-bold text-foreground">₹{totalRevenue.toFixed(2)}</span>
                         </div>
                         <div className="flex flex-col justify-between rounded-xl border border-black/[.15] bg-white dark:bg-zinc-900 p-5 dark:border-white/[.22] dark:bg-zinc-900">
                             <span className="text-xs font-bold uppercase tracking-wider text-foreground/50">Outstanding</span>
-                            <span className="mt-2 text-2xl font-semibold text-orange-600 dark:text-orange-500">£{totalOutstanding.toFixed(2)}</span>
+                            <span className="mt-2 text-2xl font-semibold text-orange-600 dark:text-orange-500">₹{totalOutstanding.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>
@@ -308,7 +306,7 @@ export default function FinancialLedger() {
                                         <td className="whitespace-nowrap px-6 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <span className="flex items-center gap-1 text-xs font-medium text-foreground">
-                                                    <PoundSterling className="h-3 w-3 opacity-50" /> {txn.amountDue.toFixed(2)} Due
+                                                    <IndianRupee className="h-3 w-3 opacity-50" /> {txn.amountDue.toFixed(2)} Due
                                                 </span>
                                                 <span className="flex items-center gap-1 text-xs font-medium text-green-600 dark:text-green-500">
                                                     <ArrowUpRight className="h-3 w-3" /> {txn.amountPaid.toFixed(2)} Paid
@@ -347,12 +345,12 @@ export default function FinancialLedger() {
                             <div className="mt-4 flex w-full justify-between border-t border-black/[.15] pt-4 dark:border-white/[.22]">
                                 <div className="flex flex-col items-start">
                                     <span className="text-xs uppercase text-foreground/50">Total</span>
-                                    <span className="font-semibold text-foreground">£{selectedTxn.amountDue.toFixed(2)}</span>
+                                    <span className="font-semibold text-foreground">₹{selectedTxn.amountDue.toFixed(2)}</span>
                                 </div>
                                 <div className="flex flex-col items-end">
                                     <span className="text-xs uppercase text-foreground/50">Outstanding</span>
                                     <span className={`font-bold ${selectedTxn.outstandingBalance > 0 ? 'text-orange-500' : 'text-green-500'}`}>
-                                        £{selectedTxn.outstandingBalance.toFixed(2)}
+                                        ₹{selectedTxn.outstandingBalance.toFixed(2)}
                                     </span>
                                 </div>
                             </div>
@@ -371,7 +369,7 @@ export default function FinancialLedger() {
                                                 <span className="font-bold text-foreground">Full Balance</span>
                                                 <span className="text-xs text-foreground/60">Pay remaining amount</span>
                                             </div>
-                                            <span className="font-bold text-brand">£{selectedTxn.outstandingBalance.toFixed(2)}</span>
+                                            <span className="font-bold text-brand">₹{selectedTxn.outstandingBalance.toFixed(2)}</span>
                                         </div>
                                     </Button>
 
@@ -417,7 +415,7 @@ export default function FinancialLedger() {
                                 value={newTxnPatient}
                                 onChange={(e) => setNewTxnPatient(e.target.value)}
                                 className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
-                                placeholder="e.g. John Doe"
+                                placeholder="e.g. Rahul Menon"
                             />
                         </div>
 
@@ -439,8 +437,9 @@ export default function FinancialLedger() {
                                 onChange={(e) => handleCategoryChange(e.target.value)}
                                 className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22] cursor-pointer"
                             >
-                                <option value="Pregnancy Scans">Pregnancy Scans</option>
-                                <option value="Blood Tests">Blood Tests</option>
+                                <option value="Spine & Decompression Therapy">Spine & Decompression Therapy</option>
+                                <option value="Physical Therapy & Rehabilitation">Physical Therapy & Rehabilitation</option>
+                                <option value="Regenerative Spine Care">Regenerative Spine Care</option>
                             </select>
                         </div>
 
@@ -452,14 +451,14 @@ export default function FinancialLedger() {
                                 className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22] cursor-pointer"
                             >
                                 {servicesData.filter(s => s.category === newTxnCategory).map(s => (
-                                    <option key={s.id} value={s.name}>{s.name} (£{s.price})</option>
+                                    <option key={s.id} value={s.name}>{s.name} (₹{s.price})</option>
                                 ))}
                             </select>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="mb-1.5 block text-sm font-semibold text-foreground">Amount Due (£)</label>
+                                <label className="mb-1.5 block text-sm font-semibold text-foreground">Amount Due (₹)</label>
                                 <input
                                     type="number"
                                     required
@@ -472,7 +471,7 @@ export default function FinancialLedger() {
                                 />
                             </div>
                             <div>
-                                <label className="mb-1.5 block text-sm font-semibold text-foreground">Amount Paid (£)</label>
+                                <label className="mb-1.5 block text-sm font-semibold text-foreground">Amount Paid (₹)</label>
                                 <input
                                     type="number"
                                     required

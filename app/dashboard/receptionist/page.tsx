@@ -39,67 +39,67 @@ export default function ReceptionistDashboard() {
         {
             id: "REC-101",
             token: "A-01",
-            patientName: "Eleanor Vance",
-            phone: "+44 7911 123456",
+            patientName: "Anjali Nair",
+            phone: "+91 98471 12345",
             practitioner: "Dr. SASIKUMAR",
             type: "Doctor",
             room: "Room 101",
             time: "09:30 AM",
             status: "In Consultation",
             paymentStatus: "Paid",
-            fee: 85
+            fee: 500
         },
         {
             id: "REC-102",
             token: "P-01",
-            patientName: "James Holden",
-            phone: "+44 7911 234567",
+            patientName: "Rahul Menon",
+            phone: "+91 98472 23456",
             practitioner: "PHYSIOTHERAPIST",
             type: "Physiotherapy",
             room: "Rehab Bay 1",
             time: "09:45 AM",
             status: "Checked-In",
             paymentStatus: "Paid",
-            fee: 65
+            fee: 650
         },
         {
             id: "REC-103",
             token: "A-02",
-            patientName: "Marcus Thorne",
-            phone: "+44 7911 345678",
+            patientName: "Anoop Kumar",
+            phone: "+91 98473 34567",
             practitioner: "Dr. MALINI SASIKUMAR",
             type: "Doctor",
             room: "Room 102",
             time: "10:00 AM",
             status: "Checked-In",
             paymentStatus: "Pending",
-            fee: 90
+            fee: 500
         },
         {
             id: "REC-104",
             token: "P-02",
-            patientName: "Amos Burton",
-            phone: "+44 7911 456789",
+            patientName: "Vishnu Namboothiri",
+            phone: "+91 98474 45678",
             practitioner: "PHYSIOTHERAPIST",
             type: "Physiotherapy",
             room: "Rehab Bay 1",
             time: "10:15 AM",
             status: "Pending Check-In",
             paymentStatus: "Pending",
-            fee: 65
+            fee: 650
         },
         {
             id: "REC-105",
             token: "A-03",
-            patientName: "Sophia Sterling",
-            phone: "+44 7911 567890",
+            patientName: "Priya Varma",
+            phone: "+91 98475 56789",
             practitioner: "Dr. SRUTHI SASIKUMAR",
             type: "Doctor",
             room: "Room 103",
             time: "10:30 AM",
             status: "Pending Check-In",
             paymentStatus: "Pending",
-            fee: 110
+            fee: 500
         }
     ]);
 
@@ -125,7 +125,7 @@ export default function ReceptionistDashboard() {
             item.id === id ? { ...item, paymentStatus: "Paid" } : item
         ));
         const patient = queue.find(q => q.id === id);
-        setAlertMessage(`Payment received from ${patient?.patientName} (£${patient?.fee}). Receipt issued.`);
+        setAlertMessage(`Payment received from ${patient?.patientName} (₹${patient?.fee}). Receipt issued.`);
         setTimeout(() => setAlertMessage(null), 3500);
     };
 
@@ -138,14 +138,14 @@ export default function ReceptionistDashboard() {
             id: `REC-${Date.now().toString().slice(-3)}`,
             token: isDoc ? `A-0${queue.length + 1}` : `P-0${queue.length + 1}`,
             patientName: newPatientName,
-            phone: newPhone || "+44 7900 000000",
+            phone: newPhone || "+91 98000 00000",
             practitioner: newPractitioner,
             type: newType,
             room: isDoc ? "Room 102" : "Rehab Bay 1",
             time: "Immediate Walk-In",
             status: "Checked-In",
             paymentStatus: "Paid",
-            fee: isDoc ? 85 : 65
+            fee: isDoc ? 500 : 650
         };
 
         setQueue([newEntry, ...queue]);
@@ -257,7 +257,7 @@ export default function ReceptionistDashboard() {
                         <CreditCard className="h-5 w-5 text-indigo-600" />
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
-                        <span className="text-3xl font-bold tracking-tight text-foreground">£{totalCollected}</span>
+                        <span className="text-3xl font-bold tracking-tight text-foreground">₹{totalCollected}</span>
                         <span className="text-xs font-medium text-green-600">Collected today</span>
                     </div>
                 </div>
@@ -509,7 +509,7 @@ export default function ReceptionistDashboard() {
                                         </span>
                                     </td>
                                     <td className="px-4 py-3.5">
-                                        <div className="font-semibold text-foreground">£{item.fee}</div>
+                                        <div className="font-semibold text-foreground">₹{item.fee}</div>
                                         <span className={`text-[10px] font-semibold ${
                                             item.paymentStatus === "Paid" ? "text-green-600" : "text-orange-600"
                                         }`}>
@@ -533,7 +533,7 @@ export default function ReceptionistDashboard() {
                                                 variant="outline"
                                                 onClick={() => handleCollectPayment(item.id)}
                                             >
-                                                Collect £{item.fee}
+                                                Collect ₹{item.fee}
                                             </Button>
                                         )}
                                     </td>

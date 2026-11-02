@@ -5,7 +5,7 @@ import {
     Search,
     ShieldAlert,
     Undo2,
-    PoundSterling,
+    IndianRupee,
     ReceiptText,
     AlertCircle,
     X,
@@ -47,10 +47,10 @@ export default function RefundManagement() {
 
     // Mock Database of paid transactions
     const [transactions, setTransactions] = useState<RefundableTransaction[]>([
-        { id: "TXN-9021", patientName: "Eleanor Vance", service: "4D/5D Baby Scan", date: "2026-07-08", originalAmount: 150, refundableAmount: 150, status: "Eligible" },
-        { id: "TXN-9015", patientName: "James Holden", service: "Well Woman Scan", date: "2026-07-07", originalAmount: 120, refundableAmount: 70, status: "Partial Refunded" },
-        { id: "TXN-8842", patientName: "Amos Burton", service: "NIPT Blood Test", date: "2026-07-02", originalAmount: 350, refundableAmount: 0, status: "Fully Refunded" },
-        { id: "TXN-9010", patientName: "Naomi Nagata", service: "Growth Scan", date: "2026-07-06", originalAmount: 95, refundableAmount: 95, status: "Eligible" },
+        { id: "TXN-9021", patientName: "Anjali Nair", service: "WARMING & MASSAGE", date: "2026-07-08", originalAmount: 650, refundableAmount: 650, status: "Eligible" },
+        { id: "TXN-9015", patientName: "Rahul Menon", service: "PROLOTHERAPY", date: "2026-07-07", originalAmount: 2500, refundableAmount: 1000, status: "Partial Refunded" },
+        { id: "TXN-8842", patientName: "Vishnu Namboothiri", service: "LASER TREATMENT", date: "2026-07-02", originalAmount: 1200, refundableAmount: 0, status: "Fully Refunded" },
+        { id: "TXN-9010", patientName: "Deepa Pillai", service: "SPINAL DECOMPRESSION", date: "2026-07-06", originalAmount: 1800, refundableAmount: 1800, status: "Eligible" },
     ]);
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -168,7 +168,7 @@ export default function RefundManagement() {
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 font-medium text-foreground">
-                                            £{txn.originalAmount.toFixed(2)}
+                                            ₹{txn.originalAmount.toFixed(2)}
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4">
                                             <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${txn.status === "Eligible" ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" :
@@ -204,11 +204,11 @@ export default function RefundManagement() {
                             </div>
                             <div className="flex justify-between border-b border-black/[.04] pb-3 text-sm dark:border-white/[.04]">
                                 <span className="text-foreground/70">Original Payment</span>
-                                <span className="font-medium text-foreground">£{selectedTxn.originalAmount.toFixed(2)}</span>
+                                <span className="font-medium text-foreground">₹{selectedTxn.originalAmount.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between pt-3 text-sm">
                                 <span className="font-bold text-foreground">Available to Refund</span>
-                                <span className="font-bold text-green-600 dark:text-green-500">£{selectedTxn.refundableAmount.toFixed(2)}</span>
+                                <span className="font-bold text-green-600 dark:text-green-500">₹{selectedTxn.refundableAmount.toFixed(2)}</span>
                             </div>
                         </div>
 
@@ -222,7 +222,7 @@ export default function RefundManagement() {
                                     className={`flex flex-col items-start gap-1 rounded-lg border p-4 transition-all ${refundType === "full" ? "border-zinc- bg-zinc- dark:bg-zinc-/20" : "border-black/[.15] bg-white dark:bg-zinc-900 hover:border-black/[.2] dark:border-white/[.22]"}`}
                                 >
                                     <span className={`text-sm font-bold ${refundType === "full" ? "text-zinc- dark:text-zinc-" : "text-foreground"}`}>Full Refund</span>
-                                    <span className="text-xs text-foreground/60">£{selectedTxn.refundableAmount.toFixed(2)}</span>
+                                    <span className="text-xs text-foreground/60">₹{selectedTxn.refundableAmount.toFixed(2)}</span>
                                 </button>
                                 <button
                                     type="button"
@@ -240,7 +240,7 @@ export default function RefundManagement() {
                             <div className="animate-in slide-in-from-top-2 fade-in">
                                 <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground/50">Amount to Refund</label>
                                 <div className="relative">
-                                    <PoundSterling className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" />
+                                    <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" />
                                     <input
                                         type="number"
                                         max={selectedTxn.refundableAmount}

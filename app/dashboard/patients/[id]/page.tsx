@@ -35,20 +35,17 @@ export default function PatientDetailPage() {
     const [showNotesDetail, setShowNotesDetail] = useState(false);
 
     const getStatusBadge = (status: string) => {
-        const display = status === "Completed" ? "Attended" : status === "No Show" ? "Missed" : status;
         let colors = "bg-black/[.05] dark:bg-white/[.05] text-foreground/90";
-        if (status === "Completed") {
+        if (status === "Confirmed") {
             colors = "bg-green-500/15 text-green-700 dark:text-green-500";
         } else if (status === "Pending") {
-            colors = "bg-blue-500/15 text-blue-700 dark:text-blue-500";
+            colors = "bg-amber-500/15 text-amber-700 dark:text-amber-500";
         } else if (status === "Cancelled") {
             colors = "bg-red-500/15 text-red-700 dark:text-red-500";
-        } else if (status === "No Show") {
-            colors = "bg-amber-500/15 text-amber-700 dark:text-amber-500";
         }
         return (
             <span className={`text-xs font-bold px-2.5 py-1 rounded-full self-start sm:self-auto ${colors}`}>
-                {display}
+                {status}
             </span>
         );
     };
@@ -63,7 +60,7 @@ export default function PatientDetailPage() {
 
     // Load data from localStorage on mount
     useEffect(() => {
-        const storedPatients = localStorage.getItem("patients_v3");
+        const storedPatients = localStorage.getItem("patients_v5");
         let list: Patient[] = [];
         if (storedPatients) {
             try {
@@ -73,7 +70,7 @@ export default function PatientDetailPage() {
             }
         } else {
             list = mockPatientsData;
-            localStorage.setItem("patients_v3", JSON.stringify(mockPatientsData));
+            localStorage.setItem("patients_v5", JSON.stringify(mockPatientsData));
         }
         setPatients(list);
 
@@ -114,7 +111,7 @@ export default function PatientDetailPage() {
             return p;
         });
         setPatients(updatedList);
-        localStorage.setItem("patients_v3", JSON.stringify(updatedList));
+        localStorage.setItem("patients_v5", JSON.stringify(updatedList));
     };
 
     const getInitials = (name: string) => {
@@ -196,29 +193,29 @@ export default function PatientDetailPage() {
         } catch (_) {}
 
         if (results.length === 0) {
-            if (patient.name === "James Holden" || patient.id === "PAT-002" || patient.id === "REF-8001") {
+            if (patient.name === "Rahul Menon" || patient.name === "James Holden" || patient.id === "PAT-002" || patient.id === "REF-8001") {
                 results.push({
                     id: "PT-REC-001",
                     date: "2026-10-28",
                     time: "09:00 AM",
                     therapist: "PHYSIOTHERAPIST",
-                    service: "Spinal Decompression & Core Stabilization",
+                    service: "IDD THERAPY & SPINAL DECOMPRESSION",
                     painScore: 4,
                     referringDoctor: "Dr. SASIKUMAR",
-                    notes: "Targeted lumbar traction applied at 35kg tension for 20 mins. Core isometric activations tolerated well.",
+                    notes: "Targeted lumbar decompression applied at 35kg tension for 20 mins. Core isometric activations tolerated well.",
                     fee: "650",
                     status: "Completed"
                 });
-            } else if (patient.name === "Eleanor Vance" || patient.id === "PAT-001" || patient.id === "REF-8000") {
+            } else if (patient.name === "Anjali Nair" || patient.name === "Eleanor Vance" || patient.id === "PAT-001" || patient.id === "REF-8000") {
                 results.push({
                     id: "PT-REC-101",
                     date: "2026-10-25",
                     time: "08:15 AM",
                     therapist: "PHYSIOTHERAPIST",
-                    service: "Therapeutic Ultrasound & Rotator Cuff Strengthening",
+                    service: "PROLOTHERAPY Rehab & Core Strengthening",
                     painScore: 3,
                     referringDoctor: "Dr. SREENATH",
-                    notes: "Supraspinatus tendinopathy showing clear clinical resolution. Active shoulder abduction increased to 150 degrees without painful arc.",
+                    notes: "Sacroiliac joint and lumbar stability showing clear clinical improvement. Active flexion and pain-free range increased.",
                     fee: "650",
                     status: "Completed"
                 });
@@ -285,19 +282,19 @@ export default function PatientDetailPage() {
                         onClick={() => setActiveTab("upcoming")}
                         className={`mr-6 border-b-2 pb-3 transition-colors shrink-0 ${activeTab === "upcoming" ? "border-brand text-brand dark:text-white" : "border-transparent text-foreground/70 hover:text-foreground/90"}`}
                     >
-                        Upcoming
+                        Upcoming Appointments
                     </button>
                     <button
                         onClick={() => setActiveTab("past")}
                         className={`mr-6 border-b-2 pb-3 transition-colors shrink-0 ${activeTab === "past" ? "border-brand text-brand dark:text-white" : "border-transparent text-foreground/70 hover:text-foreground/90"}`}
                     >
-                        Past Records & Schedules
+                        Doctors Notes & Schedules
                     </button>
                     <button
                         onClick={() => setActiveTab("physio")}
                         className={`border-b-2 pb-3 transition-colors shrink-0 ${activeTab === "physio" ? "border-teal-600 text-teal-600 dark:text-teal-400 font-bold" : "border-transparent text-foreground/70 hover:text-foreground/90"}`}
                     >
-                        Physio Schedules & Notes ({physioSchedules.length})
+                        Physio Notes & Schedules
                     </button>
                 </div>
 
@@ -338,15 +335,6 @@ export default function PatientDetailPage() {
                                         <option value="Male">Male</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                </div>
-                                <div>
-                                    <label className="mb-1.5 block text-sm font-bold text-foreground">Email Address</label>
-                                    <input
-                                        type="email"
-                                        value={editEmail}
-                                        onChange={(e) => setEditEmail(e.target.value)}
-                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-blue-600 focus:outline-none dark:border-white/[.22]"
-                                    />
                                 </div>
                                 <div>
                                     <label className="mb-1.5 block text-sm font-bold text-foreground">Mobile Number</label>
@@ -417,9 +405,9 @@ export default function PatientDetailPage() {
                                                     <div className="flex flex-wrap items-center gap-3 mt-1.5">
                                                         <span className="flex items-center gap-1 text-xs text-foreground/80 font-medium"><CalendarIcon className="h-3.5 w-3.5" /> {apt.date}</span>
                                                         {apt.time && <span className="flex items-center gap-1 text-xs text-foreground/80 font-medium"><Clock className="h-3.5 w-3.5" /> {apt.time}</span>}
-                                                        <span className="flex items-center gap-1 text-xs font-semibold text-green-700 dark:text-green-500"><Check className="h-3.5 w-3.5" /> Paid: £{financials.paid}</span>
+                                                        <span className="flex items-center gap-1 text-xs font-semibold text-green-700 dark:text-green-500"><Check className="h-3.5 w-3.5" /> Paid: ₹{financials.paid}</span>
                                                         {financials.pending > 0 && (
-                                                            <span className="flex items-center gap-1 text-xs font-semibold text-amber-700 dark:text-amber-500"><AlertCircle className="h-3.5 w-3.5" /> Pending: £{financials.pending}</span>
+                                                            <span className="flex items-center gap-1 text-xs font-semibold text-amber-700 dark:text-amber-500"><AlertCircle className="h-3.5 w-3.5" /> Pending: ₹{financials.pending}</span>
                                                         )}
                                                     </div>
                                                 </div>
@@ -436,7 +424,7 @@ export default function PatientDetailPage() {
                 {activeTab === "past" && (
                     <div className="flex flex-col gap-8 animate-in fade-in">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
-                            <h2 className="text-lg font-bold text-foreground">Past Records</h2>
+                            <h2 className="text-lg font-bold text-foreground">Doctors Notes & Schedules</h2>
                             <div className="flex items-center gap-2 self-end sm:self-auto">
                                 <label className="text-sm font-bold text-foreground">Filter by Date:</label>
                                 <DatePicker
@@ -475,10 +463,6 @@ export default function PatientDetailPage() {
                                                         <div className="flex flex-wrap items-center gap-3 mt-1.5">
                                                             <span className="flex items-center gap-1 text-xs text-foreground/80 font-medium"><CalendarIcon className="h-3.5 w-3.5" /> {apt.date}</span>
                                                             {apt.time && <span className="flex items-center gap-1 text-xs text-foreground/80 font-medium"><Clock className="h-3.5 w-3.5" /> {apt.time}</span>}
-                                                            <span className="flex items-center gap-1 text-xs font-semibold text-green-700 dark:text-green-500"><Check className="h-3.5 w-3.5" /> Paid: £{financials.paid}</span>
-                                                            {financials.pending > 0 && (
-                                                                <span className="flex items-center gap-1 text-xs font-semibold text-amber-700 dark:text-amber-500"><AlertCircle className="h-3.5 w-3.5" /> Pending: £{financials.pending}</span>
-                                                            )}
                                                         </div>
                                                     </div>
                                                     {getStatusBadge(apt.status)}
@@ -514,7 +498,7 @@ export default function PatientDetailPage() {
                             <div>
                                 <h2 className="text-lg font-bold text-foreground">Physiotherapy Schedules & Clinical Notes</h2>
                                 <p className="text-xs text-foreground/60 mt-0.5">
-                                    Rehabilitation timeline, pain assessments, and physiotherapist notes.
+                                    Rehabilitation timeline and physiotherapist notes.
                                 </p>
                             </div>
                         </div>
@@ -552,11 +536,7 @@ export default function PatientDetailPage() {
                                                     {item.service}
                                                 </span>
 
-                                                {item.fee && (
-                                                    <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300">
-                                                        Fee: ₹{item.fee}
-                                                    </span>
-                                                )}
+
                                             </div>
 
                                             <div className="flex items-center gap-2">
@@ -572,19 +552,7 @@ export default function PatientDetailPage() {
                                             </div>
                                         </div>
 
-                                        {item.painScore !== undefined && (
-                                            <div className="mt-4 flex items-center gap-2">
-                                                <span className={`rounded-lg px-3 py-1 text-xs font-bold ${
-                                                    item.painScore <= 3
-                                                        ? "bg-green-100 text-green-800 dark:bg-green-950/40 dark:text-green-300"
-                                                        : item.painScore <= 6
-                                                        ? "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
-                                                        : "bg-red-100 text-red-800 dark:bg-red-950/40 dark:text-red-300"
-                                                }`}>
-                                                    Pain Level (VAS): {item.painScore} / 10
-                                                </span>
-                                            </div>
-                                        )}
+
 
                                         <div className="mt-4 rounded-xl border border-teal-200/80 bg-white dark:border-teal-900/40 dark:bg-zinc-800/80 p-4">
                                             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-teal-900 dark:text-teal-200">

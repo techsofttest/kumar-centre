@@ -10,7 +10,7 @@ import {
     MoreVertical,
     BriefcaseMedical,
     Clock,
-    PoundSterling,
+    IndianRupee,
     Copy,
     Power,
     PowerOff,
@@ -45,13 +45,13 @@ export default function ServicesManager() {
     // Security layer: Block non-administrative staff[cite: 2]
 
 
-    // Mock Database populated with SRS Module 2 examples
+    // Mock Database populated with Back Pain & Spine Care services
     const [services, setServices] = useState<ClinicService[]>([
-        { id: "SRV-01", name: "4D/5D Baby Scan", category: "Ultrasound Scans", description: "High-definition 4D/5D imaging with digital copies.", price: 150, duration: 60, isActive: true },
-        { id: "SRV-02", name: "Early Pregnancy Scan", category: "Ultrasound Scans", description: "Viability scan from 6-11 weeks gestation.", price: 95, duration: 30, isActive: true },
-        { id: "SRV-03", name: "NIPT Blood Test", category: "Blood Tests", description: "Non-invasive prenatal testing for chromosomal abnormalities.", price: 350, duration: 20, isActive: true },
-        { id: "SRV-04", name: "Well Woman Scan", category: "Ultrasound Scans", description: "Comprehensive pelvic health ultrasound.", price: 120, duration: 45, isActive: true },
-        { id: "SRV-05", name: "Genotype Blood Test", category: "Blood Tests", description: "Genetic carrier screening panel.", price: 180, duration: 15, isActive: false },
+        { id: "SRV-01", name: "WARMING & MASSAGE", category: "Physical Therapy & Rehab", description: "Therapeutic warming and targeted deep tissue back massage.", price: 650, duration: 45, isActive: true },
+        { id: "SRV-02", name: "IDD THERAPY", category: "Advanced Spine Care", description: "Intervertebral Differential Dynamics non-surgical spinal decompression.", price: 1500, duration: 45, isActive: true },
+        { id: "SRV-03", name: "LASER TREATMENT", category: "Advanced Spine Care", description: "Class IV high-intensity targeted laser spine therapy.", price: 1200, duration: 30, isActive: true },
+        { id: "SRV-04", name: "PROLOTHERAPY", category: "Regenerative Spine Care", description: "Regenerative injection therapy for chronic lower back & ligament repair.", price: 2500, duration: 45, isActive: true },
+        { id: "SRV-05", name: "SPINAL DECOMPRESSION", category: "Advanced Spine Care", description: "Computerized spinal decompression therapy for herniated lumbar discs.", price: 1800, duration: 45, isActive: true },
     ]);
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -193,7 +193,7 @@ export default function ServicesManager() {
                                         <td className="whitespace-nowrap px-6 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <span className="flex items-center gap-1 font-medium text-foreground">
-                                                    <PoundSterling className="h-3.5 w-3.5 text-green-600" /> {service.price.toFixed(2)}
+                                                    <IndianRupee className="h-3.5 w-3.5 text-green-600" /> {service.price.toFixed(2)}
                                                 </span>
                                                 <span className="flex items-center gap-1 text-xs text-foreground/60">
                                                     <Clock className="h-3.5 w-3.5" /> {service.duration} mins
@@ -277,7 +277,7 @@ export default function ServicesManager() {
                                 <input
                                     type="text"
                                     defaultValue={editingService?.name}
-                                    placeholder="e.g. 4D/5D Baby Scan"
+                                    placeholder="e.g. WARMING & MASSAGE"
                                     className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand dark:border-white/[.22]"
                                 />
                             </div>
@@ -285,17 +285,18 @@ export default function ServicesManager() {
                             <div>
                                 <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground/50">Category</label>
                                 <select className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand dark:border-white/[.22]">
-                                    <option>Ultrasound Scans</option>
-                                    <option>Blood Tests</option>
+                                    <option>Advanced Spine Care</option>
+                                    <option>Physical Therapy & Rehab</option>
+                                    <option>Regenerative Spine Care</option>
                                     <option>Consultations</option>
                                 </select>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground/50">Price (£)</label>
+                                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground/50">Price (₹)</label>
                                     <div className="relative">
-                                        <PoundSterling className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" />
+                                        <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" />
                                         <input
                                             type="number"
                                             defaultValue={editingService?.price}

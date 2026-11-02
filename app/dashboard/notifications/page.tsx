@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 export default function NotificationsPage() {
     // Extended mock data for the notifications page
     const [alerts, setAlerts] = useState([
-        { id: 1, type: "Cancellation", message: "James Holden cancelled Growth Scan", time: "10 mins ago", icon: UserX, color: "text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30", read: false },
-        { id: 2, type: "No-Show", message: "Amos Burton missed 08:30 AM appointment", time: "1 hr ago", icon: AlertCircle, color: "text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30", read: false },
-        { id: 3, type: "Confirmation", message: "Eleanor Vance confirmed 4D/5D Baby Scan", time: "2 hrs ago", icon: CheckCircle, color: "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30", read: true },
+        { id: 1, type: "Cancellation", message: "Rahul Menon cancelled SPINAL DECOMPRESSION", time: "10 mins ago", icon: UserX, color: "text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30", read: false },
+        { id: 2, type: "No-Show", message: "Vishnu Namboothiri missed 08:30 AM appointment", time: "1 hr ago", icon: AlertCircle, color: "text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30", read: false },
+        { id: 3, type: "Confirmation", message: "Anjali Nair confirmed WARMING & MASSAGE", time: "2 hrs ago", icon: CheckCircle, color: "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30", read: true },
         // { id: 4, type: "System Update", message: "New version of the software has been deployed.", time: "1 day ago", icon: Info, color: "text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30", read: true },
     ]);
 

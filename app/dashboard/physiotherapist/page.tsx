@@ -49,11 +49,11 @@ export default function PhysiotherapistDashboard() {
     const [sessions, setSessions] = useState<PhysioSession[]>([
         {
             id: "PHY-01",
-            patientName: "James Holden",
+            patientName: "Rahul Menon",
             age: 42,
             time: "09:00 AM",
             condition: "Lumbar Disc Herniation (L4-L5)",
-            modality: "Spinal Decompression & Core Stabilization",
+            modality: "IDD THERAPY & SPINAL DECOMPRESSION",
             sessionNumber: 5,
             totalSessions: 12,
             painScore: 6,
@@ -63,25 +63,25 @@ export default function PhysiotherapistDashboard() {
         },
         {
             id: "PHY-02",
-            patientName: "Amos Burton",
+            patientName: "Vishnu Namboothiri",
             age: 36,
             time: "10:15 AM",
-            condition: "Post-Op Right ACL Reconstruction (Week 6)",
-            modality: "Cryo-compression & Quadriceps Biofeedback",
+            condition: "Chronic Lumbar Muscle Spasm & Facet Strain",
+            modality: "WARMING & MASSAGE with Deep Tissue Release",
             sessionNumber: 8,
             totalSessions: 16,
             painScore: 4,
             status: "Scheduled",
             referringDoctor: "Dr. MALINI SASIKUMAR",
-            exercises: ["Closed Kinetic Chain Squats", "Prone Knee Flexion", "Stationary Cycling"]
+            exercises: ["McKenzie Prone Press-ups", "Lumbar Rotation Stretches", "Cat-Camel"]
         },
         {
             id: "PHY-03",
-            patientName: "Sophia Sterling",
+            patientName: "Priya Varma",
             age: 29,
             time: "11:30 AM",
-            condition: "Cervical Radiculopathy & Postural Strain",
-            modality: "Manual Mobilization & TENS Therapy",
+            condition: "Cervicothoracic Radiculopathy & Disc Bulge",
+            modality: "LASER TREATMENT & Cervical Mobilization",
             sessionNumber: 3,
             totalSessions: 8,
             painScore: 7,
@@ -91,17 +91,17 @@ export default function PhysiotherapistDashboard() {
         },
         {
             id: "PHY-04",
-            patientName: "Eleanor Vance",
+            patientName: "Anjali Nair",
             age: 34,
             time: "08:15 AM",
-            condition: "Rotator Cuff Tendinopathy (Right Shoulder)",
-            modality: "Therapeutic Ultrasound & Rotator Cuff Strengthening",
+            condition: "Sacroiliac Joint Dysfunction & Lumbar Instability",
+            modality: "PROLOTHERAPY Rehab & Core Strengthening",
             sessionNumber: 6,
             totalSessions: 10,
             painScore: 3,
             status: "Completed",
             referringDoctor: "Dr. SREENATH",
-            exercises: ["Theraband External Rotation", "Sleeper Stretch", "Wall Slides"]
+            exercises: ["Pelvic Tilts", "Bridging Exercises", "Bird-Dog Core Stability"]
         }
     ]);
 
@@ -134,7 +134,7 @@ export default function PhysiotherapistDashboard() {
         if (!activeSession) return;
 
         updateStatus(activeSession.id, "Completed");
-        setSuccessMessage(`Session recorded for ${activeSession.patientName}! Fee: ₹${consultationFee}, Pain score: ${todayPainScore}/10.`);
+        setSuccessMessage(`Session recorded for ${activeSession.patientName}! Fee: ₹${consultationFee}.`);
 
         // Also persist to kumar_consultations so Patient Database displays it
         try {
@@ -148,7 +148,7 @@ export default function PhysiotherapistDashboard() {
                 consultationFee: consultationFee.trim() || "0",
                 amount: consultationFee.trim() || "0",
                 fee: consultationFee.trim() || "0",
-                notes: therapistNote || `Pain level: ${todayPainScore}/10.`,
+                notes: therapistNote || "Therapy session completed successfully.",
                 status: "Completed"
             };
             const existingRaw = localStorage.getItem("kumar_consultations");
@@ -170,8 +170,8 @@ export default function PhysiotherapistDashboard() {
             setNextModality(s.modality);
             setNextDoctor(s.referringDoctor || "Dr. SASIKUMAR");
         } else {
-            setNextPatientName("James Holden");
-            setNextModality("Spinal Decompression & Core Stabilization");
+            setNextPatientName("Rahul Menon");
+            setNextModality("IDD THERAPY & SPINAL DECOMPRESSION");
             setNextDoctor("Dr. SASIKUMAR");
         }
         setNextDate(todayYMD);
@@ -456,36 +456,7 @@ export default function PhysiotherapistDashboard() {
                             </div>
 
                             <form onSubmit={handleSaveSession} className="space-y-5 mt-4">
-                                {/* Pain Scale Slider */}
-                                <div>
-                                    <div className="flex items-center justify-between mb-1.5">
-                                        <label className="text-xs font-semibold text-foreground/80">
-                                            Current Pain Level (VAS Score):
-                                        </label>
-                                        <span className={`text-sm font-bold px-2 py-0.5 rounded ${
-                                            todayPainScore <= 3
-                                                ? "bg-green-100 text-green-800"
-                                                : todayPainScore <= 6
-                                                ? "bg-amber-100 text-amber-800"
-                                                : "bg-red-100 text-red-800"
-                                        }`}>
-                                            {todayPainScore} / 10
-                                        </span>
-                                    </div>
-                                    <input
-                                        type="range"
-                                        min={0}
-                                        max={10}
-                                        value={todayPainScore}
-                                        onChange={(e) => setTodayPainScore(Number(e.target.value))}
-                                        className="w-full accent-teal-600 cursor-pointer"
-                                    />
-                                    <div className="flex justify-between text-[10px] text-foreground/50 mt-1">
-                                        <span>0 (No Pain)</span>
-                                        <span>5 (Moderate)</span>
-                                        <span>10 (Severe)</span>
-                                    </div>
-                                </div>
+
 
 
 

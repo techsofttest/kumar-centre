@@ -23,7 +23,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { normalizeRole } from "@/lib/roles";
 
 // Status Types
-type AppointmentStatus = "Pending" | "Confirmed" | "Checked-In" | "Completed" | "Cancelled" | "No Show";
+type AppointmentStatus = "Pending" | "Confirmed" | "Cancelled";
 
 interface ClinicalAppointment {
     id: string;
@@ -40,15 +40,12 @@ interface ClinicalAppointment {
     amount?: string | number;
 }
 
-const STATUS_OPTIONS: AppointmentStatus[] = ["Pending", "Confirmed", "Checked-In", "Completed", "No Show"];
+const STATUS_OPTIONS: AppointmentStatus[] = ["Pending", "Confirmed", "Cancelled"];
 
 const STATUS_STYLES: Record<AppointmentStatus, { pill: string; dot: string; option: string }> = {
-    "Confirmed":  { pill: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",    dot: "bg-blue-500",   option: "text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" },
+    "Confirmed":  { pill: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",    dot: "bg-green-500",   option: "text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20" },
     "Pending":    { pill: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300", dot: "bg-orange-500", option: "text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20" },
-    "Checked-In": { pill: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300", dot: "bg-purple-500", option: "text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20" },
-    "Completed":  { pill: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",  dot: "bg-green-500",  option: "text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20" },
-    "Cancelled":  { pill: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",         dot: "bg-zinc-400",   option: "text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800/40" },
-    "No Show":    { pill: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",         dot: "bg-zinc-400",   option: "text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800/40" },
+    "Cancelled":  { pill: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",             dot: "bg-red-500",    option: "text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20" },
 };
 
 const formatDateYMD = (d: Date) => {
@@ -157,17 +154,17 @@ export default function ClinicianSchedule() {
 
     useEffect(() => {
         const defaultDoctorMocks: ClinicalAppointment[] = [
-            { id: "APT-101", patientId: "REF-8000", patientName: "Eleanor Vance", service: "Cardiology Review", date: todayYMD, time: "09:00 AM", duration: 60, status: "Completed", notes: true, amount: "500" },
-            { id: "APT-102", patientId: "REF-8001", patientName: "James Holden", service: "General Medicine Review", date: todayYMD, time: "10:30 AM", duration: 45, status: "Checked-In", notes: false, amount: "500" },
-            { id: "APT-103", patientId: "REF-8002", patientName: "Naomi Nagata", service: "Orthopedic Evaluation", date: todayYMD, time: "11:30 AM", duration: 45, status: "Confirmed", notes: false, amount: "500" },
-            { id: "APT-104", patientId: "REF-8003", patientName: "Amos Burton", service: "Pre-Op Evaluation", date: todayYMD, time: "02:00 PM", duration: 30, status: "Pending", notes: false, amount: "500" },
+            { id: "APT-101", patientId: "REF-8000", patientName: "Anjali Nair", service: "Spine & Orthopedic Evaluation", date: todayYMD, time: "09:00 AM", duration: 60, status: "Confirmed", notes: true, amount: "500" },
+            { id: "APT-102", patientId: "REF-8001", patientName: "Rahul Menon", service: "IDD THERAPY Clinical Review", date: todayYMD, time: "10:30 AM", duration: 45, status: "Confirmed", notes: false, amount: "500" },
+            { id: "APT-103", patientId: "REF-8002", patientName: "Deepa Pillai", service: "PROLOTHERAPY Consultation", date: todayYMD, time: "11:30 AM", duration: 45, status: "Confirmed", notes: false, amount: "500" },
+            { id: "APT-104", patientId: "REF-8003", patientName: "Vishnu Namboothiri", service: "Spine Mobility Review", date: todayYMD, time: "02:00 PM", duration: 30, status: "Pending", notes: false, amount: "500" },
         ];
 
         const defaultPhysioMocks: ClinicalAppointment[] = [
-            { id: "APT-PT-01", patientId: "REF-8001", patientName: "James Holden", service: "Spinal Decompression & Core Stabilization", date: todayYMD, time: "09:00 AM", duration: 45, status: "Checked-In", notes: true, referringDoctor: "Dr. SASIKUMAR", amount: "650" },
-            { id: "APT-PT-02", patientId: "REF-8003", patientName: "Amos Burton", service: "Post-Op ACL Cryo-compression & Biofeedback", date: todayYMD, time: "10:15 AM", duration: 45, status: "Confirmed", notes: false, referringDoctor: "Dr. MALINI SASIKUMAR", amount: "650" },
-            { id: "APT-PT-03", patientId: "REF-8002", patientName: "Sophia Sterling", service: "Cervical Mobilization & TENS Therapy", date: todayYMD, time: "11:30 AM", duration: 30, status: "Pending", notes: false, referringDoctor: "Dr. SRUTHI SASIKUMAR", amount: "650" },
-            { id: "APT-PT-04", patientId: "REF-8000", patientName: "Eleanor Vance", service: "Rotator Cuff Tendinopathy Ultrasound", date: todayYMD, time: "02:00 PM", duration: 45, status: "Confirmed", notes: true, referringDoctor: "Dr. SREENATH", amount: "650" },
+            { id: "APT-PT-01", patientId: "REF-8001", patientName: "Rahul Menon", service: "IDD THERAPY & SPINAL DECOMPRESSION", date: todayYMD, time: "09:00 AM", duration: 45, status: "Confirmed", notes: true, referringDoctor: "Dr. SASIKUMAR", amount: "650" },
+            { id: "APT-PT-02", patientId: "REF-8003", patientName: "Vishnu Namboothiri", service: "WARMING & MASSAGE with Deep Tissue Release", date: todayYMD, time: "10:15 AM", duration: 45, status: "Confirmed", notes: false, referringDoctor: "Dr. MALINI SASIKUMAR", amount: "650" },
+            { id: "APT-PT-03", patientId: "REF-8002", patientName: "Priya Varma", service: "LASER TREATMENT & Cervical Mobilization", date: todayYMD, time: "11:30 AM", duration: 30, status: "Pending", notes: false, referringDoctor: "Dr. SRUTHI SASIKUMAR", amount: "650" },
+            { id: "APT-PT-04", patientId: "REF-8000", patientName: "Anjali Nair", service: "PROLOTHERAPY Rehab & Core Strengthening", date: todayYMD, time: "02:00 PM", duration: 45, status: "Confirmed", notes: true, referringDoctor: "Dr. SREENATH", amount: "650" },
         ];
 
         const baseDefaults = isPhysio ? defaultPhysioMocks : defaultDoctorMocks;
@@ -255,9 +252,9 @@ export default function ClinicianSchedule() {
             setNextDoctor(apt.referringDoctor || "Dr. SASIKUMAR");
             setNextFee(String(apt.amount || "650"));
         } else {
-            setNextPatientName("James Holden");
+            setNextPatientName("Rahul Menon");
             setNextPatientId("REF-8001");
-            setNextService("Spinal Decompression & Core Stabilization");
+            setNextService("IDD THERAPY & SPINAL DECOMPRESSION");
             setNextDoctor("Dr. SASIKUMAR");
             setNextFee("650");
         }
@@ -475,7 +472,7 @@ export default function ClinicianSchedule() {
                     <div
                         key={apt.id}
                         className={`group relative flex flex-col gap-4 rounded-xl border border-black/[.15] bg-white dark:bg-zinc-900 p-6 transition-all dark:border-white/[.22] md:flex-row md:items-center md:justify-between shadow-sm ${
-                            apt.status === "Checked-In" ? "bg-blue-50/50 dark:bg-blue-950/20 border-blue-400 dark:border-blue-600/70 ring-2 ring-blue-500/60" : ""
+                            apt.status === "Confirmed" ? "border-green-300 dark:border-green-700/60" : ""
                         }`}
                     >
                         {/* Timeline Indicator Line */}

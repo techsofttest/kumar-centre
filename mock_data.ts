@@ -1,13 +1,13 @@
-import { Patient } from "./app/dashboard/patients/data";
+﻿import { Patient } from "./app/dashboard/patients/data";
 
 const mockPatientsData: Patient[] = [
     {
         "id": "REF-7000",
-        "name": "Chrisjen Mao",
+        "name": "Anjali Nair",
         "dob": "1975-01-26",
         "gender": "Male",
         "email": "chrisjen@example.com",
-        "phone": "+1 (555) 716-2756",
+        "phone": "+91 98471 00000",
         "address": "1706 Random St, City",
         "history": {
             "past": [
@@ -16,8 +16,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-03",
                     "time": "17:00",
                     "services": [
-                        "Growth Scan",
-                        "Follow-up Scan"
+                        "SPINAL DECOMPRESSION",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -26,8 +26,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-10",
                     "time": "17:00",
                     "services": [
-                        "Fertility Scan",
-                        "Genotype Blood Test"
+                        "DRY NEEDLING & ACUPUNCTURE",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -36,8 +36,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-11",
                     "time": "14:00",
                     "services": [
-                        "Fertility Scan",
-                        "General Blood Tests"
+                        "DRY NEEDLING & ACUPUNCTURE",
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Completed"
                 },
@@ -46,7 +46,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-11",
                     "time": "08:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -55,7 +55,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-29",
                     "time": "17:00",
                     "services": [
-                        "Reassurance Scan"
+                        "ULTRASOUND & HEAT THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -64,8 +64,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-19",
                     "time": "14:00",
                     "services": [
-                        "Dating Scan",
-                        "NIPT Blood Test"
+                        "LUMBAR TRACTION THERAPY",
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -74,8 +74,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-08",
                     "time": "08:00",
                     "services": [
-                        "Dating Scan",
-                        "Thalassaemia Screening"
+                        "LUMBAR TRACTION THERAPY",
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -84,7 +84,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-28",
                     "time": "12:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -93,8 +93,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-08",
                     "time": "08:00",
                     "services": [
-                        "Well Woman Scan",
-                        "Dating Scan"
+                        "PROLOTHERAPY",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -103,8 +103,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-29",
                     "time": "16:00",
                     "services": [
-                        "Reassurance Scan",
-                        "Growth Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -113,7 +113,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-22",
                     "time": "12:00",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -122,7 +122,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-19",
                     "time": "17:00",
                     "services": [
-                        "Growth Scan"
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 }
@@ -133,7 +133,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-01",
                     "time": "12:30",
                     "services": [
-                        "NIPT Blood Test"
+                        "LASER TREATMENT"
                     ],
                     "status": "Pending"
                 },
@@ -142,7 +142,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-28",
                     "time": "13:30",
                     "services": [
-                        "Reassurance Scan"
+                        "ULTRASOUND & HEAT THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -151,7 +151,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-05",
                     "time": "15:30",
                     "services": [
-                        "General Blood Tests"
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Pending"
                 },
@@ -160,7 +160,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-12",
                     "time": "12:30",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Pending"
                 },
@@ -169,7 +169,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-13",
                     "time": "13:30",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Pending"
                 }
@@ -187,7 +187,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1979-02-14",
         "gender": "Female",
         "email": "clarissa@example.com",
-        "phone": "+1 (555) 686-9149",
+        "phone": "+91 98471 00000",
         "address": "5841 Random St, City",
         "history": {
             "past": [
@@ -196,8 +196,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-26",
                     "time": "15:00",
                     "services": [
-                        "Fertility Scan",
-                        "Dating Scan"
+                        "DRY NEEDLING & ACUPUNCTURE",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -206,8 +206,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-11",
                     "time": "17:00",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "Reassurance Scan"
+                        "WARMING & MASSAGE",
+                        "ULTRASOUND & HEAT THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -216,8 +216,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-06",
                     "time": "09:00",
                     "services": [
-                        "Fertility Scan",
-                        "Fertility Scan"
+                        "DRY NEEDLING & ACUPUNCTURE",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -226,7 +226,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-22",
                     "time": "12:00",
                     "services": [
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -235,8 +235,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-14",
                     "time": "08:00",
                     "services": [
-                        "Well Woman Scan",
-                        "Fertility Scan"
+                        "PROLOTHERAPY",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -245,7 +245,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-05",
                     "time": "14:00",
                     "services": [
-                        "General Blood Tests"
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Completed"
                 },
@@ -254,7 +254,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-17",
                     "time": "16:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -263,8 +263,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-14",
                     "time": "15:00",
                     "services": [
-                        "Well Woman Scan",
-                        "General Blood Tests"
+                        "PROLOTHERAPY",
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Completed"
                 },
@@ -273,8 +273,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-13",
                     "time": "16:00",
                     "services": [
-                        "NIPT Blood Test",
-                        "4D/5D Baby Scan"
+                        "LASER TREATMENT",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -283,8 +283,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-30",
                     "time": "09:00",
                     "services": [
-                        "Fertility Scan",
-                        "Genotype Blood Test"
+                        "DRY NEEDLING & ACUPUNCTURE",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -293,7 +293,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-28",
                     "time": "10:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -302,7 +302,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-01-16",
                     "time": "16:00",
                     "services": [
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 }
@@ -313,8 +313,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-14",
                     "time": "09:30",
                     "services": [
-                        "General Blood Tests",
-                        "General Blood Tests"
+                        "POSTURAL & ERGONOMIC REHAB",
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Pending"
                 },
@@ -323,7 +323,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-16",
                     "time": "14:30",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Pending"
                 },
@@ -332,7 +332,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-28",
                     "time": "10:30",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Pending"
                 },
@@ -341,7 +341,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-16",
                     "time": "09:30",
                     "services": [
-                        "Reassurance Scan"
+                        "ULTRASOUND & HEAT THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -350,8 +350,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-18",
                     "time": "15:30",
                     "services": [
-                        "Reassurance Scan",
-                        "Thalassaemia Screening"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Pending"
                 }
@@ -369,7 +369,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1984-10-28",
         "gender": "Male",
         "email": "alex@example.com",
-        "phone": "+1 (555) 506-3673",
+        "phone": "+91 98471 00000",
         "address": "2787 Random St, City",
         "history": {
             "past": [
@@ -378,8 +378,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-18",
                     "time": "16:00",
                     "services": [
-                        "Reassurance Scan",
-                        "Dating Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -388,8 +388,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-08",
                     "time": "11:00",
                     "services": [
-                        "Thalassaemia Screening",
-                        "4D/5D Baby Scan"
+                        "CORE STABILIZATION THERAPY",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -398,8 +398,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-25",
                     "time": "17:00",
                     "services": [
-                        "Well Woman Scan",
-                        "Growth Scan"
+                        "PROLOTHERAPY",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -408,8 +408,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-25",
                     "time": "17:00",
                     "services": [
-                        "Thalassaemia Screening",
-                        "Genotype Blood Test"
+                        "CORE STABILIZATION THERAPY",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -418,8 +418,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-29",
                     "time": "09:00",
                     "services": [
-                        "Dating Scan",
-                        "Well Woman Scan"
+                        "LUMBAR TRACTION THERAPY",
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -428,8 +428,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-23",
                     "time": "17:00",
                     "services": [
-                        "Reassurance Scan",
-                        "Growth Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -438,7 +438,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-24",
                     "time": "15:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -447,8 +447,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-06-13",
                     "time": "16:00",
                     "services": [
-                        "Follow-up Scan",
-                        "NIPT Blood Test"
+                        "SPINE REHAB FOLLOW-UP",
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -457,7 +457,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-19",
                     "time": "13:00",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -466,8 +466,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-25",
                     "time": "16:00",
                     "services": [
-                        "NIPT Blood Test",
-                        "Thalassaemia Screening"
+                        "LASER TREATMENT",
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -476,7 +476,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-20",
                     "time": "17:00",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -485,7 +485,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-08",
                     "time": "08:00",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 }
@@ -496,8 +496,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-08",
                     "time": "13:30",
                     "services": [
-                        "Genotype Blood Test",
-                        "NIPT Blood Test"
+                        "TRIGGER POINT INJECTION",
+                        "LASER TREATMENT"
                     ],
                     "status": "Pending"
                 },
@@ -506,8 +506,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-15",
                     "time": "10:30",
                     "services": [
-                        "Follow-up Scan",
-                        "Genotype Blood Test"
+                        "SPINE REHAB FOLLOW-UP",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Pending"
                 },
@@ -516,7 +516,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-18",
                     "time": "15:30",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -525,8 +525,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-08",
                     "time": "13:30",
                     "services": [
-                        "Dating Scan",
-                        "Early Pregnancy Scan"
+                        "LUMBAR TRACTION THERAPY",
+                        "IDD THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -535,8 +535,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-16",
                     "time": "14:30",
                     "services": [
-                        "Genotype Blood Test",
-                        "Dating Scan"
+                        "TRIGGER POINT INJECTION",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Pending"
                 }
@@ -554,7 +554,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1993-01-17",
         "gender": "Male",
         "email": "alex@example.com",
-        "phone": "+1 (555) 844-4297",
+        "phone": "+91 98471 00000",
         "address": "9182 Random St, City",
         "history": {
             "past": [
@@ -563,7 +563,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-10",
                     "time": "11:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -572,8 +572,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-05",
                     "time": "13:00",
                     "services": [
-                        "Reassurance Scan",
-                        "Early Pregnancy Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -582,7 +582,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-22",
                     "time": "15:00",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -591,7 +591,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-01",
                     "time": "15:00",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -600,8 +600,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-25",
                     "time": "17:00",
                     "services": [
-                        "Fertility Scan",
-                        "Follow-up Scan"
+                        "DRY NEEDLING & ACUPUNCTURE",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -610,8 +610,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-20",
                     "time": "10:00",
                     "services": [
-                        "General Blood Tests",
-                        "Dating Scan"
+                        "POSTURAL & ERGONOMIC REHAB",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -620,8 +620,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-13",
                     "time": "11:00",
                     "services": [
-                        "Genotype Blood Test",
-                        "Follow-up Scan"
+                        "TRIGGER POINT INJECTION",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -630,8 +630,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-06-28",
                     "time": "11:00",
                     "services": [
-                        "Well Woman Scan",
-                        "NIPT Blood Test"
+                        "PROLOTHERAPY",
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -640,8 +640,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-17",
                     "time": "17:00",
                     "services": [
-                        "Genotype Blood Test",
-                        "Growth Scan"
+                        "TRIGGER POINT INJECTION",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -650,7 +650,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-16",
                     "time": "09:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -659,7 +659,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-10",
                     "time": "10:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -668,7 +668,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-26",
                     "time": "10:00",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 }
@@ -679,7 +679,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-27",
                     "time": "08:30",
                     "services": [
-                        "Growth Scan"
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Pending"
                 },
@@ -688,7 +688,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-30",
                     "time": "09:30",
                     "services": [
-                        "General Blood Tests"
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Pending"
                 },
@@ -697,7 +697,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-08",
                     "time": "15:30",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Pending"
                 },
@@ -706,8 +706,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-09",
                     "time": "11:30",
                     "services": [
-                        "Genotype Blood Test",
-                        "Thalassaemia Screening"
+                        "TRIGGER POINT INJECTION",
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -716,8 +716,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-15",
                     "time": "09:30",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "NIPT Blood Test"
+                        "WARMING & MASSAGE",
+                        "LASER TREATMENT"
                     ],
                     "status": "Pending"
                 }
@@ -735,7 +735,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1973-04-15",
         "gender": "Female",
         "email": "anderson@example.com",
-        "phone": "+1 (555) 695-7338",
+        "phone": "+91 98471 00000",
         "address": "565 Random St, City",
         "history": {
             "past": [
@@ -744,7 +744,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-27",
                     "time": "12:00",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -753,7 +753,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-03",
                     "time": "13:00",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -762,7 +762,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-14",
                     "time": "17:00",
                     "services": [
-                        "Fertility Scan"
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -771,8 +771,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-08",
                     "time": "09:00",
                     "services": [
-                        "Thalassaemia Screening",
-                        "Fertility Scan"
+                        "CORE STABILIZATION THERAPY",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -781,8 +781,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-21",
                     "time": "10:00",
                     "services": [
-                        "Thalassaemia Screening",
-                        "NIPT Blood Test"
+                        "CORE STABILIZATION THERAPY",
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -791,7 +791,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-06",
                     "time": "09:00",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -800,8 +800,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-15",
                     "time": "10:00",
                     "services": [
-                        "Well Woman Scan",
-                        "Thalassaemia Screening"
+                        "PROLOTHERAPY",
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -810,8 +810,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-12",
                     "time": "08:00",
                     "services": [
-                        "NIPT Blood Test",
-                        "Genotype Blood Test"
+                        "LASER TREATMENT",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -820,7 +820,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-10",
                     "time": "12:00",
                     "services": [
-                        "Reassurance Scan"
+                        "ULTRASOUND & HEAT THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -829,7 +829,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-25",
                     "time": "12:00",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -838,7 +838,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-22",
                     "time": "08:00",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -847,8 +847,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-12",
                     "time": "10:00",
                     "services": [
-                        "General Blood Tests",
-                        "Reassurance Scan"
+                        "POSTURAL & ERGONOMIC REHAB",
+                        "ULTRASOUND & HEAT THERAPY"
                     ],
                     "status": "Completed"
                 }
@@ -859,7 +859,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-27",
                     "time": "16:30",
                     "services": [
-                        "NIPT Blood Test"
+                        "LASER TREATMENT"
                     ],
                     "status": "Pending"
                 },
@@ -868,7 +868,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-31",
                     "time": "11:30",
                     "services": [
-                        "NIPT Blood Test"
+                        "LASER TREATMENT"
                     ],
                     "status": "Pending"
                 },
@@ -877,8 +877,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-06",
                     "time": "10:30",
                     "services": [
-                        "Well Woman Scan",
-                        "Dating Scan"
+                        "PROLOTHERAPY",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -887,7 +887,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-24",
                     "time": "16:30",
                     "services": [
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Pending"
                 },
@@ -896,7 +896,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-13",
                     "time": "14:30",
                     "services": [
-                        "General Blood Tests"
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Pending"
                 }
@@ -914,7 +914,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1976-12-02",
         "gender": "Male",
         "email": "naomi@example.com",
-        "phone": "+1 (555) 159-6120",
+        "phone": "+91 98471 00000",
         "address": "362 Random St, City",
         "history": {
             "past": [
@@ -923,7 +923,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-15",
                     "time": "13:00",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -932,7 +932,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-08",
                     "time": "17:00",
                     "services": [
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -941,7 +941,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-15",
                     "time": "09:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -950,7 +950,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-18",
                     "time": "11:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -959,7 +959,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-13",
                     "time": "17:00",
                     "services": [
-                        "NIPT Blood Test"
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -968,8 +968,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-02",
                     "time": "12:00",
                     "services": [
-                        "Dating Scan",
-                        "Growth Scan"
+                        "LUMBAR TRACTION THERAPY",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -978,8 +978,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-18",
                     "time": "14:00",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "Well Woman Scan"
+                        "WARMING & MASSAGE",
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -988,8 +988,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-02",
                     "time": "16:00",
                     "services": [
-                        "Reassurance Scan",
-                        "NIPT Blood Test"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -998,8 +998,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-30",
                     "time": "15:00",
                     "services": [
-                        "NIPT Blood Test",
-                        "Growth Scan"
+                        "LASER TREATMENT",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -1008,8 +1008,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-19",
                     "time": "10:00",
                     "services": [
-                        "Early Pregnancy Scan",
-                        "4D/5D Baby Scan"
+                        "IDD THERAPY",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -1018,7 +1018,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-30",
                     "time": "08:00",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1027,7 +1027,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-16",
                     "time": "12:00",
                     "services": [
-                        "General Blood Tests"
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Completed"
                 }
@@ -1038,7 +1038,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-12",
                     "time": "12:30",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1047,7 +1047,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-13",
                     "time": "14:30",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1056,8 +1056,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-27",
                     "time": "11:30",
                     "services": [
-                        "Reassurance Scan",
-                        "Early Pregnancy Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "IDD THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1066,8 +1066,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-09",
                     "time": "13:30",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "Well Woman Scan"
+                        "WARMING & MASSAGE",
+                        "PROLOTHERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1076,8 +1076,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-14",
                     "time": "12:30",
                     "services": [
-                        "Growth Scan",
-                        "4D/5D Baby Scan"
+                        "SPINAL DECOMPRESSION",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Pending"
                 }
@@ -1095,7 +1095,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1995-11-03",
         "gender": "Female",
         "email": "roberta@example.com",
-        "phone": "+1 (555) 979-3761",
+        "phone": "+91 98471 00000",
         "address": "5417 Random St, City",
         "history": {
             "past": [
@@ -1104,8 +1104,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-21",
                     "time": "13:00",
                     "services": [
-                        "Follow-up Scan",
-                        "Dating Scan"
+                        "SPINE REHAB FOLLOW-UP",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1114,7 +1114,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-19",
                     "time": "08:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1123,7 +1123,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-03",
                     "time": "17:00",
                     "services": [
-                        "Growth Scan"
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -1132,7 +1132,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-10",
                     "time": "15:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1141,8 +1141,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-08",
                     "time": "10:00",
                     "services": [
-                        "Early Pregnancy Scan",
-                        "Fertility Scan"
+                        "IDD THERAPY",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -1151,8 +1151,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-06",
                     "time": "09:00",
                     "services": [
-                        "Genotype Blood Test",
-                        "Thalassaemia Screening"
+                        "TRIGGER POINT INJECTION",
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1161,7 +1161,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-31",
                     "time": "17:00",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1170,7 +1170,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-31",
                     "time": "14:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1179,7 +1179,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-01",
                     "time": "15:00",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1188,8 +1188,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-23",
                     "time": "11:00",
                     "services": [
-                        "Well Woman Scan",
-                        "Follow-up Scan"
+                        "PROLOTHERAPY",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -1198,7 +1198,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-17",
                     "time": "14:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1207,8 +1207,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-01-02",
                     "time": "16:00",
                     "services": [
-                        "NIPT Blood Test",
-                        "Early Pregnancy Scan"
+                        "LASER TREATMENT",
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 }
@@ -1219,8 +1219,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-15",
                     "time": "14:30",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "Fertility Scan"
+                        "WARMING & MASSAGE",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Pending"
                 },
@@ -1229,8 +1229,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-20",
                     "time": "09:30",
                     "services": [
-                        "Dating Scan",
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1239,8 +1239,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-19",
                     "time": "17:30",
                     "services": [
-                        "Thalassaemia Screening",
-                        "General Blood Tests"
+                        "CORE STABILIZATION THERAPY",
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Pending"
                 },
@@ -1249,7 +1249,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-29",
                     "time": "11:30",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Pending"
                 },
@@ -1258,7 +1258,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-16",
                     "time": "15:30",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Pending"
                 }
@@ -1276,7 +1276,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1983-05-14",
         "gender": "Male",
         "email": "naomi@example.com",
-        "phone": "+1 (555) 813-1948",
+        "phone": "+91 98471 00000",
         "address": "957 Random St, City",
         "history": {
             "past": [
@@ -1285,7 +1285,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-21",
                     "time": "10:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1294,8 +1294,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-25",
                     "time": "11:00",
                     "services": [
-                        "Follow-up Scan",
-                        "Growth Scan"
+                        "SPINE REHAB FOLLOW-UP",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -1304,7 +1304,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-30",
                     "time": "08:00",
                     "services": [
-                        "Fertility Scan"
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -1313,7 +1313,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-22",
                     "time": "08:00",
                     "services": [
-                        "Fertility Scan"
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -1322,7 +1322,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-19",
                     "time": "10:00",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -1331,8 +1331,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-05",
                     "time": "15:00",
                     "services": [
-                        "General Blood Tests",
-                        "Early Pregnancy Scan"
+                        "POSTURAL & ERGONOMIC REHAB",
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1341,7 +1341,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-08",
                     "time": "14:00",
                     "services": [
-                        "NIPT Blood Test"
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -1350,8 +1350,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-25",
                     "time": "09:00",
                     "services": [
-                        "Growth Scan",
-                        "Growth Scan"
+                        "SPINAL DECOMPRESSION",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -1360,8 +1360,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-19",
                     "time": "17:00",
                     "services": [
-                        "General Blood Tests",
-                        "Growth Scan"
+                        "POSTURAL & ERGONOMIC REHAB",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -1370,8 +1370,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-12",
                     "time": "12:00",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -1380,7 +1380,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-04",
                     "time": "08:00",
                     "services": [
-                        "NIPT Blood Test"
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -1389,7 +1389,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-25",
                     "time": "09:00",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 }
@@ -1400,7 +1400,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-21",
                     "time": "09:30",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1409,7 +1409,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-28",
                     "time": "13:30",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1418,8 +1418,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-08",
                     "time": "14:30",
                     "services": [
-                        "Early Pregnancy Scan",
-                        "Fertility Scan"
+                        "IDD THERAPY",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Pending"
                 },
@@ -1428,7 +1428,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-31",
                     "time": "17:30",
                     "services": [
-                        "NIPT Blood Test"
+                        "LASER TREATMENT"
                     ],
                     "status": "Pending"
                 },
@@ -1437,8 +1437,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-04",
                     "time": "08:30",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "Growth Scan"
+                        "WARMING & MASSAGE",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Pending"
                 }
@@ -1456,7 +1456,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1994-03-25",
         "gender": "Male",
         "email": "alex@example.com",
-        "phone": "+1 (555) 729-7566",
+        "phone": "+91 98471 00000",
         "address": "1305 Random St, City",
         "history": {
             "past": [
@@ -1465,8 +1465,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-30",
                     "time": "09:00",
                     "services": [
-                        "NIPT Blood Test",
-                        "Thalassaemia Screening"
+                        "LASER TREATMENT",
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1475,7 +1475,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-30",
                     "time": "16:00",
                     "services": [
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -1484,7 +1484,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-24",
                     "time": "17:00",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1493,8 +1493,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-22",
                     "time": "15:00",
                     "services": [
-                        "Follow-up Scan",
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -1503,7 +1503,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-02",
                     "time": "08:00",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -1512,7 +1512,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-15",
                     "time": "13:00",
                     "services": [
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -1521,8 +1521,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-06-12",
                     "time": "13:00",
                     "services": [
-                        "General Blood Tests",
-                        "Genotype Blood Test"
+                        "POSTURAL & ERGONOMIC REHAB",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -1531,7 +1531,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-10",
                     "time": "17:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1540,8 +1540,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-28",
                     "time": "08:00",
                     "services": [
-                        "Reassurance Scan",
-                        "Dating Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1550,7 +1550,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-05",
                     "time": "10:00",
                     "services": [
-                        "NIPT Blood Test"
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 },
@@ -1559,8 +1559,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-04",
                     "time": "10:00",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "Dating Scan"
+                        "WARMING & MASSAGE",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1569,8 +1569,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-11",
                     "time": "13:00",
                     "services": [
-                        "Dating Scan",
-                        "NIPT Blood Test"
+                        "LUMBAR TRACTION THERAPY",
+                        "LASER TREATMENT"
                     ],
                     "status": "Completed"
                 }
@@ -1581,8 +1581,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-13",
                     "time": "14:30",
                     "services": [
-                        "Genotype Blood Test",
-                        "Dating Scan"
+                        "TRIGGER POINT INJECTION",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1591,8 +1591,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-19",
                     "time": "16:30",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "Follow-up Scan"
+                        "WARMING & MASSAGE",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Pending"
                 },
@@ -1601,7 +1601,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-04",
                     "time": "08:30",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1610,7 +1610,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-08",
                     "time": "11:30",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1619,8 +1619,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-10",
                     "time": "12:30",
                     "services": [
-                        "Reassurance Scan",
-                        "General Blood Tests"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Pending"
                 }
@@ -1638,7 +1638,7 @@ const mockPatientsData: Patient[] = [
         "dob": "2000-05-13",
         "gender": "Male",
         "email": "eleanor@example.com",
-        "phone": "+1 (555) 803-5352",
+        "phone": "+91 98471 00000",
         "address": "9492 Random St, City",
         "history": {
             "past": [
@@ -1647,8 +1647,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-29",
                     "time": "12:00",
                     "services": [
-                        "Follow-up Scan",
-                        "Fertility Scan"
+                        "SPINE REHAB FOLLOW-UP",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -1657,8 +1657,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-26",
                     "time": "11:00",
                     "services": [
-                        "Genotype Blood Test",
-                        "4D/5D Baby Scan"
+                        "TRIGGER POINT INJECTION",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -1667,7 +1667,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-09",
                     "time": "14:00",
                     "services": [
-                        "Genotype Blood Test"
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -1676,8 +1676,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-03",
                     "time": "09:00",
                     "services": [
-                        "NIPT Blood Test",
-                        "Growth Scan"
+                        "LASER TREATMENT",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -1686,8 +1686,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-02",
                     "time": "10:00",
                     "services": [
-                        "Genotype Blood Test",
-                        "4D/5D Baby Scan"
+                        "TRIGGER POINT INJECTION",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -1696,7 +1696,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-20",
                     "time": "13:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1705,8 +1705,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-25",
                     "time": "08:00",
                     "services": [
-                        "Follow-up Scan",
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -1715,8 +1715,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-06-25",
                     "time": "14:00",
                     "services": [
-                        "Dating Scan",
-                        "General Blood Tests"
+                        "LUMBAR TRACTION THERAPY",
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Completed"
                 },
@@ -1725,8 +1725,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-06-22",
                     "time": "08:00",
                     "services": [
-                        "Reassurance Scan",
-                        "Dating Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1735,7 +1735,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-06-06",
                     "time": "14:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1744,8 +1744,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-06",
                     "time": "16:00",
                     "services": [
-                        "Follow-up Scan",
-                        "Fertility Scan"
+                        "SPINE REHAB FOLLOW-UP",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -1754,7 +1754,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-22",
                     "time": "12:00",
                     "services": [
-                        "Dating Scan"
+                        "LUMBAR TRACTION THERAPY"
                     ],
                     "status": "Completed"
                 }
@@ -1765,7 +1765,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-19",
                     "time": "11:30",
                     "services": [
-                        "Growth Scan"
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Pending"
                 },
@@ -1774,8 +1774,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-14",
                     "time": "08:30",
                     "services": [
-                        "General Blood Tests",
-                        "Growth Scan"
+                        "POSTURAL & ERGONOMIC REHAB",
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Pending"
                 },
@@ -1784,8 +1784,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-22",
                     "time": "11:30",
                     "services": [
-                        "Follow-up Scan",
-                        "Fertility Scan"
+                        "SPINE REHAB FOLLOW-UP",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Pending"
                 },
@@ -1794,8 +1794,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-08",
                     "time": "13:30",
                     "services": [
-                        "Growth Scan",
-                        "Well Woman Scan"
+                        "SPINAL DECOMPRESSION",
+                        "PROLOTHERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1804,7 +1804,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-09",
                     "time": "13:30",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Pending"
                 }
@@ -1822,7 +1822,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1981-03-28",
         "gender": "Female",
         "email": "roberta@example.com",
-        "phone": "+1 (555) 625-2286",
+        "phone": "+91 98471 00000",
         "address": "2678 Random St, City",
         "history": {
             "past": [
@@ -1831,7 +1831,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-25",
                     "time": "14:00",
                     "services": [
-                        "Fertility Scan"
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -1840,8 +1840,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-19",
                     "time": "17:00",
                     "services": [
-                        "4D/5D Baby Scan",
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -1850,8 +1850,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-17",
                     "time": "12:00",
                     "services": [
-                        "Well Woman Scan",
-                        "Thalassaemia Screening"
+                        "PROLOTHERAPY",
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1860,7 +1860,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-17",
                     "time": "13:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1869,7 +1869,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-03",
                     "time": "09:00",
                     "services": [
-                        "Follow-up Scan"
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -1878,8 +1878,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-04",
                     "time": "16:00",
                     "services": [
-                        "NIPT Blood Test",
-                        "Reassurance Scan"
+                        "LASER TREATMENT",
+                        "ULTRASOUND & HEAT THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1888,8 +1888,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-26",
                     "time": "11:00",
                     "services": [
-                        "Well Woman Scan",
-                        "4D/5D Baby Scan"
+                        "PROLOTHERAPY",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -1898,7 +1898,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-09",
                     "time": "09:00",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -1907,7 +1907,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-07-04",
                     "time": "10:00",
                     "services": [
-                        "Growth Scan"
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -1916,7 +1916,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-06-17",
                     "time": "11:00",
                     "services": [
-                        "Fertility Scan"
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -1925,7 +1925,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-03-19",
                     "time": "15:00",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -1934,8 +1934,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-02-18",
                     "time": "14:00",
                     "services": [
-                        "Genotype Blood Test",
-                        "Early Pregnancy Scan"
+                        "TRIGGER POINT INJECTION",
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 }
@@ -1946,7 +1946,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-18",
                     "time": "16:30",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1955,8 +1955,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-02",
                     "time": "12:30",
                     "services": [
-                        "Genotype Blood Test",
-                        "Early Pregnancy Scan"
+                        "TRIGGER POINT INJECTION",
+                        "IDD THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1965,8 +1965,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-05",
                     "time": "13:30",
                     "services": [
-                        "Fertility Scan",
-                        "Reassurance Scan"
+                        "DRY NEEDLING & ACUPUNCTURE",
+                        "ULTRASOUND & HEAT THERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -1975,8 +1975,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-08-22",
                     "time": "12:30",
                     "services": [
-                        "Genotype Blood Test",
-                        "Follow-up Scan"
+                        "TRIGGER POINT INJECTION",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Pending"
                 },
@@ -1985,8 +1985,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-07",
                     "time": "15:30",
                     "services": [
-                        "Growth Scan",
-                        "Well Woman Scan"
+                        "SPINAL DECOMPRESSION",
+                        "PROLOTHERAPY"
                     ],
                     "status": "Pending"
                 }
@@ -2004,7 +2004,7 @@ const mockPatientsData: Patient[] = [
         "dob": "1988-10-13",
         "gender": "Male",
         "email": "josephus@example.com",
-        "phone": "+1 (555) 911-1724",
+        "phone": "+91 98471 00000",
         "address": "7107 Random St, City",
         "history": {
             "past": [
@@ -2013,7 +2013,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-12-07",
                     "time": "08:00",
                     "services": [
-                        "Growth Scan"
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Completed"
                 },
@@ -2022,8 +2022,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-11-28",
                     "time": "11:00",
                     "services": [
-                        "Fertility Scan",
-                        "Fertility Scan"
+                        "DRY NEEDLING & ACUPUNCTURE",
+                        "DRY NEEDLING & ACUPUNCTURE"
                     ],
                     "status": "Completed"
                 },
@@ -2032,8 +2032,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-10-20",
                     "time": "11:00",
                     "services": [
-                        "Well Woman Scan",
-                        "4D/5D Baby Scan"
+                        "PROLOTHERAPY",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -2042,8 +2042,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-22",
                     "time": "11:00",
                     "services": [
-                        "Well Woman Scan",
-                        "4D/5D Baby Scan"
+                        "PROLOTHERAPY",
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 },
@@ -2052,7 +2052,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-09-05",
                     "time": "16:00",
                     "services": [
-                        "Thalassaemia Screening"
+                        "CORE STABILIZATION THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -2061,7 +2061,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-28",
                     "time": "15:00",
                     "services": [
-                        "General Blood Tests"
+                        "POSTURAL & ERGONOMIC REHAB"
                     ],
                     "status": "Completed"
                 },
@@ -2070,8 +2070,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-08-16",
                     "time": "09:00",
                     "services": [
-                        "Dating Scan",
-                        "Genotype Blood Test"
+                        "LUMBAR TRACTION THERAPY",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -2080,7 +2080,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-11",
                     "time": "12:00",
                     "services": [
-                        "Early Pregnancy Scan"
+                        "IDD THERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -2089,8 +2089,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-09",
                     "time": "15:00",
                     "services": [
-                        "Reassurance Scan",
-                        "Well Woman Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "PROLOTHERAPY"
                     ],
                     "status": "Completed"
                 },
@@ -2099,8 +2099,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-05-04",
                     "time": "08:00",
                     "services": [
-                        "Growth Scan",
-                        "Genotype Blood Test"
+                        "SPINAL DECOMPRESSION",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Completed"
                 },
@@ -2109,8 +2109,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-04-30",
                     "time": "11:00",
                     "services": [
-                        "Reassurance Scan",
-                        "Follow-up Scan"
+                        "ULTRASOUND & HEAT THERAPY",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Completed"
                 },
@@ -2119,7 +2119,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2025-01-09",
                     "time": "16:00",
                     "services": [
-                        "4D/5D Baby Scan"
+                        "WARMING & MASSAGE"
                     ],
                     "status": "Completed"
                 }
@@ -2130,8 +2130,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-15",
                     "time": "11:30",
                     "services": [
-                        "Growth Scan",
-                        "Genotype Blood Test"
+                        "SPINAL DECOMPRESSION",
+                        "TRIGGER POINT INJECTION"
                     ],
                     "status": "Pending"
                 },
@@ -2140,7 +2140,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-07-27",
                     "time": "11:30",
                     "services": [
-                        "Well Woman Scan"
+                        "PROLOTHERAPY"
                     ],
                     "status": "Pending"
                 },
@@ -2149,8 +2149,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-09-17",
                     "time": "12:30",
                     "services": [
-                        "NIPT Blood Test",
-                        "Follow-up Scan"
+                        "LASER TREATMENT",
+                        "SPINE REHAB FOLLOW-UP"
                     ],
                     "status": "Pending"
                 },
@@ -2159,8 +2159,8 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-04",
                     "time": "12:30",
                     "services": [
-                        "NIPT Blood Test",
-                        "NIPT Blood Test"
+                        "LASER TREATMENT",
+                        "LASER TREATMENT"
                     ],
                     "status": "Pending"
                 },
@@ -2169,7 +2169,7 @@ const mockPatientsData: Patient[] = [
                     "date": "2026-10-16",
                     "time": "14:30",
                     "services": [
-                        "Growth Scan"
+                        "SPINAL DECOMPRESSION"
                     ],
                     "status": "Pending"
                 }

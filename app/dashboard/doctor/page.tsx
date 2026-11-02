@@ -41,60 +41,60 @@ export default function DoctorDashboard() {
         {
             id: "APT-201",
             token: "DOC-01",
-            patientName: "Eleanor Vance",
+            patientName: "Anjali Nair",
             age: 34,
             gender: "Female",
             time: "09:30 AM",
-            service: "Cardiology Review",
-            reason: "Persistent palpitations & elevated resting heart rate",
+            service: "Spine & Orthopedic Evaluation",
+            reason: "Acute lumbar disc pain radiating to right leg; MRI shows L4-L5 bulge",
             status: "In Consultation",
             priority: "Urgent"
         },
         {
             id: "APT-202",
             token: "DOC-02",
-            patientName: "Marcus Thorne",
+            patientName: "Anoop Kumar",
             age: 48,
             gender: "Male",
             time: "10:00 AM",
-            service: "General Medicine",
-            reason: "Routine diabetic management & lipid panel review",
+            service: "General Medicine Review",
+            reason: "Follow-up for chronic posture-related cervical discomfort",
             status: "Waiting",
             priority: "Normal"
         },
         {
             id: "APT-203",
             token: "DOC-03",
-            patientName: "Sophia Sterling",
+            patientName: "Priya Varma",
             age: 29,
             gender: "Female",
             time: "10:30 AM",
-            service: "Well Woman Consultation",
-            reason: "Pre-natal ultrasound follow-up discussion",
+            service: "PROLOTHERAPY Consultation",
+            reason: "Evaluation for lumbar ligament prolotherapy injection therapy",
             status: "Waiting",
             priority: "Normal"
         },
         {
             id: "APT-204",
             token: "DOC-04",
-            patientName: "James Holden",
+            patientName: "Rahul Menon",
             age: 42,
             gender: "Male",
             time: "11:15 AM",
-            service: "Musculoskeletal Assessment",
-            reason: "Chronic lower back ache; candidate for physio referral",
+            service: "IDD THERAPY Clinical Review",
+            reason: "Chronic lower back ache; candidate for decompression therapy",
             status: "Waiting",
             priority: "Normal"
         },
         {
             id: "APT-200",
             token: "DOC-00",
-            patientName: "Naomi Nagata",
+            patientName: "Deepa Pillai",
             age: 38,
             gender: "Female",
             time: "08:45 AM",
-            service: "Post-op Follow-up",
-            reason: "Wound assessment & suture check",
+            service: "Post-Therapy Follow-up",
+            reason: "Evaluation post-laser therapy; mobility progress check",
             status: "Completed",
             priority: "Normal"
         }
@@ -143,7 +143,7 @@ export default function DoctorDashboard() {
             const existing = existingRaw ? JSON.parse(existingRaw) : [];
             localStorage.setItem("kumar_consultations", JSON.stringify([consultationRecord, ...existing]));
 
-            const pStored = localStorage.getItem("patients_v3");
+            const pStored = localStorage.getItem("patients_v5");
             if (pStored) {
                 const patientsList = JSON.parse(pStored);
                 const updatedList = patientsList.map((p: any) => {
@@ -159,7 +159,7 @@ export default function DoctorDashboard() {
                                         date: consultationRecord.date,
                                         time: consultationRecord.time,
                                         services: [consultationRecord.service],
-                                        status: "Completed",
+                                        status: "Confirmed",
                                         amount: consultationFee.trim() || "0",
                                         fee: consultationFee.trim() || "0",
                                         consultationFee: consultationFee.trim() || "0",
@@ -175,7 +175,7 @@ export default function DoctorDashboard() {
                     }
                     return p;
                 });
-                localStorage.setItem("patients_v3", JSON.stringify(updatedList));
+                localStorage.setItem("patients_v5", JSON.stringify(updatedList));
             }
         } catch (err) {
             console.error("Failed to persist consultation", err);

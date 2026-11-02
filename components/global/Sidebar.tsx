@@ -41,7 +41,6 @@ const sidebarConfig = [
     // Administration & Operations
     { label: "Our Team", route: "/dashboard/staff", roles: ["admin", "super_admin", "administrator"], icon: Users },
     { label: "Physiotherapy Ledger", route: "/dashboard/payments", roles: ["admin", "Receptionist", "super_admin", "administrator", "reception"], icon: CreditCard },
-    { label: "Global Settings", route: "/dashboard/settings", roles: ["admin", "super_admin", "administrator"], icon: Settings },
 ];
 
 interface SidebarProps {
@@ -138,11 +137,11 @@ export default function Sidebar({ userRole }: SidebarProps) {
                 >
                     <div className="flex items-center gap-2 overflow-hidden">
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#3C43EC] text-xs font-bold text-white border border-black/10 dark:border-white/10">
-                            {defaultUser.firstName.charAt(0)}{defaultUser.lastName.charAt(0)}
+                            {defaultUser.lastName ? `${defaultUser.firstName.charAt(0)}${defaultUser.lastName.charAt(0)}` : defaultUser.firstName.slice(0, 2).toUpperCase()}
                         </div>
                         <div className="flex flex-col truncate">
                             <span className="text-xs font-semibold text-slate-900 dark:text-white truncate">
-                                {defaultUser.firstName} {defaultUser.lastName}
+                                {defaultUser.lastName ? `${defaultUser.firstName} ${defaultUser.lastName}` : defaultUser.firstName}
                             </span>
                             <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 truncate">
                                 {normalized}

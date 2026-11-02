@@ -41,10 +41,10 @@ export default function ClinicsDashboard() {
 
     // Mock Data for Tenant Management[cite: 2]
     const clinics = [
-        { id: "TEN-001", name: "Insight Health - Downtown", location: "New York, NY", status: "Active", plan: "Enterprise", patients: "12,450", revenue: "£145k/mo" },
-        { id: "TEN-002", name: "Insight Health - Westside", location: "Los Angeles, CA", status: "Active", plan: "Professional", patients: "8,120", revenue: "£89k/mo" },
-        { id: "TEN-003", name: "Insight Health - North", location: "Chicago, IL", status: "Provisioning", plan: "Professional", patients: "---", revenue: "---" },
-        { id: "TEN-004", name: "Insight Health - South", location: "Miami, FL", status: "Suspended", plan: "Basic", patients: "2,340", revenue: "£12k/mo" },
+        { id: "TEN-001", name: "Kumar Centre - Kochi (Main)", location: "Kochi, Kerala", status: "Active", plan: "Enterprise", patients: "12,450", revenue: "₹14.5L/mo" },
+        { id: "TEN-002", name: "Kumar Centre - Trivandrum", location: "Thiruvananthapuram, Kerala", status: "Active", plan: "Professional", patients: "8,120", revenue: "₹8.9L/mo" },
+        { id: "TEN-003", name: "Kumar Centre - Calicut", location: "Kozhikode, Kerala", status: "Provisioning", plan: "Professional", patients: "---", revenue: "---" },
+        { id: "TEN-004", name: "Kumar Centre - Thrissur", location: "Thrissur, Kerala", status: "Suspended", plan: "Basic", patients: "2,340", revenue: "₹1.2L/mo" },
     ];
 
     return (
@@ -116,7 +116,7 @@ export default function ClinicsDashboard() {
                         <CreditCard className="h-4 w-4 text-foreground/70" />
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
-                        <span className="text-3xl font-bold tracking-tight text-foreground">£246k</span>
+                        <span className="text-3xl font-bold tracking-tight text-foreground">₹24.6L</span>
                         <span className="text-xs font-medium text-green-600">+8.4%</span>
                     </div>
                 </div>

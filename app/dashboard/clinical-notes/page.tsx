@@ -58,10 +58,10 @@ function ClinicalNotesContent() {
 
     // Mock Patient Context fetched via aptId
     const patientContext = {
-        name: "Eleanor Vance",
+        name: "Anjali Nair",
         dob: "1992-04-15",
-        id: "PAT-089",
-        service: "Clinical Evaluation",
+        id: "PAT-001",
+        service: "IDD THERAPY & Lumbar Assessment",
         time: "09:00 AM",
         allergies: ["Penicillin"],
         medicalNotes: "Patient has a history of mild asthma. No previous surgeries.",

@@ -5,7 +5,7 @@ import {
     Clock,
     Calendar,
     ShieldAlert,
-    PoundSterling,
+    IndianRupee,
     Ban,
     Save,
     AlertTriangle,
@@ -18,7 +18,7 @@ export default function AdminSettings() {
     // DEMONSTRATION ONLY: Mock role loadable from localStorage/Context
     const [userRole, setUserRole] = useState<string>("admin");
 
-    const [depositAmounts, setDepositAmounts] = useState("£50.00 standard deposit for booking. Special scans require 50% deposit.");
+    const [depositAmounts, setDepositAmounts] = useState("₹500.00 standard deposit for booking. Special spine therapy sessions require 50% deposit.");
     const [paymentRules, setPaymentRules] = useState("- All card transactions are subject to a 1.5% fee.\n- Corporate bookings must be paid in full 7 days prior.\n- Cash payments are only accepted at the main reception.");
     const [refundPolicies, setRefundPolicies] = useState("- No refund for cancellations made within 24 hours.\n- Refund processing takes 5-7 business days.\n- Partial refunds are issued as clinic credits.");
 
@@ -119,7 +119,7 @@ export default function AdminSettings() {
                 {/* Section: Policy Editors */}
                 <section className="rounded-xl border border-black/[.15] bg-white dark:bg-zinc-900 p-6 dark:border-white/[.22] dark:bg-zinc-900">
                     <div className="mb-6 flex items-center gap-2">
-                        <PoundSterling className="h-5 w-5 text-foreground/75" />
+                        <IndianRupee className="h-5 w-5 text-foreground/75" />
                         <h2 className="text-lg font-semibold text-foreground">Financial Policy Editors</h2>
                     </div>
 

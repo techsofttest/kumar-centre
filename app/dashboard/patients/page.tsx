@@ -34,7 +34,7 @@ export default function PatientCRM() {
             setUserRole(storedRole);
         }
 
-        const storedPatients = localStorage.getItem("patients_v3");
+        const storedPatients = localStorage.getItem("patients_v5");
         if (storedPatients) {
             try {
                 setPatients(JSON.parse(storedPatients));
@@ -43,7 +43,7 @@ export default function PatientCRM() {
             }
         } else {
             setPatients(mockPatientsData);
-            localStorage.setItem("patients_v3", JSON.stringify(mockPatientsData));
+            localStorage.setItem("patients_v5", JSON.stringify(mockPatientsData));
         }
     }, []);
 
@@ -56,12 +56,11 @@ export default function PatientCRM() {
             .substring(0, 2);
     };
 
-    // Multi-parameter search (SRS Requirement: Search by Name, Email, Phone, Reference)
+    // Multi-parameter search (Search by Name, Phone, Reference)
     const filteredPatients = useMemo(() => {
         const q = searchQuery.toLowerCase();
         return patients.filter(p =>
             p.name.toLowerCase().includes(q) ||
-            p.email.toLowerCase().includes(q) ||
             p.phone.includes(q) ||
             p.id.toLowerCase().includes(q)
         );
@@ -84,7 +83,7 @@ export default function PatientCRM() {
                                 <input
                                     ref={searchInputRef}
                                     type="text"
-                                    placeholder="Search by Name, Email, Phone, or Reference ID..."
+                                    placeholder="Search by Name, Phone, or Reference ID..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 pl-9 pr-4 text-sm text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand dark:border-white/[.22]"
@@ -130,7 +129,6 @@ export default function PatientCRM() {
                                         <td className="whitespace-nowrap px-6 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <span className="flex items-center gap-1 text-xs text-foreground/80"><Phone className="h-3 w-3" /> {patient.phone}</span>
-                                                <span className="flex items-center gap-1 text-xs text-foreground/80"><Mail className="h-3 w-3" /> {patient.email}</span>
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 text-foreground/60 font-mono text-xs">

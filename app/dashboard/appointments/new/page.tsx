@@ -115,8 +115,8 @@ export default function NewAppointmentPage() {
         phone: "",
         location: "",
         address: "",
-        service: "General Consultation",
-        amount: "500",
+        service: "WARMING & MASSAGE",
+        amount: "650",
         date: getTodayDate(),
         time: "10:00 AM",
         doctor: DOCTORS[0].name,
@@ -132,7 +132,7 @@ export default function NewAppointmentPage() {
     // Load patients database on mount
     useEffect(() => {
         try {
-            const stored = localStorage.getItem("patients_v3");
+            const stored = localStorage.getItem("patients_v5");
             if (stored) {
                 const parsed = JSON.parse(stored);
                 if (Array.isArray(parsed) && parsed.length > 0) {
@@ -306,7 +306,7 @@ export default function NewAppointmentPage() {
             const updatedPatients = [newPatientObj, ...patientsList];
             setPatientsList(updatedPatients);
             try {
-                localStorage.setItem("patients_v3", JSON.stringify(updatedPatients));
+                localStorage.setItem("patients_v5", JSON.stringify(updatedPatients));
             } catch (err) {
                 console.error("Failed to save patient locally", err);
             }
@@ -352,8 +352,8 @@ export default function NewAppointmentPage() {
             phone: "",
             location: "",
             address: "",
-            service: "General Consultation",
-            amount: "500",
+            service: "WARMING & MASSAGE",
+            amount: "650",
             date: getTodayDate(),
             time: "10:00 AM",
             doctor: DOCTORS[0].name,
@@ -887,7 +887,7 @@ export default function NewAppointmentPage() {
                                         <input
                                             type="text"
                                             required
-                                            placeholder="Enter service required (e.g. General Consultation, Cardiology Review, Orthopedic Rehab...)"
+                                            placeholder="Enter service required (e.g. WARMING & MASSAGE, IDD THERAPY, LASER TREATMENT, PROLOTHERAPY...)"
                                             value={formData.service}
                                             onChange={(e) => handleInputChange("service", e.target.value)}
                                             className="h-11 w-full rounded-lg border border-black/[.15] bg-white pl-10 pr-3.5 text-sm font-medium text-foreground focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 dark:border-white/[.22] dark:bg-zinc-900"

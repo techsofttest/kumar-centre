@@ -74,10 +74,10 @@ export function getRoleDefaultUser(role: string | null | undefined): { firstName
         case "admin":
         default:
             return {
-                firstName: "Dr.",
-                lastName: "SASIKUMAR",
+                firstName: "Admin",
+                lastName: "",
                 email: "admin@kumarcentres.com",
-                title: "Director & Clinical Operations"
+                title: "Administrator"
             };
     }
 }

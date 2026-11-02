@@ -19,7 +19,7 @@ import {
 import { normalizeRole } from "@/lib/roles";
 
 // Status Types
-type AppointmentStatus = "Pending" | "Confirmed" | "Checked-In" | "Completed" | "Cancelled" | "No Show";
+type AppointmentStatus = "Pending" | "Confirmed" | "Cancelled";
 
 interface Appointment {
     id: string;
@@ -163,26 +163,26 @@ export default function CalendarMatrix() {
     const appointments: Appointment[] = useMemo(() => {
         const baseAppointments: Appointment[] = [
             // Appointments for Dr. SASIKUMAR (S1)
-            { id: "APT-201", patient: "Eleanor Vance", service: "Cardiology Review", staffId: "S1", date: todayYMD, startTime: "09:00", durationMinutes: 60, status: "Confirmed" },
-            { id: "APT-206", patient: "Naomi Nagata", service: "Executive Health Check", staffId: "S1", date: todayYMD, startTime: "11:00", durationMinutes: 60, status: "Confirmed" },
-            { id: "APT-213", patient: "Josephus Miller", service: "Clinical Review", staffId: "S1", date: todayYMD, startTime: "15:30", durationMinutes: 30, status: "Checked-In" },
+            { id: "APT-201", patient: "Anjali Nair", service: "IDD THERAPY", staffId: "S1", date: todayYMD, startTime: "09:00", durationMinutes: 60, status: "Confirmed" },
+            { id: "APT-206", patient: "Deepa Pillai", service: "PROLOTHERAPY", staffId: "S1", date: todayYMD, startTime: "11:00", durationMinutes: 60, status: "Confirmed" },
+            { id: "APT-213", patient: "Harikrishnan Nair", service: "LASER TREATMENT", staffId: "S1", date: todayYMD, startTime: "15:30", durationMinutes: 30, status: "Confirmed" },
 
             // Appointments for other staff
-            { id: "APT-203", patient: "Sophia Sterling", service: "Antenatal Consultation", staffId: "S2", date: todayYMD, startTime: "10:00", durationMinutes: 45, status: "Completed" },
-            { id: "APT-209", patient: "Chrisjen Avasarala", service: "Consultation & Diagnostics", staffId: "S2", date: todayYMD, startTime: "13:30", durationMinutes: 45, status: "Pending" },
-            { id: "APT-205", patient: "Amos Burton", service: "General OPD Review", staffId: "S3", date: todayYMD, startTime: "11:00", durationMinutes: 45, status: "Pending" },
-            { id: "APT-210", patient: "Fred Johnson", service: "Diabetic Management", staffId: "S3", date: todayYMD, startTime: "14:00", durationMinutes: 45, status: "Confirmed" },
-            { id: "APT-207", patient: "Julie Mao", service: "Specialist Follow-up", staffId: "S4", date: todayYMD, startTime: "11:30", durationMinutes: 30, status: "Checked-In" },
-            { id: "APT-212", patient: "Sadavir Errinwright", service: "Routine Clinical Exam", staffId: "S4", date: todayYMD, startTime: "15:00", durationMinutes: 30, status: "Completed" },
-            { id: "APT-202", patient: "James Holden", service: "Lumbar Rehab & Physio", staffId: "S5", date: todayYMD, startTime: "09:00", durationMinutes: 60, status: "Confirmed" },
-            { id: "APT-204", patient: "Marcus Thorne", service: "Post-Op Knee Therapy", staffId: "S5", date: todayYMD, startTime: "10:30", durationMinutes: 45, status: "Checked-In" },
-            { id: "APT-208", patient: "Bobbie Draper", service: "Cervical Spine Traction", staffId: "S5", date: todayYMD, startTime: "13:00", durationMinutes: 45, status: "Confirmed" },
+            { id: "APT-203", patient: "Priya Varma", service: "Spine & Orthopedic Review", staffId: "S2", date: todayYMD, startTime: "10:00", durationMinutes: 45, status: "Confirmed" },
+            { id: "APT-209", patient: "Lakshmi Warrier", service: "SPINAL DECOMPRESSION", staffId: "S2", date: todayYMD, startTime: "13:30", durationMinutes: 45, status: "Pending" },
+            { id: "APT-205", patient: "Vishnu Namboothiri", service: "Spine Rehab OPD", staffId: "S3", date: todayYMD, startTime: "11:00", durationMinutes: 45, status: "Pending" },
+            { id: "APT-210", patient: "Sreekumar Varma", service: "Lumbar Disc Consultation", staffId: "S3", date: todayYMD, startTime: "14:00", durationMinutes: 45, status: "Confirmed" },
+            { id: "APT-207", patient: "Meera Nambiar", service: "Spinal Specialist Follow-up", staffId: "S4", date: todayYMD, startTime: "11:30", durationMinutes: 30, status: "Confirmed" },
+            { id: "APT-212", patient: "Gokul Das", service: "Back Pain Assessment", staffId: "S4", date: todayYMD, startTime: "15:00", durationMinutes: 30, status: "Confirmed" },
+            { id: "APT-202", patient: "Rahul Menon", service: "WARMING & MASSAGE", staffId: "S5", date: todayYMD, startTime: "09:00", durationMinutes: 60, status: "Confirmed" },
+            { id: "APT-204", patient: "Anoop Kumar", service: "IDD THERAPY", staffId: "S5", date: todayYMD, startTime: "10:30", durationMinutes: 45, status: "Confirmed" },
+            { id: "APT-208", patient: "Reshma Thomas", service: "Cervical & Lumbar Traction", staffId: "S5", date: todayYMD, startTime: "13:00", durationMinutes: 45, status: "Confirmed" },
 
             // Historic dates backup (2026-07-08)
-            { id: "APT-301", patient: "Eleanor Vance", service: "Cardiology Review", staffId: "S1", date: "2026-07-08", startTime: "09:00", durationMinutes: 60, status: "Confirmed" },
-            { id: "APT-302", patient: "James Holden", service: "Lumbar Rehab & Physio", staffId: "S5", date: "2026-07-08", startTime: "09:00", durationMinutes: 60, status: "Confirmed" },
-            { id: "APT-303", patient: "Sophia Sterling", service: "Antenatal Consultation", staffId: "S2", date: "2026-07-08", startTime: "10:00", durationMinutes: 45, status: "Completed" },
-            { id: "APT-304", patient: "Naomi Nagata", service: "Executive Health Check", staffId: "S1", date: "2026-07-08", startTime: "11:00", durationMinutes: 60, status: "Confirmed" },
+            { id: "APT-301", patient: "Anjali Nair", service: "IDD THERAPY", staffId: "S1", date: "2026-07-08", startTime: "09:00", durationMinutes: 60, status: "Confirmed" },
+            { id: "APT-302", patient: "Rahul Menon", service: "WARMING & MASSAGE", staffId: "S5", date: "2026-07-08", startTime: "09:00", durationMinutes: 60, status: "Confirmed" },
+            { id: "APT-303", patient: "Priya Varma", service: "PROLOTHERAPY", staffId: "S2", date: "2026-07-08", startTime: "10:00", durationMinutes: 45, status: "Confirmed" },
+            { id: "APT-304", patient: "Deepa Pillai", service: "LASER TREATMENT", staffId: "S1", date: "2026-07-08", startTime: "11:00", durationMinutes: 60, status: "Confirmed" },
         ];
 
         return [...baseAppointments, ...storedAppointments];
@@ -194,12 +194,9 @@ export default function CalendarMatrix() {
 
     const getStatusColors = (status: AppointmentStatus) => {
         switch (status) {
-            case "Confirmed": return "bg-blue-100 border-blue-300 text-blue-900 dark:bg-blue-900/30 dark:border-blue-700/50 dark:text-blue-200";
+            case "Confirmed": return "bg-green-100 border-green-300 text-green-900 dark:bg-green-900/30 dark:border-green-700/50 dark:text-green-200";
             case "Pending": return "bg-orange-100 border-orange-300 text-orange-900 dark:bg-orange-900/30 dark:border-orange-700/50 dark:text-orange-200";
-            case "Checked-In": return "bg-purple-100 border-purple-300 text-purple-900 dark:bg-purple-900/30 dark:border-purple-700/50 dark:text-purple-200";
-            case "Completed": return "bg-green-100 border-green-300 text-green-900 dark:bg-green-900/30 dark:border-green-700/50 dark:text-green-200";
             case "Cancelled": return "bg-red-100 border-red-300 text-red-900 dark:bg-red-900/30 dark:border-red-700/50 dark:text-red-200 line-through opacity-70";
-            case "No Show": return "bg-zinc-100 border-zinc-300 text-zinc-900 dark:bg-zinc-800 dark:border-zinc-700/50 dark:text-zinc-400 opacity-70";
             default: return "bg-gray-100 border-gray-300 text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200";
         }
     };
@@ -568,11 +565,8 @@ export default function CalendarMatrix() {
             <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs font-medium text-foreground/70">
                 <div className="flex flex-wrap items-center gap-4">
                     <span className="flex items-center gap-2"><div className="h-3 w-3 rounded-sm bg-orange-400"></div> Pending</span>
-                    <span className="flex items-center gap-2"><div className="h-3 w-3 rounded-sm bg-blue-500"></div> Confirmed</span>
-                    <span className="flex items-center gap-2"><div className="h-3 w-3 rounded-sm bg-purple-500"></div> Checked-In</span>
-                    <span className="flex items-center gap-2"><div className="h-3 w-3 rounded-sm bg-green-500"></div> Completed</span>
+                    <span className="flex items-center gap-2"><div className="h-3 w-3 rounded-sm bg-green-500"></div> Confirmed</span>
                     <span className="flex items-center gap-2"><div className="h-3 w-3 rounded-sm bg-red-600 opacity-70"></div> Cancelled</span>
-                    <span className="flex items-center gap-2"><div className="h-3 w-3 rounded-sm bg-zinc-300 dark:bg-zinc-800 opacity-70"></div> No Show</span>
                 </div>
 
                 {/* Horizontal Scroll Controls on the bottom right (only needed if multiple staff columns exist) */}
