@@ -20,7 +20,7 @@ import {
     Activity,
     CheckCircle2
 } from "lucide-react";
-import { Patient, AppointmentRecord, mockPatientsData, getClinicalNotes } from "../data";
+import { Patient, AppointmentRecord, mockPatientsData, getAptFinancials, getClinicalNotes } from "../data";
 import { DatePicker } from "@/components/ui/date-picker";
 import { normalizeRole } from "@/lib/roles";
 
