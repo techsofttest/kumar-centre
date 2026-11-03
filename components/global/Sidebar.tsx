@@ -34,6 +34,8 @@ const sidebarConfig = [
     { label: "My Schedule", route: "/dashboard/schedule", roles: ["Doctor", "Physiotherapist", "clinician"], icon: Calendar },
     { label: "Calendar Matrix", route: "/dashboard/calendar", roles: ["admin", "Receptionist", "Doctor", "Physiotherapist", "super_admin", "administrator", "reception"], icon: Calendar },
     { label: "Appointments", route: "/dashboard/appointments", roles: ["admin", "Receptionist", "super_admin", "administrator", "reception"], icon: FolderHeart },
+    { label: "Physiotherapy Schedules", route: "/dashboard/physiotherapy-schedules", roles: ["admin", "super_admin", "administrator"], icon: Activity },
+    { label: "Physiotherapy Schedule", route: "/dashboard/receptionist/physiotherapy", roles: ["Receptionist", "reception"], icon: Activity },
 
     // Patients
     { label: "Patient Database", route: "/dashboard/patients", roles: ["admin", "Receptionist", "Doctor", "Physiotherapist", "super_admin", "administrator", "clinician", "reception"], icon: Users },

@@ -19,6 +19,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { mockPatientsData, Patient } from "../patients/data";
+import { PhysioReferrals } from "@/components/physio-referrals";
+import { isPhysiotherapyAppointment } from "@/lib/appointment-types";
 
 interface PhysioSession {
     id: string;
@@ -30,6 +32,8 @@ interface PhysioSession {
     modality: string;
     sessionNumber?: number;
     totalSessions?: number;
+    feePerSession: number;
+    amountPaid: number;
     painScore?: number;
     status: "Pending" | "Confirmed" | "Cancelled";
     referringDoctor: string;
@@ -56,6 +60,8 @@ export default function PhysiotherapistDashboard() {
             modality: "IDD THERAPY & SPINAL DECOMPRESSION",
             sessionNumber: 5,
             totalSessions: 12,
+            feePerSession: 650,
+            amountPaid: 3250,
             painScore: 6,
             status: "Confirmed",
             referringDoctor: "Dr. SASIKUMAR",
@@ -71,6 +77,8 @@ export default function PhysiotherapistDashboard() {
             modality: "WARMING & MASSAGE",
             sessionNumber: 8,
             totalSessions: 16,
+            feePerSession: 650,
+            amountPaid: 3900,
             painScore: 4,
             status: "Pending",
             referringDoctor: "Dr. MALINI SASIKUMAR",
@@ -86,6 +94,8 @@ export default function PhysiotherapistDashboard() {
             modality: "LASER TREATMENT",
             sessionNumber: 3,
             totalSessions: 8,
+            feePerSession: 650,
+            amountPaid: 650,
             painScore: 7,
             status: "Confirmed",
             referringDoctor: "Dr. SRUTHI SASIKUMAR",
@@ -101,6 +111,8 @@ export default function PhysiotherapistDashboard() {
             modality: "PROLOTHERAPY",
             sessionNumber: 6,
             totalSessions: 10,
+            feePerSession: 650,
+            amountPaid: 3900,
             painScore: 3,
             status: "Confirmed",
             referringDoctor: "Dr. SREENATH",
@@ -251,11 +263,7 @@ export default function PhysiotherapistDashboard() {
                 const appointments = JSON.parse(rawAppointments);
                 if (Array.isArray(appointments)) {
                     appointments.forEach((item: any) => {
-                        const isPhysioClinician = (item.clinician || "").toUpperCase() === "PHYSIOTHERAPIST";
-                        const srv = (item.service || "").toLowerCase();
-                        const isPhysioSrv = srv.includes("physio") || srv.includes("rehab") || srv.includes("decompression") || srv.includes("massage");
-
-                        if ((isPhysioClinician || isPhysioSrv) && (
+                        if (isPhysiotherapyAppointment(item) && (
                             (p.patientId && item.patientId === p.patientId) ||
                             item.patientName?.toLowerCase() === p.patientName.toLowerCase()
                         )) {
@@ -345,6 +353,8 @@ export default function PhysiotherapistDashboard() {
                 </div>
             </div>
 
+            <PhysioReferrals />
+
             {/* Split layout: Schedule on left, Rehab Workspace on right */}
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
                 
@@ -362,6 +372,9 @@ export default function PhysiotherapistDashboard() {
                     <div className="space-y-3">
                         {sessions.map((s) => {
                             const isSelected = activeSession?.id === s.id;
+                            const totalAmount = (s.totalSessions || 0) * s.feePerSession;
+                            const remainingAmount = Math.max(0, totalAmount - s.amountPaid);
+                            const sessionProgress = Math.min(100, Math.round(((s.sessionNumber || 0) / (s.totalSessions || 1)) * 100));
 
                             return (
                                 <div
@@ -389,6 +402,20 @@ export default function PhysiotherapistDashboard() {
                                             <span className="text-xs font-semibold text-teal-700 dark:text-teal-300 mt-1">
                                                 {s.modality}
                                             </span>
+                                            <div className="mt-3 w-56">
+                                                <div className="mb-1 flex justify-between text-xs text-foreground/60">
+                                                    <span>Sessions: {s.sessionNumber || 0} / {s.totalSessions || 0}</span>
+                                                    <span>{sessionProgress}%</span>
+                                                </div>
+                                                <div className="h-2 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
+                                                    <div className="h-full rounded-full bg-teal-500" style={{ width: `${sessionProgress}%` }} />
+                                                </div>
+                                            </div>
+                                            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                                                <span className="text-foreground/60">Total: <strong className="text-foreground">₹{totalAmount}</strong></span>
+                                                <span className="text-emerald-600">Paid: ₹{s.amountPaid}</span>
+                                                <span className="text-amber-600">Remaining: ₹{remainingAmount}</span>
+                                            </div>
                                         </div>
                                     </div>
 

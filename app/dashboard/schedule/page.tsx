@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import { AppointmentStatus, StatusDropdown } from "@/components/ui/status-dropdown";
 import { normalizeRole } from "@/lib/roles";
+import { getAppointmentType, isPhysiotherapyAppointment } from "@/lib/appointment-types";
 
 interface ClinicalAppointment {
     id: string;
@@ -32,6 +33,7 @@ interface ClinicalAppointment {
     time: string;
     duration: number;
     status: AppointmentStatus;
+    appointmentType?: string;
     notes: boolean;
     referringDoctor?: string;
     amount?: string | number;
@@ -99,10 +101,7 @@ export default function ClinicianSchedule() {
                 if (Array.isArray(storedList)) {
                     // Filter based on role: physio sees physio appointments, doctor sees doctor appointments
                     const relevantStored = storedList.filter((item: any) => {
-                        const clinician = (item.clinician || "").toUpperCase();
-                        const srv = (item.service || "").toLowerCase();
-                        const isItemPhysio = clinician === "PHYSIOTHERAPIST" || srv.includes("physio") || srv.includes("rehab") || srv.includes("decompression") || srv.includes("tens") || srv.includes("cryo");
-                        return isPhysio ? isItemPhysio : !isItemPhysio;
+                        return isPhysio ? isPhysiotherapyAppointment(item) : !isPhysiotherapyAppointment(item);
                     });
 
                     const mapped: ClinicalAppointment[] = relevantStored.map((item: any) => ({
@@ -116,6 +115,7 @@ export default function ClinicianSchedule() {
                         time: item.time || "10:00 AM",
                         duration: 45,
                         status: (item.status as AppointmentStatus) || "Confirmed",
+                        appointmentType: getAppointmentType(item),
                         notes: !!item.patientNotes,
                         amount: item.amount || item.fee || (isPhysio ? "650" : "500")
                     }));

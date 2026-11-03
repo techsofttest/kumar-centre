@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { normalizeRole } from "@/lib/roles";
+import { APPOINTMENT_TYPES, getAppointmentType } from "@/lib/appointment-types";
+import type { AppointmentType } from "@/lib/appointment-types";
 
 type RoleType = string;
 
@@ -36,6 +38,7 @@ interface Appointment {
     date: string;
     time: string;
     status: AppointmentStatus;
+    appointmentType?: AppointmentType;
     internalNotes: string;
     patientNotes: string;
     patientPhone?: string;
@@ -71,6 +74,13 @@ export default function AppointmentsManager() {
     const isDoctor = normalizedRole === "Doctor";
     const isPhysio = normalizedRole === "Physiotherapist";
     const canManageAppointmentStatus = normalizedRole === "admin" || normalizedRole === "Receptionist";
+    const getTodayDateString = () => {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    };
 
     // Security layer: Block clinical staff from this operational view
 
@@ -142,6 +152,7 @@ export default function AppointmentsManager() {
     const [isCancelling, setIsCancelling] = useState(false);
 
     const [editService, setEditService] = useState("");
+    const [editAppointmentType, setEditAppointmentType] = useState<AppointmentType>("New Registration");
     const [editAmount, setEditAmount] = useState("");
     const [editDate, setEditDate] = useState("");
     const [editTime, setEditTime] = useState("");
@@ -156,14 +167,48 @@ export default function AppointmentsManager() {
     const [filterCategory, setFilterCategory] = useState<string>("All");
     const [filterService, setFilterService] = useState<string>("All");
     const [filterClinician, setFilterClinician] = useState<string>("All");
+    const [filterAppointmentType, setFilterAppointmentType] = useState<string>("All");
 
-    const getTodayDateString = () => {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        return `${yyyy}-${mm}-${dd}`;
-    };
+    useEffect(() => {
+        try {
+            const storedRaw = localStorage.getItem("kumar_appointments");
+            if (!storedRaw) return;
+            const stored: unknown = JSON.parse(storedRaw);
+            if (!Array.isArray(stored)) return;
+
+            const savedAppointments = stored.filter((item): item is Record<string, unknown> =>
+                !!item && typeof item === "object" && !Array.isArray(item) &&
+                typeof item.id === "string" && typeof item.patientName === "string"
+            ).map((item): Appointment => ({
+                id: item.id as string,
+                patientId: typeof item.patientId === "string" ? item.patientId : "",
+                patientName: item.patientName as string,
+                service: typeof item.service === "string" ? item.service : "General Consultation",
+                clinician: typeof item.clinician === "string" ? item.clinician : "Dr. SASIKUMAR",
+                date: typeof item.date === "string" ? item.date : getTodayDateString(),
+                time: typeof item.time === "string" ? item.time : "09:00 AM",
+                status: item.status === "Pending" || item.status === "Cancelled" ? item.status : "Confirmed",
+                appointmentType: getAppointmentType({
+                    appointmentType: typeof item.appointmentType === "string" ? item.appointmentType : undefined,
+                    clinician: typeof item.clinician === "string" ? item.clinician : undefined,
+                    service: typeof item.service === "string" ? item.service : undefined,
+                }),
+                internalNotes: typeof item.internalNotes === "string" ? item.internalNotes : "",
+                patientNotes: typeof item.patientNotes === "string" ? item.patientNotes : "",
+                patientPhone: typeof item.phone === "string" ? item.phone : undefined,
+                amount: typeof item.amount === "string" || typeof item.amount === "number" ? item.amount : undefined,
+                fee: typeof item.fee === "string" || typeof item.fee === "number" ? item.fee : undefined,
+            }));
+
+            setAppointments((current) => {
+                const byId = new Map(current.map((appointment) => [appointment.id, appointment]));
+                savedAppointments.forEach((appointment) => byId.set(appointment.id, appointment));
+                return Array.from(byId.values());
+            });
+        } catch (error) {
+            console.error("Error loading saved appointments", error);
+        }
+    }, []);
 
     const handleSendWhatsAppReminder = (apt: Appointment) => {
         const phone = apt.patientPhone || "9447123456";
@@ -198,9 +243,11 @@ export default function AppointmentsManager() {
         }
         
         const matchesClinician = filterClinician === "All" || apt.clinician === filterClinician;
+        const matchesAppointmentType = filterAppointmentType === "All" ||
+            getAppointmentType(apt) === filterAppointmentType;
         const matchesDate = !filterDate || apt.date === filterDate;
         
-        return matchesSearch && matchesStatus && matchesService && matchesClinician && matchesDate;
+        return matchesSearch && matchesStatus && matchesService && matchesClinician && matchesAppointmentType && matchesDate;
     });
 
     useEffect(() => {
@@ -208,6 +255,7 @@ export default function AppointmentsManager() {
         setSaveSuccessMsg(false);
         if (selectedApt) {
             setEditService(selectedApt.service || "");
+            setEditAppointmentType(getAppointmentType(selectedApt));
             setEditAmount(selectedApt.amount !== undefined && selectedApt.amount !== null ? String(selectedApt.amount) : (selectedApt.fee !== undefined ? String(selectedApt.fee) : ""));
             setEditDate(selectedApt.date || "");
             setEditTime(selectedApt.time || "09:00 AM");
@@ -221,6 +269,7 @@ export default function AppointmentsManager() {
         if (!selectedApt) return;
         const updatedApt: Appointment = {
             ...selectedApt,
+            appointmentType: editAppointmentType,
             service: editService.trim() || selectedApt.service,
             amount: editAmount.trim(),
             fee: editAmount.trim(),
@@ -417,6 +466,7 @@ export default function AppointmentsManager() {
                                 <tr>
                                     <th className="px-6 py-4 font-medium">Patient</th>
                                     <th className="px-6 py-4 font-medium">Service & Clinician</th>
+                                    <th className="px-6 py-4 font-medium">Appointment Type</th>
                                     <th className="px-6 py-4 font-medium">Date & Time</th>
                                     <th className="px-6 py-4 font-medium">Status</th>
                                     <th className="px-6 py-4 text-right font-medium">Actions</th>
@@ -425,7 +475,7 @@ export default function AppointmentsManager() {
                             <tbody className="divide-y divide-black/[.15] dark:divide-white/[.22]">
                                 {filteredAppointments.length === 0 ? (
                                     <tr>
-                                        <td colSpan={5} className="px-6 py-12 text-center">
+                                        <td colSpan={6} className="px-6 py-12 text-center">
                                             <div className="flex flex-col items-center justify-center gap-2">
                                                 <CalendarIcon className="h-8 w-8 text-foreground/30" />
                                                 <p className="font-semibold text-foreground/80">No appointments scheduled</p>
@@ -468,6 +518,9 @@ export default function AppointmentsManager() {
                                                         <Stethoscope className="h-3 w-3" /> {apt.clinician}
                                                     </span>
                                                 </div>
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4 text-xs text-foreground/70">
+                                                {getAppointmentType(apt)}
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4">
                                                 <div className="flex flex-col">
@@ -636,6 +689,19 @@ export default function AppointmentsManager() {
                                     <div className="space-y-4">
                                         <div>
                                             <label className="mb-1 block text-xs font-medium text-foreground/70">
+                                                Appointment Type
+                                            </label>
+                                            <select
+                                                value={editAppointmentType}
+                                                onChange={(e) => setEditAppointmentType(e.target.value as AppointmentType)}
+                                                className="h-10 w-full rounded-md border border-black/[.15] bg-white px-3 text-sm text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand dark:border-white/[.22] dark:bg-zinc-900"
+                                            >
+                                                {APPOINTMENT_TYPES.map((type) => <option key={type} value={type}>{type}</option>)}
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label className="mb-1 block text-xs font-medium text-foreground/70">
                                                 Service Required <span className="text-red-500">*</span>
                                             </label>
                                             <input
@@ -717,6 +783,18 @@ export default function AppointmentsManager() {
                     subtitle="Refine your view"
                 >
                     <div className="flex flex-col gap-6">
+                        <div>
+                            <label className="mb-2 block text-sm font-semibold text-foreground/80">Appointment Type</label>
+                            <select
+                                value={filterAppointmentType}
+                                onChange={(e) => setFilterAppointmentType(e.target.value)}
+                                className="h-10 w-full rounded-md border border-black/[.15] bg-white px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22] dark:bg-zinc-900"
+                            >
+                                <option value="All">All Appointment Types</option>
+                                {APPOINTMENT_TYPES.map((type) => <option key={type} value={type}>{type}</option>)}
+                            </select>
+                        </div>
+
                         {/* Status Filter */}
                         <div>
                             <label className="mb-2 block text-sm font-semibold text-foreground/80">Status</label>
@@ -788,6 +866,7 @@ export default function AppointmentsManager() {
                                 setFilterCategory("All");
                                 setFilterService("All");
                                 setFilterClinician("All");
+                                setFilterAppointmentType("All");
                             }}>Reset Filters</Button>
                         </div>
                     </div>

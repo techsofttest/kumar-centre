@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { mockPatientsData, Patient } from "@/app/dashboard/patients/data";
+import { isPhysiotherapyAppointment } from "@/lib/appointment-types";
 
 interface PatientQueueItem {
     id: string;
@@ -112,6 +113,7 @@ export default function DoctorDashboard() {
     const [consultationNotes, setConsultationNotes] = useState("");
     const [prescriptionText, setPrescriptionText] = useState("");
     const [consultationFee, setConsultationFee] = useState("500");
+    const [physioSessions, setPhysioSessions] = useState("1");
     const [referToPhysio, setReferToPhysio] = useState(false);
     const [savedNotification, setSavedNotification] = useState<string | null>(null);
 
@@ -150,6 +152,24 @@ export default function DoctorDashboard() {
             const existingRaw = localStorage.getItem("kumar_consultations");
             const existing = existingRaw ? JSON.parse(existingRaw) : [];
             localStorage.setItem("kumar_consultations", JSON.stringify([consultationRecord, ...existing]));
+
+            if (referToPhysio) {
+                const referralsRaw = localStorage.getItem("kumar_physio_referrals");
+                const referrals = referralsRaw ? JSON.parse(referralsRaw) : [];
+                const referral = {
+                    id: `PHY-REF-${Date.now()}`,
+                    patientId: activePatient.patientId,
+                    patientName: activePatient.patientName,
+                    referredOn: consultationRecord.date,
+                    referringDoctor: consultationRecord.doctor,
+                    sessions: Math.max(1, Number(physioSessions) || 1),
+                    attendedSessions: 0,
+                    feePerSession: consultationFee.trim() || "0",
+                    amountPaid: "0",
+                    status: "Pending"
+                };
+                localStorage.setItem("kumar_physio_referrals", JSON.stringify([referral, ...(Array.isArray(referrals) ? referrals : [])]));
+            }
 
             const pStored = localStorage.getItem("patients_v5");
             if (pStored) {
@@ -197,6 +217,7 @@ export default function DoctorDashboard() {
 
         setConsultationNotes("");
         setPrescriptionText("");
+        setPhysioSessions("1");
         setReferToPhysio(false);
     };
 
@@ -295,11 +316,7 @@ export default function DoctorDashboard() {
                 const appointments = JSON.parse(rawAppointments);
                 if (Array.isArray(appointments)) {
                     appointments.forEach((item: any) => {
-                        const isPhysioClinician = (item.clinician || "").toUpperCase() === "PHYSIOTHERAPIST";
-                        const srv = (item.service || "").toLowerCase();
-                        const isPhysioSrv = srv.includes("physio") || srv.includes("rehab") || srv.includes("decompression") || srv.includes("massage");
-
-                        if ((isPhysioClinician || isPhysioSrv) && (
+                        if (isPhysiotherapyAppointment(item) && (
                             (p.patientId && item.patientId === p.patientId) ||
                             item.patientName?.toLowerCase() === p.patientName.toLowerCase()
                         )) {
@@ -560,11 +577,23 @@ export default function DoctorDashboard() {
                                     />
                                 </div>
 
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                <div>
+                                    <label className="text-xs font-semibold text-foreground/80 block mb-1.5">Number of physiotherapy sessions</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        step="1"
+                                        value={physioSessions}
+                                        onChange={(e) => setPhysioSessions(e.target.value)}
+                                        className="w-full rounded-md border border-foreground/20 bg-transparent px-3 py-2 text-sm font-medium text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+                                    />
+                                </div>
                                 {/* Physiotherapy Fee Textbox */}
                                 <div>
                                     <label className="text-xs font-semibold text-foreground/80 block mb-1.5 flex items-center gap-1.5">
                                         <CreditCard className="h-3.5 w-3.5 text-indigo-600" />
-                                        Physiotherapy Fee (₹)
+                                        Fee per Session (₹)
                                     </label>
                                     <div className="relative">
                                         <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground/50">
@@ -575,10 +604,11 @@ export default function DoctorDashboard() {
                                             min="0"
                                             value={consultationFee}
                                             onChange={(e) => setConsultationFee(e.target.value)}
-                                            placeholder="Enter physiotherapy fee (e.g. 500)"
+                                            placeholder="Enter fee per session (e.g. 500)"
                                             className="w-full rounded-md border border-foreground/20 bg-transparent pl-8 pr-3 py-2 text-sm font-medium text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                                         />
                                     </div>
+                                </div>
                                 </div>
 
                                 {/* Refer to Physio Checkbox immediately before saving consultation */}

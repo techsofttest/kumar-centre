@@ -6,7 +6,6 @@ import {
     Calendar,
     IndianRupee,
     Users,
-    AlertCircle,
     Plus,
     Search,
     CreditCard,
@@ -50,7 +49,6 @@ export default function OverviewDashboard() {
 
     const alerts = [
         { id: 1, type: "Cancellation", message: "Rahul Menon cancelled SPINAL DECOMPRESSION", time: "10 mins ago", icon: UserX, color: "text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30" },
-        { id: 2, type: "No-Show", message: "Vishnu Namboothiri missed 08:30 AM appointment", time: "1 hr ago", icon: AlertCircle, color: "text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30" },
         { id: 3, type: "Confirmation", message: "Anjali Nair confirmed IDD THERAPY", time: "2 hrs ago", icon: CheckCircle, color: "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30" },
     ];
 
@@ -107,7 +105,6 @@ export default function OverviewDashboard() {
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
                         <span className="text-3xl font-bold tracking-tight text-foreground">24</span>
-                        <span className="text-xs font-medium text-green-600">+4 from yesterday</span>
                     </div>
                 </div>
 
@@ -123,15 +120,14 @@ export default function OverviewDashboard() {
                     </div>
                 </div>
 
-                {/* New Patients Metric */}
+                {/* Patients Metric */}
                 <div className="flex flex-col justify-between rounded-xl border border-black/[.15] bg-white dark:bg-zinc-900 p-6 dark:border-white/[.22] dark:bg-zinc-900">
                     <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-foreground/70">New Patients</span>
+                        <span className="text-sm font-medium text-foreground/70">Patients</span>
                         <Users className="h-4 w-4 text-foreground/70" />
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
                         <span className="text-3xl font-bold tracking-tight text-foreground">12</span>
-                        <span className="text-xs font-medium text-foreground/50">This week</span>
                     </div>
                 </div>
 
@@ -144,7 +140,6 @@ export default function OverviewDashboard() {
                         </div>
                         <div className="mt-4 flex items-baseline gap-2">
                             <span className="text-3xl font-bold tracking-tight text-foreground">₹42,500</span>
-                            <span className="text-xs font-medium text-green-600">+12%</span>
                         </div>
                     </div>
                 )}

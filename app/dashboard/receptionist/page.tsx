@@ -1,25 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
-    Users,
-    Clock,
-    UserCheck,
-    CreditCard,
-    Plus,
     Search,
     Calendar,
     CheckCircle2,
-    Building2,
-    Phone,
+    Users,
     UserPlus,
     Stethoscope,
     Activity,
-    AlertCircle
+    CreditCard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
+import { getAppointmentType, isPhysiotherapyAppointment } from "@/lib/appointment-types";
+import type { AppointmentType } from "@/lib/appointment-types";
+import { getPhysioCollectionTotal } from "@/components/physio-referrals";
 
 interface FrontDeskQueue {
     id: string;
@@ -28,15 +25,21 @@ interface FrontDeskQueue {
     phone: string;
     practitioner: string;
     type: "Doctor" | "Physiotherapy";
-    room: string;
+    appointmentType: AppointmentType;
+    date: string;
     time: string;
     status: "Pending" | "Confirmed" | "Cancelled";
     paymentStatus: "Paid" | "Pending";
     fee: number;
 }
 
+const getTodayDateString = () => {
+    const today = new Date();
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+};
+
 export default function ReceptionistDashboard() {
-    const [queue, setQueue] = useState<FrontDeskQueue[]>([
+    const [queue, setQueue] = useState<FrontDeskQueue[]>(() => [
         {
             id: "REC-101",
             token: "A-01",
@@ -44,7 +47,8 @@ export default function ReceptionistDashboard() {
             phone: "+91 98471 12345",
             practitioner: "Dr. SASIKUMAR",
             type: "Doctor",
-            room: "Room 101",
+            appointmentType: "New Registration",
+            date: getTodayDateString(),
             time: "09:30 AM",
             status: "Confirmed",
             paymentStatus: "Paid",
@@ -57,7 +61,8 @@ export default function ReceptionistDashboard() {
             phone: "+91 98472 23456",
             practitioner: "PHYSIOTHERAPIST",
             type: "Physiotherapy",
-            room: "Rehab Bay 1",
+            appointmentType: "Procedure",
+            date: getTodayDateString(),
             time: "09:45 AM",
             status: "Confirmed",
             paymentStatus: "Paid",
@@ -70,7 +75,8 @@ export default function ReceptionistDashboard() {
             phone: "+91 98473 34567",
             practitioner: "Dr. MALINI SASIKUMAR",
             type: "Doctor",
-            room: "Room 102",
+            appointmentType: "Review Consultation",
+            date: getTodayDateString(),
             time: "10:00 AM",
             status: "Confirmed",
             paymentStatus: "Pending",
@@ -83,7 +89,8 @@ export default function ReceptionistDashboard() {
             phone: "+91 98474 45678",
             practitioner: "PHYSIOTHERAPIST",
             type: "Physiotherapy",
-            room: "Rehab Bay 1",
+            appointmentType: "Procedure",
+            date: getTodayDateString(),
             time: "10:15 AM",
             status: "Pending",
             paymentStatus: "Pending",
@@ -96,7 +103,8 @@ export default function ReceptionistDashboard() {
             phone: "+91 98475 56789",
             practitioner: "Dr. SRUTHI SASIKUMAR",
             type: "Doctor",
-            room: "Room 103",
+            appointmentType: "New Registration",
+            date: getTodayDateString(),
             time: "10:30 AM",
             status: "Pending",
             paymentStatus: "Pending",
@@ -105,12 +113,74 @@ export default function ReceptionistDashboard() {
     ]);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [showNewBooking, setShowNewBooking] = useState(false);
-    const [newPatientName, setNewPatientName] = useState("");
-    const [newPhone, setNewPhone] = useState("");
-    const [newType, setNewType] = useState<"Doctor" | "Physiotherapy">("Doctor");
-    const [newPractitioner, setNewPractitioner] = useState("Dr. SASIKUMAR");
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [activeSchedule, setActiveSchedule] = useState<"Doctor" | "Physiotherapy">("Doctor");
+    const [physioCollected, setPhysioCollected] = useState(0);
+
+    useEffect(() => {
+        const updatePhysioCollection = () => {
+            try {
+                setPhysioCollected(getPhysioCollectionTotal());
+            } catch (error) {
+                console.error("Error loading physiotherapy collection total", error);
+            }
+        };
+
+        const loadAppointments = () => {
+            try {
+                const rawAppointments = localStorage.getItem("kumar_appointments");
+                const parsed: unknown = rawAppointments ? JSON.parse(rawAppointments) : [];
+                if (!Array.isArray(parsed)) return;
+
+                const storedAppointments: FrontDeskQueue[] = parsed
+                    .filter((appointment): appointment is Record<string, unknown> =>
+                        !!appointment && typeof appointment === "object" && !Array.isArray(appointment) &&
+                        typeof appointment.id === "string" && typeof appointment.patientName === "string"
+                    )
+                    .map((appointment) => {
+                        const appointmentType = getAppointmentType({
+                            appointmentType: typeof appointment.appointmentType === "string" ? appointment.appointmentType : undefined,
+                            clinician: typeof appointment.clinician === "string" ? appointment.clinician : undefined,
+                            service: typeof appointment.service === "string" ? appointment.service : undefined,
+                        });
+                        const isPhysio = isPhysiotherapyAppointment({ appointmentType });
+                        return {
+                            id: appointment.id as string,
+                            token: appointment.id as string,
+                            patientName: appointment.patientName as string,
+                            phone: typeof appointment.phone === "string" ? appointment.phone : "",
+                            practitioner: typeof appointment.clinician === "string"
+                                ? appointment.clinician
+                                : isPhysio ? "PHYSIOTHERAPIST" : "Dr. SASIKUMAR",
+                            type: isPhysio ? "Physiotherapy" : "Doctor",
+                            appointmentType,
+                            date: typeof appointment.date === "string" ? appointment.date : getTodayDateString(),
+                            time: typeof appointment.time === "string" ? appointment.time : "09:00 AM",
+                            status: appointment.status === "Pending" || appointment.status === "Cancelled" ? appointment.status : "Confirmed",
+                            paymentStatus: "Pending",
+                            fee: Number(appointment.amount ?? appointment.fee) || 0,
+                        };
+                    });
+
+                setQueue((current) => {
+                    const byId = new Map(current.map((appointment) => [appointment.id, appointment]));
+                    storedAppointments.forEach((appointment) => byId.set(appointment.id, appointment));
+                    return Array.from(byId.values());
+                });
+            } catch (error) {
+                console.error("Error loading receptionist appointments", error);
+            }
+        };
+
+        loadAppointments();
+        updatePhysioCollection();
+        window.addEventListener("storage", loadAppointments);
+        window.addEventListener("storage", updatePhysioCollection);
+        return () => {
+            window.removeEventListener("storage", loadAppointments);
+            window.removeEventListener("storage", updatePhysioCollection);
+        };
+    }, []);
 
     const handleConfirm = (id: string) => {
         setQueue(prev => prev.map(item =>
@@ -125,51 +195,24 @@ export default function ReceptionistDashboard() {
         const cleanPhone = item.phone.replace(/[^0-9]/g, "");
         const formattedPhone = cleanPhone.startsWith("91") && cleanPhone.length > 10 ? cleanPhone : `91${cleanPhone}`;
         const msg = encodeURIComponent(
-            `Hello ${item.patientName}, this is a reminder for your appointment with ${item.practitioner} at Kumar Centres today at ${item.time}. Token: ${item.token}, Room: ${item.room}. Please let us know if you need assistance!`
+            `Hello ${item.patientName}, this is a reminder for your appointment with ${item.practitioner} at Kumar Centres today at ${item.time}. Token: ${item.token}. Please let us know if you need assistance!`
         );
         window.open(`https://wa.me/${formattedPhone}?text=${msg}`, "_blank");
         setAlertMessage(`WhatsApp reminder sent to ${item.patientName} (${item.phone})!`);
         setTimeout(() => setAlertMessage(null), 4000);
     };
 
-    const handleCreateBooking = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!newPatientName) return;
-
-        const isDoc = newType === "Doctor";
-        const newEntry: FrontDeskQueue = {
-            id: `REC-${Date.now().toString().slice(-3)}`,
-            token: isDoc ? `A-0${queue.length + 1}` : `P-0${queue.length + 1}`,
-            patientName: newPatientName,
-            phone: newPhone || "+91 98000 00000",
-            practitioner: newPractitioner,
-            type: newType,
-            room: isDoc ? "Room 102" : "Rehab Bay 1",
-            time: "Immediate Walk-In",
-            status: "Confirmed",
-            paymentStatus: "Paid",
-            fee: isDoc ? 500 : 650
-        };
-
-        setQueue([newEntry, ...queue]);
-        setShowNewBooking(false);
-        setNewPatientName("");
-        setNewPhone("");
-        setAlertMessage(`Walk-in patient ${newPatientName} registered and assigned Token ${newEntry.token}!`);
-        setTimeout(() => setAlertMessage(null), 4000);
-    };
-
-    const filteredQueue = queue.filter(item =>
-        item.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.token.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.practitioner.toLowerCase().includes(searchTerm.toLowerCase())
+    const todayQueue = queue.filter((item) => item.date === getTodayDateString());
+    const filteredQueue = todayQueue.filter((item) =>
+        item.type === activeSchedule && (
+            item.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.token.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.practitioner.toLowerCase().includes(searchTerm.toLowerCase())
+        )
     );
 
-    const confirmedCount = queue.filter(q => q.status === "Confirmed").length;
-    const pendingArrivalCount = queue.filter(q => q.status === "Pending").length;
-    const totalCollected = queue
-        .filter(q => q.paymentStatus === "Paid")
-        .reduce((sum, item) => sum + item.fee, 0);
+    const doctorAppointmentCount = todayQueue.filter((item) => item.type === "Doctor").length;
+    const physioAppointmentCount = todayQueue.filter((item) => item.type === "Physiotherapy").length;
 
     return (
         <div className="flex w-full flex-col gap-8 p-8">
@@ -198,17 +241,23 @@ export default function ReceptionistDashboard() {
                 </div>
 
                 <div className="flex flex-wrap gap-2.5">
-                    <Button
-                        variant="filled"
-                        icon={UserPlus}
-                        className="bg-purple-600 hover:bg-purple-700 text-white"
-                        onClick={() => setShowNewBooking(true)}
-                    >
-                        Walk-in Patient Check-In
-                    </Button>
+                    <Link href="/dashboard/appointments/new">
+                        <Button
+                            variant="filled"
+                            icon={UserPlus}
+                            className="bg-purple-600 hover:bg-purple-700 text-white"
+                        >
+                            New Appointment
+                        </Button>
+                    </Link>
                     <Link href="/dashboard/appointments">
                         <Button variant="outline" icon={Calendar}>
                             Master Calendar
+                        </Button>
+                    </Link>
+                    <Link href="/dashboard/receptionist/physiotherapy">
+                        <Button variant="outline" icon={Activity}>
+                            Physiotherapy Schedule
                         </Button>
                     </Link>
                     <Link href="/dashboard/patients">
@@ -223,147 +272,48 @@ export default function ReceptionistDashboard() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="flex flex-col justify-between rounded-xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
                     <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-foreground/70">In Waiting Lounge</span>
-                        <Users className="h-5 w-5 text-purple-600" />
+                        <span className="text-sm font-medium text-foreground/70">Today&apos;s Appointments</span>
+                        <Calendar className="h-5 w-5 text-purple-600" />
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
-                        <span className="text-3xl font-bold tracking-tight text-foreground">{confirmedCount}</span>
-                        <span className="text-xs font-medium text-emerald-600">Confirmed appointments</span>
+                        <span className="text-3xl font-bold tracking-tight text-foreground">{todayQueue.length}</span>
+                        <span className="text-xs font-medium text-emerald-600">All departments</span>
                     </div>
                 </div>
 
                 <div className="flex flex-col justify-between rounded-xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
                     <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-foreground/70">Expected Arrivals</span>
-                        <Clock className="h-5 w-5 text-blue-600" />
+                        <span className="text-sm font-medium text-foreground/70">Doctor Appointments</span>
+                        <Stethoscope className="h-5 w-5 text-blue-600" />
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
-                        <span className="text-3xl font-bold tracking-tight text-foreground">{pendingArrivalCount}</span>
-                        <span className="text-xs font-medium text-blue-600">Due for check-in</span>
+                        <span className="text-3xl font-bold tracking-tight text-foreground">{doctorAppointmentCount}</span>
+                        <span className="text-xs font-medium text-blue-600">Today</span>
                     </div>
                 </div>
 
                 <div className="flex flex-col justify-between rounded-xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
                     <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-foreground/70">Today's Total Appts</span>
-                        <Calendar className="h-5 w-5 text-emerald-600" />
+                        <span className="text-sm font-medium text-foreground/70">Physio Appointments</span>
+                        <Activity className="h-5 w-5 text-emerald-600" />
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
-                        <span className="text-3xl font-bold tracking-tight text-foreground">{queue.length}</span>
-                        <span className="text-xs font-medium text-emerald-600">Doctors & Physio</span>
+                        <span className="text-3xl font-bold tracking-tight text-foreground">{physioAppointmentCount}</span>
+                        <span className="text-xs font-medium text-emerald-600">Today</span>
                     </div>
                 </div>
 
                 <div className="flex flex-col justify-between rounded-xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
                     <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-foreground/70">Counter Collections</span>
+                        <span className="text-sm font-medium text-foreground/70">Physiotherapy Collection</span>
                         <CreditCard className="h-5 w-5 text-indigo-600" />
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
-                        <span className="text-3xl font-bold tracking-tight text-foreground">₹{totalCollected}</span>
-                        <span className="text-xs font-medium text-green-600">Collected today</span>
+                        <span className="text-3xl font-bold tracking-tight text-foreground">₹{physioCollected}</span>
+                        <span className="text-xs font-medium text-green-600">Total paid</span>
                     </div>
                 </div>
             </div>
-
-            {/* Quick Walk-in Modal */}
-            {showNewBooking && (
-                <div className="rounded-xl border border-purple-200 bg-purple-50/70 p-6 dark:border-purple-900 dark:bg-purple-950/20 shadow-md animate-in fade-in duration-200">
-                    <div className="flex items-center justify-between pb-3 border-b border-purple-200 dark:border-purple-900">
-                        <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-                            <UserPlus className="h-5 w-5 text-purple-600" />
-                            Fast Walk-In Registration & Token Generation
-                        </h3>
-                        <button
-                            onClick={() => setShowNewBooking(false)}
-                            className="text-foreground/60 hover:text-foreground text-sm font-semibold"
-                        >
-                            Cancel
-                        </button>
-                    </div>
-
-                    <form onSubmit={handleCreateBooking} className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        <div>
-                            <label className="text-xs font-semibold text-foreground/80 block mb-1">
-                                Patient Full Name
-                            </label>
-                            <input
-                                type="text"
-                                required
-                                value={newPatientName}
-                                onChange={(e) => setNewPatientName(e.target.value)}
-                                placeholder="e.g. John Smith"
-                                className="w-full rounded-md border border-foreground/20 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-foreground focus:border-purple-600 focus:outline-none"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-xs font-semibold text-foreground/80 block mb-1">
-                                Contact Phone
-                            </label>
-                            <input
-                                type="text"
-                                value={newPhone}
-                                onChange={(e) => setNewPhone(e.target.value)}
-                                placeholder="e.g. +44 7911 000000"
-                                className="w-full rounded-md border border-foreground/20 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-foreground focus:border-purple-600 focus:outline-none"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-xs font-semibold text-foreground/80 block mb-1">
-                                Service Department
-                            </label>
-                            <select
-                                value={newType}
-                                onChange={(e) => {
-                                    const val = e.target.value as "Doctor" | "Physiotherapy";
-                                    setNewType(val);
-                                    setNewPractitioner(val === "Doctor" ? "Dr. SASIKUMAR" : "PHYSIOTHERAPIST");
-                                }}
-                                className="w-full rounded-md border border-foreground/20 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-foreground focus:border-purple-600 focus:outline-none"
-                            >
-                                <option value="Doctor">Doctor Consultation</option>
-                                <option value="Physiotherapy">Physiotherapy & Rehab</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="text-xs font-semibold text-foreground/80 block mb-1">
-                                Assign Practitioner
-                            </label>
-                            <select
-                                value={newPractitioner}
-                                onChange={(e) => setNewPractitioner(e.target.value)}
-                                className="w-full rounded-md border border-foreground/20 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-foreground focus:border-purple-600 focus:outline-none"
-                            >
-                                {newType === "Doctor" ? (
-                                    <>
-                                        <option value="Dr. SASIKUMAR">Dr. SASIKUMAR (Room 101)</option>
-                                        <option value="Dr. MALINI SASIKUMAR">Dr. MALINI SASIKUMAR (Room 102)</option>
-                                        <option value="Dr. SRUTHI SASIKUMAR">Dr. SRUTHI SASIKUMAR (Room 103)</option>
-                                        <option value="Dr. SREENATH">Dr. SREENATH (Room 104)</option>
-                                    </>
-                                ) : (
-                                    <>
-                                        <option value="PHYSIOTHERAPIST">PHYSIOTHERAPIST (Rehab Bay 1)</option>
-                                    </>
-                                )}
-                            </select>
-                        </div>
-
-                        <div className="sm:col-span-2 lg:col-span-4 flex justify-end gap-3 pt-2">
-                            <Button
-                                type="submit"
-                                variant="filled"
-                                className="bg-purple-600 hover:bg-purple-700 text-white"
-                            >
-                                Generate Token & Check-In
-                            </Button>
-                        </div>
-                    </form>
-                </div>
-            )}
 
             {/* Practitioner Roster Cards */}
             <div>
@@ -378,9 +328,9 @@ export default function ReceptionistDashboard() {
                         <div className="flex flex-col">
                             <span className="text-xs font-bold text-foreground">Dr. SASIKUMAR</span>
                             <span className="text-[11px] text-foreground/60">Room 101 • Senior Physician</span>
-                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-600 dark:text-amber-400 mt-0.5">
-                                <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-ping" />
-                                In Consultation
+                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-600 dark:text-green-400 mt-0.5">
+                                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                                Available
                             </span>
                         </div>
                     </div>
@@ -394,7 +344,7 @@ export default function ReceptionistDashboard() {
                             <span className="text-[11px] text-foreground/60">Room 102 • Specialist</span>
                             <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-600 dark:text-green-400 mt-0.5">
                                 <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                                Ready for Next
+                                Available
                             </span>
                         </div>
                     </div>
@@ -408,7 +358,7 @@ export default function ReceptionistDashboard() {
                             <span className="text-[11px] text-foreground/60">Room 103 • Physician</span>
                             <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-600 dark:text-green-400 mt-0.5">
                                 <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                                Free for Walk-Ins
+                                Available
                             </span>
                         </div>
                     </div>
@@ -434,9 +384,9 @@ export default function ReceptionistDashboard() {
                         <div className="flex flex-col">
                             <span className="text-xs font-bold text-foreground">PHYSIOTHERAPIST</span>
                             <span className="text-[11px] text-foreground/60">Rehab Bay 1 • Physical Therapy</span>
-                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-600 dark:text-amber-400 mt-0.5">
-                                <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-ping" />
-                                In Active Therapy
+                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-600 dark:text-green-400 mt-0.5">
+                                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                                Available
                             </span>
                         </div>
                     </div>
@@ -448,22 +398,40 @@ export default function ReceptionistDashboard() {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
                         <h2 className="text-lg font-semibold tracking-tight text-foreground">
-                            Front Desk Patient Queue & Check-In
+                            {activeSchedule === "Doctor" ? "Doctor Schedule" : "Physiotherapy Schedule"}
                         </h2>
                         <p className="text-xs text-foreground/60">
-                            Manage arrivals, call patients into consult rooms, and collect co-payments
+                            Manage today&apos;s appointments and check in patients.
                         </p>
                     </div>
 
-                    <div className="relative w-full sm:w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/40" />
-                        <input
-                            type="text"
-                            placeholder="Filter queue..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full rounded-md border border-foreground/20 bg-slate-50 dark:bg-zinc-800 pl-9 pr-3 py-1.5 text-xs text-foreground focus:border-purple-600 focus:outline-none"
-                        />
+                    <div className="flex flex-wrap items-center gap-3">
+                        <div className="flex rounded-lg border border-black/10 p-1 dark:border-white/10">
+                            {(["Doctor", "Physiotherapy"] as const).map((schedule) => (
+                                <button
+                                    key={schedule}
+                                    type="button"
+                                    onClick={() => setActiveSchedule(schedule)}
+                                    className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
+                                        activeSchedule === schedule
+                                            ? "bg-purple-600 text-white"
+                                            : "text-foreground/70 hover:bg-black/5 dark:hover:bg-white/10"
+                                    }`}
+                                >
+                                    {schedule === "Doctor" ? "Doctor Schedule" : "Physio Schedule"}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="relative w-full sm:w-64">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/40" />
+                            <input
+                                type="text"
+                                placeholder="Filter schedule..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full rounded-md border border-foreground/20 bg-slate-50 dark:bg-zinc-800 pl-9 pr-3 py-1.5 text-xs text-foreground focus:border-purple-600 focus:outline-none"
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -474,9 +442,9 @@ export default function ReceptionistDashboard() {
                                 <th className="px-4 py-3">Token</th>
                                 <th className="px-4 py-3">Patient Name</th>
                                 <th className="px-4 py-3">Department & Clinician</th>
-                                <th className="px-4 py-3">Time & Room</th>
+                                <th className="px-4 py-3">Appointment Type</th>
+                                <th className="px-4 py-3">Time</th>
                                 <th className="px-4 py-3">Queue Status</th>
-                                <th className="px-4 py-3">Fee / Bill</th>
                                 <th className="px-4 py-3 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -496,9 +464,9 @@ export default function ReceptionistDashboard() {
                                         <div className="font-medium text-foreground">{item.practitioner}</div>
                                         <div className="text-[11px] text-foreground/50">{item.type}</div>
                                     </td>
+                                    <td className="px-4 py-3.5 text-foreground/70">{item.appointmentType}</td>
                                     <td className="px-4 py-3.5">
                                         <div className="font-medium text-foreground">{item.time}</div>
-                                        <div className="text-[11px] text-foreground/50">{item.room}</div>
                                     </td>
                                     <td className="px-4 py-3.5">
                                         <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium ${
@@ -509,14 +477,6 @@ export default function ReceptionistDashboard() {
                                                 : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                                         }`}>
                                             {item.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-3.5">
-                                        <div className="font-semibold text-foreground">₹{item.fee}</div>
-                                        <span className={`text-[10px] font-semibold ${
-                                            item.paymentStatus === "Paid" ? "text-green-600" : "text-orange-600"
-                                        }`}>
-                                            {item.paymentStatus}
                                         </span>
                                     </td>
                                     <td className="px-4 py-3.5 text-right space-x-2">

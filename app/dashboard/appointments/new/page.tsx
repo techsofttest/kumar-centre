@@ -28,6 +28,8 @@ import {
 import { mockPatientsData, Patient } from "@/app/dashboard/patients/data";
 import { DatePicker } from "@/components/ui/date-picker";
 import { normalizeRole } from "@/lib/roles";
+import { APPOINTMENT_TYPES } from "@/lib/appointment-types";
+import type { AppointmentType } from "@/lib/appointment-types";
 
 const getTodayDate = () => {
     const today = new Date();
@@ -84,6 +86,7 @@ interface AppointmentForm {
     phone: string;
     location: string;
     address: string;
+    appointmentType: AppointmentType;
     service: string;
     amount: string;
     date: string;
@@ -116,11 +119,12 @@ export default function NewAppointmentPage() {
         phone: "",
         location: "",
         address: "",
+        appointmentType: "Procedure",
         service: "WARMING & MASSAGE",
         amount: "650",
         date: getTodayDate(),
         time: "10:00 AM",
-        doctor: DOCTORS[0].name,
+        doctor: DOCTORS[4].name,
         notes: ""
     });
 
@@ -336,6 +340,7 @@ export default function NewAppointmentPage() {
                 id: ref,
                 patientId: patientIdToUse,
                 patientName: `${formData.firstName.trim()} ${formData.lastName.trim()}`,
+                appointmentType: formData.appointmentType,
                 service: formData.service.trim() || "General Consultation",
                 clinician: formData.doctor,
                 amount: formData.amount.trim() || "0",
@@ -368,11 +373,12 @@ export default function NewAppointmentPage() {
             phone: "",
             location: "",
             address: "",
+            appointmentType: "Procedure",
             service: "WARMING & MASSAGE",
             amount: "650",
             date: getTodayDate(),
             time: "10:00 AM",
-            doctor: DOCTORS[0].name,
+            doctor: DOCTORS[4].name,
             notes: ""
         });
         setSelectedPatientId("");
@@ -464,6 +470,10 @@ export default function NewAppointmentPage() {
                         <div className="flex items-center justify-between p-3.5">
                             <span className="text-foreground/60">Service Required</span>
                             <span className="font-semibold text-foreground">{submittedData.service || "General Consultation"}</span>
+                        </div>
+                        <div className="flex items-center justify-between p-3.5">
+                            <span className="text-foreground/60">Appointment Type</span>
+                            <span className="font-semibold text-foreground">{submittedData.appointmentType}</span>
                         </div>
                         <div className="flex items-center justify-between p-3.5">
                             <span className="text-foreground/60">Doctor to Consult</span>
@@ -887,6 +897,29 @@ export default function NewAppointmentPage() {
                             </div>
 
                             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                <div>
+                                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-foreground/70">
+                                        Appointment Type <span className="text-red-500">*</span>
+                                    </label>
+                                    <select
+                                        required
+                                        value={formData.appointmentType}
+                                        onChange={(e) => {
+                                            const appointmentType = e.target.value as AppointmentType;
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                appointmentType,
+                                                doctor: appointmentType === "Procedure"
+                                                    ? "PHYSIOTHERAPIST"
+                                                    : prev.doctor === "PHYSIOTHERAPIST" ? DOCTORS[0].name : prev.doctor,
+                                            }));
+                                        }}
+                                        className="h-11 w-full rounded-lg border border-black/[.15] bg-white px-3.5 text-sm font-medium text-foreground focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 dark:border-white/[.22] dark:bg-zinc-900 cursor-pointer"
+                                    >
+                                        {APPOINTMENT_TYPES.map((type) => <option key={type} value={type}>{type}</option>)}
+                                    </select>
+                                </div>
+
                                 {/* Service Required */}
                                 <div className="sm:col-span-2">
                                     <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-foreground/70">

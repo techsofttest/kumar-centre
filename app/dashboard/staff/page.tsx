@@ -29,6 +29,14 @@ type PermissionLevel = "Doctor" | "Physiotherapist" | "Receptionist" | "Administ
 interface WorkingHours {
     days: string;
     hours: string;
+    weekly?: Record<string, string>;
+    weeklySlots?: Record<string, number>;
+}
+
+interface PartialLeave {
+    date: string;
+    hours: string;
+    slots: number;
 }
 
 interface StaffMember {
@@ -45,6 +53,7 @@ interface StaffMember {
     breaks?: string;
     holidays?: string[];
     unavailableDates?: string[];
+    partialLeaves?: PartialLeave[];
     isActive: boolean;
 }
 
@@ -83,12 +92,18 @@ export default function StaffManagement() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedStaff, setSelectedStaff] = useState<StaffMember | null>(null);
     const [newHoliday, setNewHoliday] = useState("");
-    const [newUnavailable, setNewUnavailable] = useState("");
+    const [newUnavailableStart, setNewUnavailableStart] = useState("");
+    const [newUnavailableEnd, setNewUnavailableEnd] = useState("");
+    const [newPartialLeaveDate, setNewPartialLeaveDate] = useState("");
+    const [newPartialLeaveStart, setNewPartialLeaveStart] = useState("");
+    const [newPartialLeaveEnd, setNewPartialLeaveEnd] = useState("");
+    const [newPartialLeaveSlots, setNewPartialLeaveSlots] = useState("0");
     const [showStatusModal, setShowStatusModal] = useState(false);
     const [modalSearchQuery, setModalSearchQuery] = useState("");
     const [modalRoleFilter, setModalRoleFilter] = useState("All");
     const [roleFilter, setRoleFilter] = useState("All");
     const [statusFilter, setStatusFilter] = useState("All");
+    const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
     const toggleStaffActive = (id: string) => {
         setStaffList(prev => prev.map(s => s.id === id ? { ...s, isActive: !s.isActive } : s));
@@ -121,12 +136,16 @@ export default function StaffManagement() {
     };
 
     const handleAddUnavailable = () => {
-        if (newUnavailable && selectedStaff) {
+        if (newUnavailableStart && selectedStaff && (!newUnavailableEnd || newUnavailableEnd >= newUnavailableStart)) {
+            const dateRange = !newUnavailableEnd || newUnavailableStart === newUnavailableEnd
+                ? newUnavailableStart
+                : `${newUnavailableStart} to ${newUnavailableEnd}`;
             setSelectedStaff({
                 ...selectedStaff,
-                unavailableDates: [...(selectedStaff.unavailableDates || []), newUnavailable]
+                unavailableDates: [...(selectedStaff.unavailableDates || []), dateRange]
             });
-            setNewUnavailable("");
+            setNewUnavailableStart("");
+            setNewUnavailableEnd("");
         }
     };
 
@@ -136,6 +155,78 @@ export default function StaffManagement() {
             newDates.splice(index, 1);
             setSelectedStaff({ ...selectedStaff, unavailableDates: newDates });
         }
+    };
+
+    const handleAddPartialLeave = () => {
+        if (newPartialLeaveDate && newPartialLeaveStart && newPartialLeaveEnd && newPartialLeaveEnd > newPartialLeaveStart && selectedStaff) {
+            setSelectedStaff({
+                ...selectedStaff,
+                partialLeaves: [...(selectedStaff.partialLeaves || []), {
+                    date: newPartialLeaveDate,
+                    hours: `${newPartialLeaveStart} - ${newPartialLeaveEnd}`,
+                    slots: Math.max(0, Number(newPartialLeaveSlots) || 0)
+                }]
+            });
+            setNewPartialLeaveDate("");
+            setNewPartialLeaveStart("");
+            setNewPartialLeaveEnd("");
+            setNewPartialLeaveSlots("0");
+        }
+    };
+
+    const handleRemovePartialLeave = (index: number) => {
+        if (selectedStaff) {
+            const partialLeaves = [...(selectedStaff.partialLeaves || [])];
+            partialLeaves.splice(index, 1);
+            setSelectedStaff({ ...selectedStaff, partialLeaves });
+        }
+    };
+
+    const updateWorkingHours = (day: string, hours: string) => {
+        if (selectedStaff) {
+            setSelectedStaff({
+                ...selectedStaff,
+                schedule: {
+                    ...selectedStaff.schedule,
+                    weekly: { ...selectedStaff.schedule.weekly, [day]: hours }
+                }
+            });
+        }
+    };
+
+    const updateWorkingSlots = (day: string, slots: number) => {
+        if (selectedStaff) {
+            setSelectedStaff({
+                ...selectedStaff,
+                schedule: {
+                    ...selectedStaff.schedule,
+                    weeklySlots: { ...selectedStaff.schedule.weeklySlots, [day]: slots }
+                }
+            });
+        }
+    };
+
+    const getDefaultHoursForDay = (schedule: WorkingHours, dayIndex: number) => {
+        if (schedule.days === "Mon - Sun") return schedule.hours;
+        if (schedule.days === "Mon - Sat" && dayIndex < 6) return schedule.hours;
+        if (schedule.days === "Mon - Fri" && dayIndex < 5) return schedule.hours;
+        return schedule.days.includes(weekDays[dayIndex].slice(0, 3)) ? schedule.hours : "Unavailable";
+    };
+
+    const toTimeInputValue = (time: string) => {
+        const match = time.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
+        if (!match) return "";
+        let hour = Number(match[1]);
+        const minute = match[2];
+        const period = match[3]?.toUpperCase();
+        if (period === "PM" && hour !== 12) hour += 12;
+        if (period === "AM" && hour === 12) hour = 0;
+        return `${String(hour).padStart(2, "0")}:${minute}`;
+    };
+
+    const getTimeRange = (hours: string) => {
+        const [start = "", end = ""] = hours.split(" - ");
+        return { start: toTimeInputValue(start), end: toTimeInputValue(end) };
     };
 
     const handleSaveProfile = () => {
@@ -210,12 +301,6 @@ export default function StaffManagement() {
                                 onClick={() => setShowStatusModal(true)}
                             >
                                 Update Status
-                            </Button>
-                            <Button
-                                variant="filled"
-                                icon={Plus}
-                            >
-                                Add Staff
                             </Button>
                         </div>
                     </div>
@@ -305,6 +390,7 @@ export default function StaffManagement() {
                                         <CalendarClock className="h-4 w-4 shrink-0 opacity-50" />
                                         <span className="break-words">{staff.schedule.days} • {staff.schedule.hours}</span>
                                     </div>
+                                    <span className="text-xs font-medium text-foreground/60">Partial leave: {staff.partialLeaves?.length ?? 0}</span>
                                 </div>
                             </div>
                         ))}
@@ -378,19 +464,53 @@ export default function StaffManagement() {
                                 <label className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-foreground/50">
                                     <CalendarClock className="h-4 w-4" /> Working Schedule
                                 </label>
-                                <div className="grid grid-cols-2 gap-3">
-                                    <input
-                                        type="text"
-                                        defaultValue={selectedStaff.schedule.days}
-                                        placeholder="e.g. Mon - Fri"
-                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
-                                    />
-                                    <input
-                                        type="text"
-                                        defaultValue={selectedStaff.schedule.hours}
-                                        placeholder="e.g. 09:00 AM - 05:00 PM"
-                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
-                                    />
+                                <div className="space-y-2">
+                                    <div className="grid grid-cols-[7rem_1fr_5rem] items-center gap-3 text-xs font-semibold uppercase tracking-wider text-foreground/50">
+                                        <span>Day</span>
+                                        <span>Hours</span>
+                                        <span className="text-center">Slots</span>
+                                    </div>
+                                    {weekDays.map((day, dayIndex) => {
+                                        const defaultHours = getDefaultHoursForDay(selectedStaff.schedule, dayIndex);
+                                        const hours = selectedStaff.schedule.weekly?.[day] ?? defaultHours;
+                                        const timeRange = getTimeRange(hours);
+                                        return (
+                                            <div key={day} className="grid grid-cols-[7rem_1fr_5rem] items-center gap-3">
+                                                <span className="text-sm font-medium text-foreground/70">{day}</span>
+                                                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                                                    <input
+                                                        type="time"
+                                                        value={timeRange.start}
+                                                        onChange={(event) => updateWorkingHours(day, `${event.target.value} - ${timeRange.end}`)}
+                                                        aria-label={`${day} start time`}
+                                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
+                                                    />
+                                                    <span className="text-xs text-foreground/50">to</span>
+                                                    <input
+                                                        type="time"
+                                                        value={timeRange.end}
+                                                        onChange={(event) => updateWorkingHours(day, `${timeRange.start} - ${event.target.value}`)}
+                                                        aria-label={`${day} end time`}
+                                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="sr-only" htmlFor={`${selectedStaff.id}-${day}-slots`}>{day} appointment slots</label>
+                                                    <input
+                                                        id={`${selectedStaff.id}-${day}-slots`}
+                                                        type="number"
+                                                        min="0"
+                                                        step="1"
+                                                        value={selectedStaff.schedule.weeklySlots?.[day] ?? 0}
+                                                        onChange={(event) => updateWorkingSlots(day, Math.max(0, Number(event.target.value) || 0))}
+                                                        placeholder="Slots"
+                                                        title={`${day} appointment slots`}
+                                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-2 text-center text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
+                                                    />
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -418,20 +538,73 @@ export default function StaffManagement() {
                                             ))}
                                         </div>
                                     )}
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex-1">
+                                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                                        <div>
                                             <DatePicker
-                                                value={newUnavailable}
-                                                onChange={(d) => setNewUnavailable(d)}
-                                                placeholder="Pick unavailable date..."
+                                                value={newUnavailableStart}
+                                                onChange={setNewUnavailableStart}
+                                                placeholder="Start date..."
                                                 allowClear
                                             />
                                         </div>
-                                        <button type="button" onClick={handleAddUnavailable} className="h-10 px-3 rounded-lg bg-foreground text-background text-sm font-medium hover:bg-foreground/90 flex items-center justify-center shrink-0">
-                                            <Plus className="h-4 w-4 mr-1" /> Add
-                                        </button>
+                                        <DatePicker
+                                            value={newUnavailableEnd}
+                                            onChange={setNewUnavailableEnd}
+                                            minDate={newUnavailableStart || undefined}
+                                            placeholder="End date..."
+                                            allowClear
+                                        />
                                     </div>
+                                    <button type="button" onClick={handleAddUnavailable} disabled={!newUnavailableStart || (newUnavailableEnd !== "" && newUnavailableEnd < newUnavailableStart)} className="h-10 w-full rounded-lg bg-foreground text-background text-sm font-medium hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center">
+                                        <Plus className="h-4 w-4 mr-1" /> Add unavailable date or range
+                                    </button>
                                 </div>
+                            </div>
+
+                            <div>
+                                <label className="mb-2 block text-xs font-semibold text-foreground/70">Partial Leave</label>
+                                <p className="mb-3 text-xs text-foreground/50">Set the hours this team member remains available on a specific date.</p>
+                                <div className="space-y-2">
+                                    {(selectedStaff.partialLeaves || []).map((leave, index) => (
+                                        <div key={`${leave.date}-${index}`} className="flex items-center justify-between gap-2 rounded-md bg-black/[.04] dark:bg-white/[.04] px-2.5 py-2 text-sm text-foreground">
+                                            <span>{leave.date} • Available {leave.hours} • {leave.slots ?? 0} slots</span>
+                                            <button type="button" onClick={() => handleRemovePartialLeave(index)} className="text-foreground/50 hover:text-foreground" aria-label={`Remove partial leave on ${leave.date}`}>
+                                                <X className="h-3 w-3" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-4">
+                                    <DatePicker value={newPartialLeaveDate} onChange={setNewPartialLeaveDate} placeholder="Select date..." allowClear />
+                                    <input
+                                        type="time"
+                                        value={newPartialLeaveStart}
+                                        onChange={(event) => setNewPartialLeaveStart(event.target.value)}
+                                        aria-label="Partial leave available start time"
+                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
+                                    />
+                                    <input
+                                        type="time"
+                                        value={newPartialLeaveEnd}
+                                        onChange={(event) => setNewPartialLeaveEnd(event.target.value)}
+                                        min={newPartialLeaveStart || undefined}
+                                        aria-label="Partial leave available end time"
+                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
+                                    />
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="1"
+                                        value={newPartialLeaveSlots}
+                                        onChange={(event) => setNewPartialLeaveSlots(event.target.value)}
+                                        aria-label="Partial leave appointment slots"
+                                        placeholder="Slots"
+                                        className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 px-3 text-sm text-foreground focus:border-brand focus:outline-none dark:border-white/[.22]"
+                                    />
+                                </div>
+                                <button type="button" onClick={handleAddPartialLeave} disabled={!newPartialLeaveDate || !newPartialLeaveStart || !newPartialLeaveEnd || newPartialLeaveEnd <= newPartialLeaveStart} className="mt-2 h-10 w-full rounded-lg bg-foreground text-background text-sm font-medium hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center">
+                                    <Plus className="h-4 w-4 mr-1" /> Add partial leave
+                                </button>
                             </div>
                         </div>
 
