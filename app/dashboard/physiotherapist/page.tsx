@@ -368,7 +368,7 @@ export default function PhysiotherapistDashboard() {
                                     key={s.id}
                                     onClick={() => {
                                         setActiveSession(s);
-                                        setTodayPainScore(s.painScore);
+                                        setTodayPainScore(s.painScore ?? 5);
                                     }}
                                     className={`relative flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border transition-all cursor-pointer ${
                                         isSelected
