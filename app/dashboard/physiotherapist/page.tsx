@@ -126,6 +126,9 @@ export default function PhysiotherapistDashboard() {
     const [therapistNote, setTherapistNote] = useState("");
     const [consultationFee, setConsultationFee] = useState("650");
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const remainingSessions = activeSession
+        ? Math.max(0, (activeSession.totalSessions || 0) - (activeSession.sessionNumber || 0))
+        : 0;
 
     const updateStatus = (id: string, newStatus: PhysioSession["status"]) => {
         setSessions(prev => prev.map(s => s.id === id ? { ...s, status: newStatus } : s));
@@ -517,24 +520,37 @@ export default function PhysiotherapistDashboard() {
                                     />
                                 </div>
 
-                                {/* Physiotherapy Fee */}
-                                <div>
-                                    <label className="text-xs font-semibold text-foreground/80 block mb-1.5 flex items-center gap-1.5">
-                                        <CreditCard className="h-3.5 w-3.5 text-teal-600" />
-                                        Physiotherapy Fee (₹)
-                                    </label>
-                                    <div className="relative">
-                                        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground/50">
-                                            ₹
-                                        </span>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            value={consultationFee}
-                                            onChange={(e) => setConsultationFee(e.target.value)}
-                                            placeholder="Enter physiotherapy fee (e.g. 650)"
-                                            className="w-full rounded-md border border-foreground/20 bg-transparent pl-8 pr-3 py-2 text-sm font-medium text-foreground focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
-                                        />
+                                {/* Physiotherapy Fee and remaining sessions */}
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <div>
+                                        <label className="text-xs font-semibold text-foreground/80 block mb-1.5 flex items-center gap-1.5">
+                                            <CreditCard className="h-3.5 w-3.5 text-teal-600" />
+                                            Physiotherapy Fee (₹)
+                                        </label>
+                                        <div className="relative">
+                                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground/50">
+                                                ₹
+                                            </span>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                value={consultationFee}
+                                                onChange={(e) => setConsultationFee(e.target.value)}
+                                                placeholder="Enter physiotherapy fee (e.g. 650)"
+                                                className="w-full rounded-md border border-foreground/20 bg-transparent pl-8 pr-3 py-2 text-sm font-medium text-foreground focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="text-xs font-semibold text-foreground/80 block mb-1.5">
+                                            Sessions Remaining
+                                        </label>
+                                        <div className="flex min-h-10 items-center rounded-md border border-black/10 bg-slate-50 px-3 text-sm font-semibold text-foreground dark:border-white/10 dark:bg-zinc-800">
+                                            {remainingSessions} {remainingSessions === 1 ? "session" : "sessions"}
+                                            <span className="ml-1 font-normal text-foreground/60">
+                                                of {activeSession.totalSessions || 0}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 

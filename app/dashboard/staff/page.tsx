@@ -284,7 +284,7 @@ export default function StaffManagement() {
         <div className="flex h-full w-full overflow-hidden">
 
             {/* Left Pane: Staff Roster */}
-            <div className={`flex flex-col transition-all duration-300 ease-in-out ${selectedStaff ? "hidden md:flex md:w-2/3 border-r border-black/[.15] dark:border-white/[.22]" : "w-full"}`}>
+            <div className={`flex flex-col transition-all duration-300 ease-in-out ${selectedStaff ? "hidden md:flex md:w-1/2 lg:w-5/12 border-r border-black/[.15] dark:border-white/[.22]" : "w-full"}`}>
 
                 {/* Header & Seat Tracker */}
                 <div className="flex flex-col gap-4 border-b border-black/[.15] p-8 dark:border-white/[.22]">
@@ -404,6 +404,7 @@ export default function StaffManagement() {
                     onClose={() => setSelectedStaff(null)}
                     title="Profile Configuration"
                     subtitle={selectedStaff.id}
+                    className="min-w-0 flex-1"
                 >
                     <div className="flex flex-col gap-8">
 
