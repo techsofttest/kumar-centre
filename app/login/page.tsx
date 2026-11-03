@@ -37,7 +37,7 @@ export default function Login() {
         e.preventDefault();
         // Persist the selected role for the session
         localStorage.setItem('userRole', selectedRole);
-        
+
         // Redirect to the dashboard of the selected role
         const targetPath = getRoleDashboardPath(selectedRole);
         router.push(targetPath);
@@ -50,7 +50,7 @@ export default function Login() {
             <div className="relative hidden w-1/2 flex-col justify-between bg-brand p-12 lg:flex">
                 {/* Background image tinted by the brand background */}
                 <div className="absolute inset-0 bg-[url('/login/login.jpg')] bg-cover bg-center opacity-80" />
-                
+
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/40 to-transparent" />
 
@@ -78,7 +78,7 @@ export default function Login() {
                         {/* Text brand name */}
                         <div className="mb-2">
                             <span className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">
-                                Kumar Centres 
+                                Kumar Centres
                             </span>
                         </div>
                         <h2 className="text-2xl font-semibold tracking-tight text-foreground">
@@ -128,11 +128,11 @@ export default function Login() {
                             <input
                                 id="username"
                                 type="text"
-                                required
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 className="flex h-12 w-full items-center rounded-md border border-foreground/20 bg-white/60 dark:bg-zinc-800/60 px-4 text-sm text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition-colors"
                                 placeholder="Enter your username"
+                                required
                             />
                         </div>
 
