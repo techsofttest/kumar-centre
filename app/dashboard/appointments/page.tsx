@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { DetailDrawer } from "@/components/ui/detail-drawer";
 import { DatePicker } from "@/components/ui/date-picker";
+import { AppointmentStatus, StatusDropdown } from "@/components/ui/status-dropdown";
 import {
     Search,
     Plus,
@@ -23,9 +24,6 @@ import {
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { normalizeRole } from "@/lib/roles";
-
-// SRS Status Types
-type AppointmentStatus = "Pending" | "Confirmed" | "Cancelled";
 
 type RoleType = string;
 
@@ -483,17 +481,12 @@ export default function AppointmentsManager() {
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4">
                                                 {canManageAppointmentStatus ? (
-                                                    <select
-                                                        aria-label={`Change status for ${apt.patientName}`}
-                                                        value={apt.status}
-                                                        onChange={(e) => handleStatusUpdate(apt.id, e.target.value as AppointmentStatus)}
-                                                        onClick={(e) => e.stopPropagation()}
-                                                        className={`rounded-full border-0 px-2.5 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand ${getStatusBadge(apt.status)}`}
-                                                    >
-                                                        <option value="Pending">Pending</option>
-                                                        <option value="Confirmed">Confirmed</option>
-                                                        <option value="Cancelled">Cancelled</option>
-                                                    </select>
+                                                    <div onClick={(e) => e.stopPropagation()}>
+                                                        <StatusDropdown
+                                                            status={apt.status}
+                                                            onChange={(status) => handleStatusUpdate(apt.id, status)}
+                                                        />
+                                                    </div>
                                                 ) : (
                                                     <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${getStatusBadge(apt.status)}`}>
                                                         {apt.status}

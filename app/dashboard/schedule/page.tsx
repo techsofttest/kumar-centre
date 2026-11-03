@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
     Clock,
     User,
@@ -8,7 +8,6 @@ import {
     Stethoscope,
     ShieldAlert,
     Calendar as CalendarIcon,
-    ChevronDown,
     ChevronLeft,
     ChevronRight,
     CalendarDays,
@@ -20,10 +19,8 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
+import { AppointmentStatus, StatusDropdown } from "@/components/ui/status-dropdown";
 import { normalizeRole } from "@/lib/roles";
-
-// Status Types
-type AppointmentStatus = "Pending" | "Confirmed" | "Cancelled";
 
 interface ClinicalAppointment {
     id: string;
@@ -40,87 +37,12 @@ interface ClinicalAppointment {
     amount?: string | number;
 }
 
-const STATUS_OPTIONS: AppointmentStatus[] = ["Pending", "Confirmed", "Cancelled"];
-
-const STATUS_STYLES: Record<AppointmentStatus, { pill: string; dot: string; option: string }> = {
-    "Confirmed":  { pill: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",    dot: "bg-green-500",   option: "text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20" },
-    "Pending":    { pill: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300", dot: "bg-orange-500", option: "text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20" },
-    "Cancelled":  { pill: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",             dot: "bg-red-500",    option: "text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20" },
-};
-
 const formatDateYMD = (d: Date) => {
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth() + 1).padStart(2, "0");
     const dd = String(d.getDate()).padStart(2, "0");
     return `${yyyy}-${mm}-${dd}`;
 };
-
-// Custom Status Dropdown Component
-function StatusDropdown({
-    status,
-    onChange,
-}: {
-    status: AppointmentStatus;
-    onChange: (s: AppointmentStatus) => void;
-}) {
-    const [open, setOpen] = useState(false);
-    const ref = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handler = (e: MouseEvent) => {
-            if (ref.current && !ref.current.contains(e.target as Node)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handler);
-        return () => document.removeEventListener("mousedown", handler);
-    }, []);
-
-    const styles = STATUS_STYLES[status] || STATUS_STYLES["Confirmed"];
-
-    return (
-        <div ref={ref} className="relative">
-            {/* Trigger pill */}
-            <button
-                type="button"
-                onClick={() => setOpen((o) => !o)}
-                className={`flex h-9 items-center gap-1.5 rounded-full pl-3 pr-2.5 text-xs font-semibold transition-opacity hover:opacity-80 ${styles.pill}`}
-            >
-                <span className={`h-1.5 w-1.5 rounded-full ${styles.dot}`} />
-                {status}
-                <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
-            </button>
-
-            {/* Dropdown panel */}
-            {open && (
-                <div className="absolute left-0 top-full z-50 mt-1.5 min-w-[160px] rounded-xl border border-black/[.1] bg-white dark:bg-zinc-950 dark:border-white/[.12] shadow-lg py-1.5">
-                    {STATUS_OPTIONS.map((opt) => {
-                        const s = STATUS_STYLES[opt];
-                        const isActive = opt === status;
-                        return (
-                            <button
-                                key={opt}
-                                type="button"
-                                onClick={() => { onChange(opt); setOpen(false); }}
-                                className="flex w-full items-center justify-between gap-3 px-3 py-1.5 hover:bg-black/[.03] dark:hover:bg-white/[.04] transition-colors"
-                            >
-                                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${s.pill}`}>
-                                    <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
-                                    {opt}
-                                </span>
-                                {isActive && (
-                                    <svg className="h-3 w-3 text-foreground/40 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                )}
-                            </button>
-                        );
-                    })}
-                </div>
-            )}
-        </div>
-    );
-}
 
 export default function ClinicianSchedule() {
     const [userRole, setUserRole] = useState<string>("Doctor");
