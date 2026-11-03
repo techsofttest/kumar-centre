@@ -217,8 +217,13 @@ export default function CalendarMatrix() {
         return { top: `${startOffset}px`, height: `${height}px` };
     };
 
-    // Calendar Matrix: Hide physio from the calendar matrix (Doctors only)
+    // Calendar Matrix: Show only their own schedule for Physio & Doctor; Doctors only for Admin
     const displayedStaff = useMemo(() => {
+        if (isPhysio) {
+            // For a physiotherapist, show strictly their own schedule column
+            return staff.filter(m => m.role === "Physiotherapist" || m.name === "PHYSIOTHERAPIST");
+        }
+
         if (isDoctor) {
             // For a doctor, show strictly their own schedule column
             return staff.filter(m => m.name === currentDoctor);
@@ -232,7 +237,7 @@ export default function CalendarMatrix() {
                 appointments.some(apt => apt.staffId === member.id && apt.patient.toLowerCase().includes(searchQuery.toLowerCase()));
             return matchesRole && matchesSearch;
         });
-    }, [isDoctor, staff, currentDoctor, selectedRole, searchQuery, appointments]);
+    }, [isPhysio, isDoctor, staff, currentDoctor, selectedRole, searchQuery, appointments]);
 
     const formattedCurrentDate = formatDateYMD(currentDate);
 
@@ -448,7 +453,7 @@ export default function CalendarMatrix() {
                     className="flex flex-col"
                     style={{
                         minWidth: "100%",
-                        width: isDoctor ? "100%" : `${Math.max(80 + (displayedStaff.length * 240), 800)}px`
+                        width: (isDoctor || isPhysio) ? "100%" : `${Math.max(80 + (displayedStaff.length * 240), 800)}px`
                     }}
                 >
 
@@ -463,11 +468,15 @@ export default function CalendarMatrix() {
                                 className="flex flex-1 min-w-[240px] flex-col items-center justify-center border-r border-black/[.15] py-4 last:border-r-0 dark:border-white/[.22]"
                             >
                                 <span className="text-sm font-bold text-foreground flex items-center gap-1.5">
-                                    <Stethoscope className="h-4 w-4 text-[#3C43EC]" />
+                                    {isPhysio ? (
+                                        <Activity className="h-4 w-4 text-teal-600" />
+                                    ) : (
+                                        <Stethoscope className="h-4 w-4 text-[#3C43EC]" />
+                                    )}
                                     {member.name}
                                 </span>
                                 <span className="text-xs font-semibold text-foreground/60">
-                                    {isDoctor ? "My Clinical Schedule Lane" : member.role}
+                                    {isDoctor ? "My Clinical Schedule Lane" : isPhysio ? "My Therapy Schedule Lane" : member.role}
                                 </span>
                             </div>
                         ))}
@@ -516,6 +525,8 @@ export default function CalendarMatrix() {
                                                     onClick={() => {
                                                         if (isDoctor) {
                                                             router.push('/dashboard/doctor');
+                                                        } else if (isPhysio) {
+                                                            router.push('/dashboard/physiotherapist');
                                                         } else {
                                                             router.push(`/dashboard/appointments?id=${apt.id}`);
                                                         }
@@ -570,7 +581,7 @@ export default function CalendarMatrix() {
                 </div>
 
                 {/* Horizontal Scroll Controls on the bottom right (only needed if multiple staff columns exist) */}
-                {!isDoctor && displayedStaff.length > 1 && (
+                {!isDoctor && !isPhysio && displayedStaff.length > 1 && (
                     <div className="flex items-center gap-2">
                         <button type="button" onClick={scrollLeft} className="flex h-8 w-8 items-center justify-center rounded-md bg-[#3C43EC] text-white hover:bg-[#3239cb] transition-colors">
                             <ChevronLeft className="h-4 w-4" />

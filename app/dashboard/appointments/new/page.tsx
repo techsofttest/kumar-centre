@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { mockPatientsData, Patient } from "@/app/dashboard/patients/data";
 import { DatePicker } from "@/components/ui/date-picker";
+import { normalizeRole } from "@/lib/roles";
 
 const getTodayDate = () => {
     const today = new Date();
@@ -129,8 +130,23 @@ export default function NewAppointmentPage() {
     const [generatedPatientId, setGeneratedPatientId] = useState("");
     const [submittedData, setSubmittedData] = useState<AppointmentForm | null>(null);
 
-    // Load patients database on mount
+    // Redirect clinical staff away from booking page
     useEffect(() => {
+        try {
+            const storedRole = localStorage.getItem("userRole");
+            if (storedRole) {
+                const norm = normalizeRole(storedRole);
+                if (norm === "Doctor") {
+                    router.replace("/dashboard/doctor");
+                    return;
+                }
+                if (norm === "Physiotherapist") {
+                    router.replace("/dashboard/physiotherapist");
+                    return;
+                }
+            }
+        } catch (_) {}
+
         try {
             const stored = localStorage.getItem("patients_v5");
             if (stored) {
@@ -144,7 +160,7 @@ export default function NewAppointmentPage() {
             console.error("Error loading patients", e);
         }
         setPatientsList(mockPatientsData);
-    }, []);
+    }, [router]);
 
     // Close dropdown on click outside
     useEffect(() => {
@@ -454,7 +470,7 @@ export default function NewAppointmentPage() {
                             <span className="font-semibold text-blue-600 dark:text-blue-400">{submittedData.doctor}</span>
                         </div>
                         <div className="flex items-center justify-between p-3.5">
-                            <span className="text-foreground/60">Consultation Fee</span>
+                            <span className="text-foreground/60">Physiotherapy Fee</span>
                             <span className="font-semibold text-emerald-600 dark:text-emerald-400">₹{submittedData.amount || "0"}</span>
                         </div>
                         <div className="flex items-center justify-between p-3.5">
@@ -463,12 +479,6 @@ export default function NewAppointmentPage() {
                                 {submittedData.date} • {submittedData.time}
                             </span>
                         </div>
-                        {submittedData.notes && (
-                            <div className="flex flex-col p-3.5 gap-1">
-                                <span className="text-foreground/60">Notes</span>
-                                <span className="font-normal text-foreground/80 italic">{submittedData.notes}</span>
-                            </div>
-                        )}
                     </div>
 
                     {/* Actions */}
@@ -717,7 +727,7 @@ export default function NewAppointmentPage() {
                                     <div className="mt-3 flex items-center gap-2 rounded-lg bg-green-100/70 dark:bg-green-950/30 px-3 py-2 text-xs font-medium text-green-800 dark:text-green-300">
                                         <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />
                                         <span>
-                                            Patient details auto-filled. You only need to set the Doctor, Date, Time & Notes below.
+                                            Patient details auto-filled. You only need to set the Doctor, Date, and Time below.
                                         </span>
                                     </div>
                                 )}
@@ -960,30 +970,6 @@ export default function NewAppointmentPage() {
                             </div>
                         </div>
 
-                        {/* Section 3: Notes */}
-                        <div className="rounded-2xl border border-black/[.15] bg-white p-6 dark:border-white/[.22] dark:bg-zinc-900 md:p-8">
-                            <div className="flex items-center gap-2 border-b border-black/[.08] pb-4 dark:border-white/[.1] mb-6">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400">
-                                    <FileText className="h-4 w-4" />
-                                </div>
-                                <h2 className="text-base font-bold text-foreground">
-                                    Notes & Observations
-                                </h2>
-                            </div>
-
-                            <div>
-                                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-foreground/70">
-                                    Notes (Optional)
-                                </label>
-                                <textarea
-                                    rows={3}
-                                    placeholder="Enter consultation reason, symptoms, patient preferences, or internal remarks..."
-                                    value={formData.notes}
-                                    onChange={(e) => handleInputChange("notes", e.target.value)}
-                                    className="w-full resize-none rounded-lg border border-black/[.15] bg-white p-3.5 text-sm text-foreground focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 dark:border-white/[.22] dark:bg-zinc-900"
-                                />
-                            </div>
-                        </div>
 
                         {/* Submission Buttons */}
                         <div className="flex items-center justify-end gap-3 pt-2">

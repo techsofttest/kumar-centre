@@ -15,6 +15,7 @@ import {
     CheckCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 
 import { normalizeRole } from "@/lib/roles";
 
@@ -22,6 +23,7 @@ type RoleType = string;
 
 export default function OverviewDashboard() {
     const [userRole, setUserRole] = useState<RoleType>("admin");
+    const [reminderSuccessMsg, setReminderSuccessMsg] = useState<string | null>(null);
 
     useEffect(() => {
         const storedRole = localStorage.getItem("userRole");
@@ -29,6 +31,15 @@ export default function OverviewDashboard() {
             setUserRole(storedRole);
         }
     }, []);
+
+    const handleSendWhatsAppReminder = (apt: { patient: string; service: string; time: string; staff: string }) => {
+        const msg = encodeURIComponent(
+            `Hello ${apt.patient}, this is a reminder for your upcoming appointment (${apt.service}) with ${apt.staff} today at ${apt.time} at Kumar Centres. Please let us know if you need any assistance!`
+        );
+        window.open(`https://wa.me/919447123456?text=${msg}`, "_blank");
+        setReminderSuccessMsg(`WhatsApp reminder sent to ${apt.patient}!`);
+        setTimeout(() => setReminderSuccessMsg(null), 4000);
+    };
 
     // Mock Data for UI visualization
     const todayAppointments = [
@@ -59,6 +70,13 @@ export default function OverviewDashboard() {
                         System operations, clinician rosters, patient volumes, and clinical performance overview.
                     </p>
                 </div>
+
+                {reminderSuccessMsg && (
+                    <div className="w-full flex items-center gap-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-3 text-emerald-800 dark:text-emerald-300 text-xs font-semibold animate-in fade-in">
+                        <WhatsAppIcon className="h-5 w-5 text-emerald-600 shrink-0" />
+                        {reminderSuccessMsg}
+                    </div>
+                )}
 
                 {/* Quick Actions[cite: 1, 2] */}
                 <div className="flex w-full gap-3 md:w-auto">
@@ -148,7 +166,7 @@ export default function OverviewDashboard() {
                                             <span className="text-xs text-foreground/60">{apt.service} • <span className="font-medium text-foreground/75">{apt.staff}</span></span>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-8">
+                                    <div className="flex items-center gap-4">
                                         <span className="flex items-center gap-1.5 text-sm font-medium text-foreground/80">
                                             <Clock className="h-3.5 w-3.5 text-foreground/50" />
                                             {apt.time}
@@ -160,6 +178,15 @@ export default function OverviewDashboard() {
                                         }`}>
                                             {apt.status}
                                         </span>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleSendWhatsAppReminder(apt)}
+                                            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+                                            title={`Send WhatsApp reminder to ${apt.patient}`}
+                                        >
+                                            <WhatsAppIcon className="h-5 w-5 shrink-0" />
+                                            Send Reminder
+                                        </button>
                                     </div>
                                 </div>
                             ))}

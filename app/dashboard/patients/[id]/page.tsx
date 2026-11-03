@@ -20,19 +20,25 @@ import {
     Activity,
     CheckCircle2
 } from "lucide-react";
-import { Patient, AppointmentRecord, mockPatientsData, getAptFinancials, getClinicalNotes } from "../data";
+import { Patient, AppointmentRecord, mockPatientsData, getClinicalNotes } from "../data";
 import { DatePicker } from "@/components/ui/date-picker";
+import { normalizeRole } from "@/lib/roles";
 
 export default function PatientDetailPage() {
     const router = useRouter();
     const params = useParams();
     const id = params.id as string;
 
+    const [userRole, setUserRole] = useState<string>("Receptionist");
     const [patients, setPatients] = useState<Patient[]>([]);
     const [patient, setPatient] = useState<Patient | null>(null);
     const [activeTab, setActiveTab] = useState<"profile" | "upcoming" | "past" | "physio">("profile");
     const [filterDate, setFilterDate] = useState<string>("");
     const [showNotesDetail, setShowNotesDetail] = useState(false);
+
+    const normalizedRole = normalizeRole(userRole);
+    const isDoctor = normalizedRole === "Doctor";
+    const isPhysio = normalizedRole === "Physiotherapist";
 
     const getStatusBadge = (status: string) => {
         let colors = "bg-black/[.05] dark:bg-white/[.05] text-foreground/90";
@@ -60,6 +66,9 @@ export default function PatientDetailPage() {
 
     // Load data from localStorage on mount
     useEffect(() => {
+        const storedRole = localStorage.getItem("userRole");
+        if (storedRole) setUserRole(storedRole);
+
         const storedPatients = localStorage.getItem("patients_v5");
         let list: Patient[] = [];
         if (storedPatients) {
@@ -150,7 +159,7 @@ export default function PatientDetailPage() {
                                 referringDoctor: item.referringDoctor || "Dr. SASIKUMAR",
                                 notes: item.notes || "Therapy session completed. Patient tolerated active mobilizations with progressive improvement in range of motion.",
                                 fee: item.consultationFee || item.amount || item.fee || "650",
-                                status: item.status || "Completed"
+                                status: item.status || "Confirmed"
                             });
                         }
                     });
@@ -204,7 +213,7 @@ export default function PatientDetailPage() {
                     referringDoctor: "Dr. SASIKUMAR",
                     notes: "Targeted lumbar decompression applied at 35kg tension for 20 mins. Core isometric activations tolerated well.",
                     fee: "650",
-                    status: "Completed"
+                    status: "Confirmed"
                 });
             } else if (patient.name === "Anjali Nair" || patient.name === "Eleanor Vance" || patient.id === "PAT-001" || patient.id === "REF-8000") {
                 results.push({
@@ -217,7 +226,7 @@ export default function PatientDetailPage() {
                     referringDoctor: "Dr. SREENATH",
                     notes: "Sacroiliac joint and lumbar stability showing clear clinical improvement. Active flexion and pain-free range increased.",
                     fee: "650",
-                    status: "Completed"
+                    status: "Confirmed"
                 });
             }
         }
@@ -261,11 +270,13 @@ export default function PatientDetailPage() {
                     </div>
                 </div>
 
-                <Link href="/dashboard/appointments/new">
-                    <Button variant="filled" size="sm" icon={CalendarIcon} className="bg-[#3C43EC] hover:bg-[#3239cb] text-white">
-                        Book Appointment
-                    </Button>
-                </Link>
+                {!isDoctor && !isPhysio && (
+                    <Link href="/dashboard/appointments/new">
+                        <Button variant="filled" size="sm" icon={CalendarIcon} className="bg-[#3C43EC] hover:bg-[#3239cb] text-white">
+                            Book Appointment
+                        </Button>
+                    </Link>
+                )}
             </div>
 
             {/* Content Container */}
@@ -397,7 +408,6 @@ export default function PatientDetailPage() {
                                 patient.history.future
                                     .filter(apt => !filterDate || apt.date === filterDate)
                                     .map(apt => {
-                                        const financials = getAptFinancials(apt);
                                         return (
                                             <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between rounded-lg border border-black/[.15] dark:border-white/[.22] p-4 gap-4 sm:gap-0">
                                                 <div>
@@ -405,10 +415,6 @@ export default function PatientDetailPage() {
                                                     <div className="flex flex-wrap items-center gap-3 mt-1.5">
                                                         <span className="flex items-center gap-1 text-xs text-foreground/80 font-medium"><CalendarIcon className="h-3.5 w-3.5" /> {apt.date}</span>
                                                         {apt.time && <span className="flex items-center gap-1 text-xs text-foreground/80 font-medium"><Clock className="h-3.5 w-3.5" /> {apt.time}</span>}
-                                                        <span className="flex items-center gap-1 text-xs font-semibold text-green-700 dark:text-green-500"><Check className="h-3.5 w-3.5" /> Paid: ₹{financials.paid}</span>
-                                                        {financials.pending > 0 && (
-                                                            <span className="flex items-center gap-1 text-xs font-semibold text-amber-700 dark:text-amber-500"><AlertCircle className="h-3.5 w-3.5" /> Pending: ₹{financials.pending}</span>
-                                                        )}
                                                     </div>
                                                 </div>
                                                 {getStatusBadge(apt.status)}

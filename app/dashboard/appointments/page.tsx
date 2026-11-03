@@ -21,6 +21,8 @@ import {
     Ban,
     CreditCard
 } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
+import { normalizeRole } from "@/lib/roles";
 
 // SRS Status Types
 type AppointmentStatus = "Pending" | "Confirmed" | "Cancelled";
@@ -38,6 +40,7 @@ interface Appointment {
     status: AppointmentStatus;
     internalNotes: string;
     patientNotes: string;
+    patientPhone?: string;
     amount?: string | number;
     fee?: string | number;
     cancellationDate?: string;
@@ -65,6 +68,11 @@ export default function AppointmentsManager() {
             setUserRole(storedRole);
         }
     }, []);
+
+    const normalizedRole = normalizeRole(userRole);
+    const isDoctor = normalizedRole === "Doctor";
+    const isPhysio = normalizedRole === "Physiotherapist";
+    const canManageAppointmentStatus = normalizedRole === "admin" || normalizedRole === "Receptionist";
 
     // Security layer: Block clinical staff from this operational view
 
@@ -143,6 +151,7 @@ export default function AppointmentsManager() {
     const [editInternalNotes, setEditInternalNotes] = useState("");
     const [editPatientNotes, setEditPatientNotes] = useState("");
     const [saveSuccessMsg, setSaveSuccessMsg] = useState(false);
+    const [reminderSuccessMsg, setReminderSuccessMsg] = useState<string | null>(null);
 
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [filterStatus, setFilterStatus] = useState<string>("All");
@@ -156,6 +165,18 @@ export default function AppointmentsManager() {
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}`;
+    };
+
+    const handleSendWhatsAppReminder = (apt: Appointment) => {
+        const phone = apt.patientPhone || "9447123456";
+        const cleanPhone = String(phone).replace(/[^0-9]/g, "");
+        const formattedPhone = cleanPhone.startsWith("91") && cleanPhone.length > 10 ? cleanPhone : `91${cleanPhone}`;
+        const msg = encodeURIComponent(
+            `Hello ${apt.patientName}, this is a reminder for your upcoming appointment (${apt.service}) with ${apt.clinician} at Kumar Centres on ${apt.date} at ${apt.time}. Please let us know if you need to reschedule.`
+        );
+        window.open(`https://wa.me/${formattedPhone}?text=${msg}`, "_blank");
+        setReminderSuccessMsg(`WhatsApp reminder sent to ${apt.patientName}!`);
+        setTimeout(() => setReminderSuccessMsg(null), 4000);
     };
 
     const [filterDate, setFilterDate] = useState(getTodayDateString());
@@ -241,9 +262,13 @@ export default function AppointmentsManager() {
                 const saved = JSON.parse(savedRaw);
                 if (Array.isArray(saved) && saved.length > 0) {
                     setAppointments(prev => {
-                        const existingIds = new Set(prev.map(a => a.id));
-                        const uniqueSaved = saved.filter(s => !existingIds.has(s.id));
-                        return [...uniqueSaved, ...prev];
+                        const savedById = new Map(saved.map(appointment => [appointment.id, appointment]));
+                        const existingIds = new Set(prev.map(appointment => appointment.id));
+                        const savedAppointments = saved.filter(appointment => !existingIds.has(appointment.id));
+                        return [
+                            ...savedAppointments,
+                            ...prev.map(appointment => savedById.get(appointment.id) ?? appointment),
+                        ];
                     });
                 }
             }
@@ -284,9 +309,27 @@ export default function AppointmentsManager() {
     };
 
     const handleStatusUpdate = (id: string, newStatus: AppointmentStatus) => {
-        setAppointments(prev => prev.map(apt => apt.id === id ? { ...apt, status: newStatus } : apt));
+        const appointment = appointments.find(apt => apt.id === id);
+        if (!appointment) return;
+
+        const updatedAppointment = { ...appointment, status: newStatus };
+        setAppointments(prev => prev.map(apt => apt.id === id ? updatedAppointment : apt));
         if (selectedApt?.id === id) {
-            setSelectedApt(prev => prev ? { ...prev, status: newStatus } : null);
+            setSelectedApt(updatedAppointment);
+        }
+
+        try {
+            const savedRaw = localStorage.getItem("kumar_appointments");
+            const savedAppointments: Appointment[] = savedRaw ? JSON.parse(savedRaw) : [];
+            const savedIndex = savedAppointments.findIndex(apt => apt.id === id);
+            if (savedIndex >= 0) {
+                savedAppointments[savedIndex] = updatedAppointment;
+            } else {
+                savedAppointments.unshift(updatedAppointment);
+            }
+            localStorage.setItem("kumar_appointments", JSON.stringify(savedAppointments));
+        } catch (error) {
+            console.error("Error updating appointment status", error);
         }
     };
 
@@ -323,12 +366,21 @@ export default function AppointmentsManager() {
                             <h1 className="text-3xl font-semibold tracking-tight text-foreground">Appointments</h1>
                             <p className="mt-1 text-sm text-foreground/60">Manage bookings, modifications, and cancellations.</p>
                         </div>
-                        <Link href="/dashboard/appointments/new">
-                            <Button variant="filled" icon={Plus}>
-                                New Appointment
-                            </Button>
-                        </Link>
+                        {!isDoctor && !isPhysio && (
+                            <Link href="/dashboard/appointments/new">
+                                <Button variant="filled" icon={Plus}>
+                                    New Appointment
+                                </Button>
+                            </Link>
+                        )}
                     </div>
+
+                    {reminderSuccessMsg && (
+                        <div className="flex items-center gap-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-3 text-emerald-800 dark:text-emerald-300 text-xs font-semibold animate-in fade-in">
+                            <WhatsAppIcon className="h-5 w-5 text-emerald-600 shrink-0" />
+                            {reminderSuccessMsg}
+                        </div>
+                    )}
 
                     <div className="mt-4 flex flex-col sm:flex-row gap-3">
                         <div className="relative flex-1">
@@ -369,7 +421,7 @@ export default function AppointmentsManager() {
                                     <th className="px-6 py-4 font-medium">Service & Clinician</th>
                                     <th className="px-6 py-4 font-medium">Date & Time</th>
                                     <th className="px-6 py-4 font-medium">Status</th>
-                                    <th className="px-6 py-4 text-right font-medium">Action</th>
+                                    <th className="px-6 py-4 text-right font-medium">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-black/[.15] dark:divide-white/[.22]">
@@ -430,12 +482,55 @@ export default function AppointmentsManager() {
                                                 </div>
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4">
-                                                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${getStatusBadge(apt.status)}`}>
-                                                    {apt.status}
-                                                </span>
+                                                {canManageAppointmentStatus ? (
+                                                    <select
+                                                        aria-label={`Change status for ${apt.patientName}`}
+                                                        value={apt.status}
+                                                        onChange={(e) => handleStatusUpdate(apt.id, e.target.value as AppointmentStatus)}
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        className={`rounded-full border-0 px-2.5 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand ${getStatusBadge(apt.status)}`}
+                                                    >
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Confirmed">Confirmed</option>
+                                                        <option value="Cancelled">Cancelled</option>
+                                                    </select>
+                                                ) : (
+                                                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${getStatusBadge(apt.status)}`}>
+                                                        {apt.status}
+                                                    </span>
+                                                )}
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4 text-right">
-                                                <Button variant="ghost" size="xs" icon={MoreVertical} />
+                                                <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                                                    {canManageAppointmentStatus && apt.status === "Pending" && (
+                                                        <Button
+                                                            size="sm"
+                                                            variant="filled"
+                                                            onClick={() => handleStatusUpdate(apt.id, "Confirmed")}
+                                                            className="bg-emerald-600 text-white hover:bg-emerald-700"
+                                                        >
+                                                            Confirm
+                                                        </Button>
+                                                    )}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleSendWhatsAppReminder(apt)}
+                                                        className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+                                                        title={`Send WhatsApp reminder to ${apt.patientName}`}
+                                                    >
+                                                        <WhatsAppIcon className="h-5 w-5 shrink-0" />
+                                                        Send Reminder
+                                                    </button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="xs"
+                                                        icon={MoreVertical}
+                                                        onClick={() => {
+                                                            setIsFilterOpen(false);
+                                                            setSelectedApt(apt);
+                                                        }}
+                                                    />
+                                                </div>
                                             </td>
                                         </tr>
                                     ))
@@ -599,43 +694,11 @@ export default function AppointmentsManager() {
                                     </div>
                                 </div>
 
-                                {/* Appointment Notes (SRS Requirement) */}
-                                <div className="flex flex-col gap-4">
-                                    <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">Appointment Notes</h3>
-
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="mb-1 flex items-center gap-1 text-xs font-medium text-foreground/70">
-                                                <AlertCircle className="h-3 w-3" /> Internal Staff Note
-                                            </label>
-                                            <textarea
-                                                value={editInternalNotes}
-                                                onChange={(e) => setEditInternalNotes(e.target.value)}
-                                                placeholder="Add a private note..."
-                                                className="w-full resize-none rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 p-3 text-sm text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand dark:border-white/[.22]"
-                                                rows={2}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="mb-1 flex items-center gap-1 text-xs font-medium text-foreground/70">
-                                                <FileText className="h-3 w-3" /> Patient Note
-                                            </label>
-                                            <textarea
-                                                value={editPatientNotes}
-                                                onChange={(e) => setEditPatientNotes(e.target.value)}
-                                                placeholder="Notes visible to patient/general..."
-                                                className="w-full resize-none rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 p-3 text-sm text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand dark:border-white/[.22]"
-                                                rows={2}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
 
                                 {saveSuccessMsg && (
                                     <div className="flex items-center gap-2 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 p-3 text-green-700 dark:text-green-300 text-xs font-medium">
                                         <Check className="h-4 w-4 shrink-0" />
-                                        Appointment details and consultation fee updated successfully!
+                                        Appointment details and physiotherapy fee updated successfully!
                                     </div>
                                 )}
 

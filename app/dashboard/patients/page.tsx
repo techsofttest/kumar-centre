@@ -13,6 +13,7 @@ import {
     ChevronRight
 } from "lucide-react";
 import { Patient, mockPatientsData } from "./data";
+import { normalizeRole } from "@/lib/roles";
 
 export default function PatientCRM() {
     const router = useRouter();
@@ -20,6 +21,10 @@ export default function PatientCRM() {
     const [patients, setPatients] = useState<Patient[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
     const searchInputRef = useRef<HTMLInputElement>(null);
+
+    const normalizedRole = normalizeRole(userRole);
+    const isDoctor = normalizedRole === "Doctor";
+    const isPhysio = normalizedRole === "Physiotherapist";
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -89,9 +94,11 @@ export default function PatientCRM() {
                                     className="h-10 w-full rounded-md border border-black/[.15] bg-white dark:bg-zinc-900 pl-9 pr-4 text-sm text-foreground focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand dark:border-white/[.22]"
                                 />
                             </div>
-                            <Button variant="filled" icon={Plus} onClick={() => router.push("/dashboard/appointments/new")}>
-                                New Appointment
-                            </Button>
+                            {!isDoctor && !isPhysio && (
+                                <Button variant="filled" icon={Plus} onClick={() => router.push("/dashboard/appointments/new")}>
+                                    New Appointment
+                                </Button>
+                            )}
                         </div>
                     </div>
                 </div>

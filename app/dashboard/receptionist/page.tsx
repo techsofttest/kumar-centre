@@ -19,6 +19,7 @@ import {
     AlertCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 
 interface FrontDeskQueue {
     id: string;
@@ -29,7 +30,7 @@ interface FrontDeskQueue {
     type: "Doctor" | "Physiotherapy";
     room: string;
     time: string;
-    status: "Checked-In" | "In Consultation" | "Completed" | "Pending Check-In";
+    status: "Pending" | "Confirmed" | "Cancelled";
     paymentStatus: "Paid" | "Pending";
     fee: number;
 }
@@ -45,7 +46,7 @@ export default function ReceptionistDashboard() {
             type: "Doctor",
             room: "Room 101",
             time: "09:30 AM",
-            status: "In Consultation",
+            status: "Confirmed",
             paymentStatus: "Paid",
             fee: 500
         },
@@ -58,7 +59,7 @@ export default function ReceptionistDashboard() {
             type: "Physiotherapy",
             room: "Rehab Bay 1",
             time: "09:45 AM",
-            status: "Checked-In",
+            status: "Confirmed",
             paymentStatus: "Paid",
             fee: 650
         },
@@ -71,7 +72,7 @@ export default function ReceptionistDashboard() {
             type: "Doctor",
             room: "Room 102",
             time: "10:00 AM",
-            status: "Checked-In",
+            status: "Confirmed",
             paymentStatus: "Pending",
             fee: 500
         },
@@ -84,7 +85,7 @@ export default function ReceptionistDashboard() {
             type: "Physiotherapy",
             room: "Rehab Bay 1",
             time: "10:15 AM",
-            status: "Pending Check-In",
+            status: "Pending",
             paymentStatus: "Pending",
             fee: 650
         },
@@ -97,7 +98,7 @@ export default function ReceptionistDashboard() {
             type: "Doctor",
             room: "Room 103",
             time: "10:30 AM",
-            status: "Pending Check-In",
+            status: "Pending",
             paymentStatus: "Pending",
             fee: 500
         }
@@ -111,22 +112,24 @@ export default function ReceptionistDashboard() {
     const [newPractitioner, setNewPractitioner] = useState("Dr. SASIKUMAR");
     const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
-    const handleCheckIn = (id: string) => {
+    const handleConfirm = (id: string) => {
         setQueue(prev => prev.map(item =>
-            item.id === id ? { ...item, status: "Checked-In" } : item
+            item.id === id ? { ...item, status: "Confirmed" } : item
         ));
         const patient = queue.find(q => q.id === id);
-        setAlertMessage(`${patient?.patientName} successfully checked in! Sent to waiting lounge.`);
+        setAlertMessage(`${patient?.patientName} successfully confirmed!`);
         setTimeout(() => setAlertMessage(null), 3500);
     };
 
-    const handleCollectPayment = (id: string) => {
-        setQueue(prev => prev.map(item =>
-            item.id === id ? { ...item, paymentStatus: "Paid" } : item
-        ));
-        const patient = queue.find(q => q.id === id);
-        setAlertMessage(`Payment received from ${patient?.patientName} (₹${patient?.fee}). Receipt issued.`);
-        setTimeout(() => setAlertMessage(null), 3500);
+    const handleSendWhatsAppReminder = (item: FrontDeskQueue) => {
+        const cleanPhone = item.phone.replace(/[^0-9]/g, "");
+        const formattedPhone = cleanPhone.startsWith("91") && cleanPhone.length > 10 ? cleanPhone : `91${cleanPhone}`;
+        const msg = encodeURIComponent(
+            `Hello ${item.patientName}, this is a reminder for your appointment with ${item.practitioner} at Kumar Centres today at ${item.time}. Token: ${item.token}, Room: ${item.room}. Please let us know if you need assistance!`
+        );
+        window.open(`https://wa.me/${formattedPhone}?text=${msg}`, "_blank");
+        setAlertMessage(`WhatsApp reminder sent to ${item.patientName} (${item.phone})!`);
+        setTimeout(() => setAlertMessage(null), 4000);
     };
 
     const handleCreateBooking = (e: React.FormEvent) => {
@@ -143,7 +146,7 @@ export default function ReceptionistDashboard() {
             type: newType,
             room: isDoc ? "Room 102" : "Rehab Bay 1",
             time: "Immediate Walk-In",
-            status: "Checked-In",
+            status: "Confirmed",
             paymentStatus: "Paid",
             fee: isDoc ? 500 : 650
         };
@@ -162,8 +165,8 @@ export default function ReceptionistDashboard() {
         item.practitioner.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const checkedInCount = queue.filter(q => q.status === "Checked-In").length;
-    const pendingArrivalCount = queue.filter(q => q.status === "Pending Check-In").length;
+    const confirmedCount = queue.filter(q => q.status === "Confirmed").length;
+    const pendingArrivalCount = queue.filter(q => q.status === "Pending").length;
     const totalCollected = queue
         .filter(q => q.paymentStatus === "Paid")
         .reduce((sum, item) => sum + item.fee, 0);
@@ -224,8 +227,8 @@ export default function ReceptionistDashboard() {
                         <Users className="h-5 w-5 text-purple-600" />
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
-                        <span className="text-3xl font-bold tracking-tight text-foreground">{checkedInCount}</span>
-                        <span className="text-xs font-medium text-amber-600">Arrived & waiting</span>
+                        <span className="text-3xl font-bold tracking-tight text-foreground">{confirmedCount}</span>
+                        <span className="text-xs font-medium text-emerald-600">Confirmed appointments</span>
                     </div>
                 </div>
 
@@ -499,11 +502,11 @@ export default function ReceptionistDashboard() {
                                     </td>
                                     <td className="px-4 py-3.5">
                                         <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium ${
-                                            item.status === "In Consultation"
-                                                ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300"
-                                                : item.status === "Checked-In"
-                                                ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
-                                                : "bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-zinc-300"
+                                            item.status === "Confirmed"
+                                                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                                                : item.status === "Pending"
+                                                ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+                                                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                                         }`}>
                                             {item.status}
                                         </span>
@@ -517,23 +520,23 @@ export default function ReceptionistDashboard() {
                                         </span>
                                     </td>
                                     <td className="px-4 py-3.5 text-right space-x-2">
-                                        {item.status === "Pending Check-In" && (
+                                        <button
+                                            type="button"
+                                            onClick={() => handleSendWhatsAppReminder(item)}
+                                            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+                                            title={`Send WhatsApp reminder to ${item.patientName}`}
+                                        >
+                                            <WhatsAppIcon className="h-5 w-5 shrink-0" />
+                                            Send Reminder
+                                        </button>
+                                        {item.status === "Pending" && (
                                             <Button
                                                 size="sm"
                                                 variant="filled"
-                                                onClick={() => handleCheckIn(item.id)}
-                                                className="bg-purple-600 hover:bg-purple-700 text-white"
+                                                onClick={() => handleConfirm(item.id)}
+                                                className="bg-emerald-600 hover:bg-emerald-700 text-white"
                                             >
-                                                Mark Arrived
-                                            </Button>
-                                        )}
-                                        {item.paymentStatus === "Pending" && (
-                                            <Button
-                                                size="sm"
-                                                variant="outline"
-                                                onClick={() => handleCollectPayment(item.id)}
-                                            >
-                                                Collect ₹{item.fee}
+                                                Confirm
                                             </Button>
                                         )}
                                     </td>

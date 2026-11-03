@@ -387,17 +387,6 @@ export default function ClinicianSchedule() {
 
                 {/* Actions & Metrics */}
                 <div className="flex flex-wrap items-center gap-4">
-                    {isPhysio && (
-                        <Button
-                            type="button"
-                            variant="filled"
-                            onClick={() => handleOpenNextBooking()}
-                            icon={Plus}
-                            className="bg-teal-600 hover:bg-teal-700 text-white font-medium"
-                        >
-                            Schedule Next Therapy Session
-                        </Button>
-                    )}
 
                     <div className="flex gap-3">
                         <div className="flex flex-col rounded-xl border border-black/[.15] bg-white dark:bg-zinc-900 px-5 py-3 dark:border-white/[.22] shadow-sm">
@@ -405,9 +394,9 @@ export default function ClinicianSchedule() {
                             <span className="text-2xl font-bold text-foreground">{displayedAppointments.length}</span>
                         </div>
                         <div className="flex flex-col rounded-xl border border-black/[.15] bg-white dark:bg-zinc-900 px-5 py-3 dark:border-white/[.22] shadow-sm">
-                            <span className="text-xs font-semibold uppercase text-foreground/50">Completed</span>
+                            <span className="text-xs font-semibold uppercase text-foreground/50">Confirmed</span>
                             <span className="text-2xl font-bold text-emerald-600">
-                                {displayedAppointments.filter(a => a.status === "Completed").length}
+                                {displayedAppointments.filter(a => a.status === "Confirmed").length}
                             </span>
                         </div>
                     </div>
@@ -491,7 +480,7 @@ export default function ClinicianSchedule() {
                             <div className="flex flex-col gap-1">
                                 <div className="flex items-center gap-2">
                                     <h3 className="text-xl font-semibold tracking-tight text-foreground">{apt.patientName}</h3>
-                                    {apt.referringDoctor && (
+                                    {!isPhysio && apt.referringDoctor && (
                                         <span className="rounded-full bg-slate-100 dark:bg-white/10 px-2 py-0.5 text-[10px] font-semibold text-foreground/70">
                                             Ref: {apt.referringDoctor}
                                         </span>
@@ -500,17 +489,19 @@ export default function ClinicianSchedule() {
                                 <span className={`text-sm font-medium ${isPhysio ? "text-teal-700 dark:text-teal-300" : "text-blue-600 dark:text-blue-400"}`}>
                                     {apt.service}
                                 </span>
-                                <div className="flex items-center gap-2 text-xs text-foreground/50">
-                                    <span>ID: {apt.patientId}</span>
-                                    <span>•</span>
-                                    <span>Ref: {apt.id}</span>
-                                    {apt.amount && (
-                                        <>
-                                            <span>•</span>
-                                            <span className="font-semibold text-emerald-600">₹{apt.amount}</span>
-                                        </>
-                                    )}
-                                </div>
+                                {!isPhysio && (
+                                    <div className="flex items-center gap-2 text-xs text-foreground/50">
+                                        <span>ID: {apt.patientId}</span>
+                                        <span>•</span>
+                                        <span>Ref: {apt.id}</span>
+                                        {apt.amount && (
+                                            <>
+                                                <span>•</span>
+                                                <span className="font-semibold text-emerald-600">₹{apt.amount}</span>
+                                            </>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -534,24 +525,13 @@ export default function ClinicianSchedule() {
 
                             {/* Direct Link to Consult / Start Session */}
                             {isPhysio ? (
-                                <>
-                                    <Link
-                                        href="/dashboard/physiotherapist"
-                                        className="flex h-10 items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-all bg-teal-600 text-white hover:bg-teal-700 shadow-sm"
-                                    >
-                                        <Activity className="h-4 w-4" />
-                                        Start Therapy
-                                    </Link>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handleOpenNextBooking(apt)}
-                                        className="h-10 text-xs font-semibold border-teal-200 dark:border-teal-800 hover:bg-teal-50 dark:hover:bg-teal-950/30 text-teal-700 dark:text-teal-300"
-                                    >
-                                        Next Session
-                                    </Button>
-                                </>
+                                <Link
+                                    href="/dashboard/physiotherapist"
+                                    className="flex h-10 items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-all bg-teal-600 text-white hover:bg-teal-700 shadow-sm"
+                                >
+                                    <Activity className="h-4 w-4" />
+                                    Start Therapy
+                                </Link>
                             ) : (
                                 <Link
                                     href="/dashboard/doctor"
@@ -584,17 +564,6 @@ export default function ClinicianSchedule() {
                             >
                                 Return to Today
                             </Button>
-                            {isPhysio && (
-                                <Button
-                                    type="button"
-                                    variant="filled"
-                                    size="sm"
-                                    onClick={() => handleOpenNextBooking()}
-                                    className="bg-teal-600 hover:bg-teal-700 text-white"
-                                >
-                                    Schedule Next Therapy Session
-                                </Button>
-                            )}
                         </div>
                     </div>
                 )}
