@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
     LayoutDashboard,
     Calendar,
@@ -79,12 +80,23 @@ export default function Sidebar({ userRole }: SidebarProps) {
 
             {/* Brand Header */}
             <div className="flex h-20 items-center px-6 border-b border-black/10 dark:border-white/10">
-                <Link href={getRoleDashboardPath(userRole)} className="flex flex-col group">
-                    <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                        Kumar Centres
-                    </span>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Medical & Health System
+                <Link href={getRoleDashboardPath(userRole)} className="flex items-center gap-2 group">
+                    <Image
+                        src="/logo/logo.png"
+                        alt="Kumar Centres logo"
+                        width={72}
+                        height={72}
+                        unoptimized
+                        loading="eager"
+                        className="h-16 w-16 shrink-0 rounded-md bg-white p-1 object-contain"
+                    />
+                    <span className="flex flex-col">
+                        <span className="whitespace-nowrap text-base font-black tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                            Kumar Centres
+                        </span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                            Medical & Health System
+                        </span>
                     </span>
                 </Link>
             </div>

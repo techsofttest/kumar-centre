@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getRoleDashboardPath } from '@/lib/roles';
@@ -58,7 +59,18 @@ export default function Login() {
                     <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
                         Clinical & Healthcare Network
                     </span>
-                    <h1 className="mt-4 text-4xl font-extrabold tracking-tight">Kumar Centres</h1>
+                    <div className="mt-4 flex items-center gap-3">
+                        <Image
+                            src="/logo/logo.png"
+                            alt="Kumar Centres logo"
+                            width={88}
+                            height={88}
+                            unoptimized
+                            loading="eager"
+                            className="h-20 w-20 rounded-lg bg-white p-1 object-contain"
+                        />
+                        <h1 className="whitespace-nowrap text-3xl font-extrabold tracking-tight">Kumar Centres</h1>
+                    </div>
                 </div>
 
                 <div className="relative z-10">
@@ -76,8 +88,17 @@ export default function Login() {
 
                     <div className="flex flex-col space-y-2 text-center">
                         {/* Text brand name */}
-                        <div className="mb-2">
-                            <span className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+                        <div className="mb-2 flex items-center justify-center gap-3">
+                            <Image
+                                src="/logo/logo.png"
+                                alt="Kumar Centres logo"
+                                width={88}
+                                height={88}
+                                unoptimized
+                                loading="eager"
+                                className="h-20 w-20 shrink-0 object-contain"
+                            />
+                            <span className="whitespace-nowrap text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                                 Kumar Centres
                             </span>
                         </div>
